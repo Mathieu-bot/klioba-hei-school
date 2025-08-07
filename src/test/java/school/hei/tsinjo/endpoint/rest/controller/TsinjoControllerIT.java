@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.tsinjo.conf.FacadeIT;
 import school.hei.tsinjo.model.Event;
+import school.hei.tsinjo.repository.EventRepository;
 import school.hei.tsinjo.repository.jpa.JEventRepository;
 import school.hei.tsinjo.repository.jpa.JPaymentRepository;
 import school.hei.tsinjo.repository.jpa.JUserRepository;
@@ -17,7 +18,7 @@ import school.hei.tsinjo.repository.jpa.model.JUser;
 
 class TsinjoControllerIT extends FacadeIT {
 
-  @Autowired TsinjoController tsinjoController;
+  @Autowired EventRepository eventRepository;
   @Autowired JEventRepository jEventRepository;
   @Autowired JUserRepository jUserRepository;
   @Autowired JPaymentRepository jPaymentRepository;
@@ -55,7 +56,7 @@ class TsinjoControllerIT extends FacadeIT {
     jHelpEvent.setPayment(jHelp);
     jEventRepository.save(jHelpEvent);
 
-    var events = tsinjoController.getEvents();
+    var events = eventRepository.findAll();
 
     assertEquals(2, events.size());
 

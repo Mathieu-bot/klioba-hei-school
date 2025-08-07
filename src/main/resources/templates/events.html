@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Les évènements de Tsinjo</title>
+</head>
+<body>
+<h1>Les évènements de Tsinjo</h1>
+<ul>
+    <li th:each="event : ${events}" th:text="${event.toString()}"></li>
+</ul>
+</body>
+</html>

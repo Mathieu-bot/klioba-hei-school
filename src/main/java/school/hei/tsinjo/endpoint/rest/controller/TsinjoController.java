@@ -1,20 +1,20 @@
 package school.hei.tsinjo.endpoint.rest.controller;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import school.hei.tsinjo.model.Event;
 import school.hei.tsinjo.repository.EventRepository;
 
-@RestController
+@Controller
 @AllArgsConstructor
 public class TsinjoController {
 
   private final EventRepository eventRepository;
 
   @GetMapping("/")
-  public List<Event> getEvents() {
-    return eventRepository.findAll();
+  public String getEvents(Model model) {
+    model.addAttribute("events", eventRepository.findAll());
+    return "events";
   }
 }
