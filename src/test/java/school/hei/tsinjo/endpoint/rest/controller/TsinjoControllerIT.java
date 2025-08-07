@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.tsinjo.conf.FacadeIT;
+import school.hei.tsinjo.model.Event;
 import school.hei.tsinjo.repository.jpa.JEventRepository;
 import school.hei.tsinjo.repository.jpa.JPaymentRepository;
 import school.hei.tsinjo.repository.jpa.JUserRepository;
@@ -30,20 +31,36 @@ class TsinjoControllerIT extends FacadeIT {
     jUser.setLastName("Andria");
     jUserRepository.save(jUser);
 
-    var jPayment = new JPayment();
-    jPayment.setId(randomUUID().toString());
-    jPayment.setAmount(17);
-    jPayment.setCreationInstant(now());
-    jPaymentRepository.save(jPayment);
+    var jDonation = new JPayment();
+    jDonation.setId(randomUUID().toString());
+    jDonation.setAmount(17);
+    jDonation.setCreationInstant(now());
+    jPaymentRepository.save(jDonation);
 
-    var jEvent = new JEvent();
-    jEvent.setId(randomUUID().toString());
-    jEvent.setUser(jUser);
-    jEvent.setPayment(jPayment);
-    jEventRepository.save(jEvent);
+    var jDonationEvent = new JEvent();
+    jDonationEvent.setId(randomUUID().toString());
+    jDonationEvent.setUser(jUser);
+    jDonationEvent.setPayment(jDonation);
+    jEventRepository.save(jDonationEvent);
+
+    var jHelp = new JPayment();
+    jHelp.setId(randomUUID().toString());
+    jHelp.setAmount(-17);
+    jHelp.setCreationInstant(now());
+    jPaymentRepository.save(jHelp);
+
+    var jHelpEvent = new JEvent();
+    jHelpEvent.setId(randomUUID().toString());
+    jHelpEvent.setUser(jUser);
+    jHelpEvent.setPayment(jHelp);
+    jEventRepository.save(jHelpEvent);
 
     var events = tsinjoController.getEvents();
 
-    assertEquals(1, events.size());
+    assertEquals(2, events.size());
+
+    var donation =
+        events.stream().map(Event::getPayment).filter(p -> p.amount() > 0).findFirst().get();
+    assertEquals(17, donation.amount());
   }
 }
