@@ -1,7 +1,9 @@
 package school.hei.tsinjo.endpoint.rest.controller;
 
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static school.hei.tsinjo.model.PaymentStatus.VERIFYING;
 
 import org.junit.jupiter.api.Test;
@@ -43,5 +45,17 @@ class TsinjoControllerIT extends FacadeIT {
             .get();
     assertEquals("Lou", user.getFirstName());
     assertEquals("Andria", user.getLastName());
+  }
+
+  @Test
+  void donations_cannot_have_same_pspId() {
+    String pspId = randomUUID().toString();
+    donationCreationFormConsumer.accept(
+        new DonationCreationForm("lou@cute.dev", "Lou", "Andria", pspId));
+    assertThrows(
+        Exception.class,
+        () ->
+            donationCreationFormConsumer.accept(
+                new DonationCreationForm("lou@cute.dev", null, null, pspId)));
   }
 }
