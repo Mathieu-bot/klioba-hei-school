@@ -18,4 +18,8 @@ public class EventRepository {
 
     return jEventRepository.findAll().stream().map(jEventMapper::toDomain).toList();
   }
+
+  public Event save(Event event) {
+    return jEventMapper.toDomain(jEventRepository.save(jEventMapper.toEntity(event)));
+  }
 }

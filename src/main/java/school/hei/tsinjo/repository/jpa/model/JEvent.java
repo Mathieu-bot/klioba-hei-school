@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,6 @@ public class JEvent {
   @ManyToOne
   @JoinColumn(name = "payment_id")
   private JPayment payment;
+
+  private Instant creationInstant;
 }

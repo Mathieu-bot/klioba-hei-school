@@ -1,3 +1,11 @@
 package school.hei.tsinjo.model;
 
-public record Payment(int amount, PspType pspType, PaymentStatus status) {}
+import java.time.Instant;
+
+public record Payment(
+    String id,
+    Integer amount,
+    PspType pspType,
+    String pspId,
+    PaymentStatus status,
+    Instant pspLastVerificationInstant) {}

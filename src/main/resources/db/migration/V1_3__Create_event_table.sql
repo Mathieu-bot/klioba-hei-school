@@ -9,7 +9,9 @@ create table if not exists event
 
     payment_id varchar not null
         constraint payment_id_fk
-            references payment (id)
+            references payment (id),
+
+    creation_instant timestamp with time zone not null
 );
 
 create index if not exists user_id_index on event (user_id);
