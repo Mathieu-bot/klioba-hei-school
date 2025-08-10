@@ -14,12 +14,13 @@ public class EventRepository {
   private final JEventRepository jEventRepository;
   private final JEventMapper jEventMapper;
 
-  public List<Event> findAll() {
-
-    return jEventRepository.findAll().stream().map(jEventMapper::toDomain).toList();
-  }
-
   public Event save(Event event) {
     return jEventMapper.toDomain(jEventRepository.save(jEventMapper.toEntity(event)));
+  }
+
+  public List<Event> findAllByOrderByCreationInstantDesc() {
+    return jEventRepository.findAllByOrderByCreationInstantDesc().stream()
+        .map(jEventMapper::toDomain)
+        .toList();
   }
 }

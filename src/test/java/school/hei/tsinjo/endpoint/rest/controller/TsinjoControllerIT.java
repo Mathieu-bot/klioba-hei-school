@@ -26,7 +26,7 @@ class TsinjoControllerIT extends FacadeIT {
     donationCreationFormConsumer.accept(
         new DonationCreationForm("lou@cute.dev", null, null, "orangeRef2"));
 
-    var events = eventRepository.findAll();
+    var events = eventRepository.findAllByOrderByCreationInstantDesc();
     assertEquals(2, events.size());
     var payment1 =
         events.stream()
