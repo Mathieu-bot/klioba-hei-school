@@ -19,7 +19,7 @@ public class TsinjoController {
   @GetMapping("/")
   public String getEvents(Model model) {
     model.addAttribute("events", eventRepository.findAll());
-    return "events";
+    return "home";
   }
 
   @PostMapping("/donate")
