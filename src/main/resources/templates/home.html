@@ -8,6 +8,9 @@
 
 <h1>Tsinjo</h1>
 
+<h2>Fonds</h2>
+<p th:text="${fund.toString()}"/>
+
 <h2>Donner</h2>
 <form th:action="@{/donate}" method="post">
     <label for="pspId">Référence de paiement Orange:</label>
