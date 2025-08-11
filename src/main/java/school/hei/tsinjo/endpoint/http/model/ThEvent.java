@@ -1,9 +1,9 @@
 package school.hei.tsinjo.endpoint.http.model;
 
-import java.awt.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import school.hei.tsinjo.model.Donation;
 import school.hei.tsinjo.model.Event;
 
 public record ThEvent(Event event) {
@@ -12,9 +12,16 @@ public record ThEvent(Event event) {
 
   @Override
   public String toString() {
-    return String.format(
-        "%s%s. %s. %s. %s",
-        format(event.getCreationInstant()), amount(), user(), status(), paymentDetails());
+    var withoutStatusNorPaymentDetails =
+        String.format(
+            "%s%s. %s %s. ", format(event.getCreationInstant()), amount(), byOrFor(), user());
+    return event instanceof Donation
+        ? withoutStatusNorPaymentDetails + status() + ". " + paymentDetails()
+        : withoutStatusNorPaymentDetails;
+  }
+
+  private String byOrFor() {
+    return event instanceof Donation ? "Par" : "Pour";
   }
 
   public String color() {
@@ -28,7 +35,7 @@ public record ThEvent(Event event) {
 
   private String paymentDetails() {
     var payment = event.getPayment();
-    return String.format("Payé par %s, réf: %s.", payment.pspType(), payment.pspId());
+    return String.format("Payé via %s, réf: %s.", payment.pspType(), payment.pspId());
   }
 
   private String status() {
