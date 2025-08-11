@@ -11,6 +11,7 @@ public class EnvConf {
     registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.H2Dialect");
     registry.add(
         "vola.api.url",
-        () -> "https://42cwka3n4ifcp7ufheyrpmph240iuaxo.lambda-url.eu-west-3.on.aws");
+        () -> "https://ypmoi24xu4kt5ts77p7te5uhme0uyxnv.lambda-url.eu-west-3.on.aws");
+    registry.add("vola.api.key", () -> "ec48ed08-3a83-4b95-9f7e-ce5c07f541eb");
   }
 }

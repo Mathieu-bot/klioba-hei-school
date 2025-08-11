@@ -1,5 +1,6 @@
 package school.hei.tsinjo.repository;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.tsinjo.model.Payment;
@@ -17,5 +18,9 @@ public class PaymentRepository {
     var jPaymentToSave = jPaymentMapper.toEntity(payment);
     var jPaymentSaved = jPaymentRepository.save(jPaymentToSave);
     return jPaymentMapper.toDomain(jPaymentSaved);
+  }
+
+  public Optional<Payment> findByPspId(String pspId) {
+    return jPaymentRepository.findByPspId(pspId).map(jPaymentMapper::toDomain);
   }
 }
