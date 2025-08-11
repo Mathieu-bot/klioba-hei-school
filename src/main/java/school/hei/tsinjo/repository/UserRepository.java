@@ -25,4 +25,8 @@ public class UserRepository {
     return jUserMapper.toDomain(
         jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName)));
   }
+
+  public User save(User user) {
+    return jUserMapper.toDomain(jUserRepository.save(jUserMapper.toEntity(user)));
+  }
 }

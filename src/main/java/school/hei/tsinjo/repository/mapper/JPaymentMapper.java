@@ -1,11 +1,11 @@
 package school.hei.tsinjo.repository.mapper;
 
-import static school.hei.tsinjo.model.PspType.ORANGE_MONEY;
+import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import school.hei.tsinjo.model.Payment;
-import school.hei.tsinjo.model.PspType;
+import school.hei.tsinjo.model.psp.PspType;
 import school.hei.tsinjo.repository.jpa.model.JPayment;
 
 @Slf4j

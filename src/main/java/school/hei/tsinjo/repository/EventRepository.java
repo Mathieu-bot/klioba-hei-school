@@ -14,7 +14,12 @@ public class EventRepository {
   private final JEventRepository jEventRepository;
   private final JEventMapper jEventMapper;
 
+  private final PaymentRepository paymentRepository;
+  private final UserRepository userRepository;
+
   public Event save(Event event) {
+    paymentRepository.save(event.getPayment());
+    userRepository.save(event.getUser());
     return jEventMapper.toDomain(jEventRepository.save(jEventMapper.toEntity(event)));
   }
 
