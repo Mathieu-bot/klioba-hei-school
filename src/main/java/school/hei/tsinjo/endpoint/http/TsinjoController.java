@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.ThEvent;
 import school.hei.tsinjo.service.DonationCreationFormConsumer;
 import school.hei.tsinjo.service.EventService;
 
@@ -18,7 +19,8 @@ public class TsinjoController {
 
   @GetMapping("/")
   public String getEvents(Model model) {
-    model.addAttribute("events", eventService.findAllWithPaymentResolution());
+    var thEvents = eventService.findAllWithPaymentResolution().stream().map(ThEvent::new).toList();
+    model.addAttribute("events", thEvents);
     return "home";
   }
 
