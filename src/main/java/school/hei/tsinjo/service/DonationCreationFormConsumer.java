@@ -5,7 +5,7 @@ import static java.util.UUID.randomUUID;
 import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
@@ -19,7 +19,7 @@ import school.hei.tsinjo.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
-public class DonationCreationFormConsumer implements Consumer<DonationCreationForm> {
+public class DonationCreationFormConsumer implements BiConsumer<DonationCreationForm, String> {
   private final UserRepository userRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
@@ -28,7 +28,7 @@ public class DonationCreationFormConsumer implements Consumer<DonationCreationFo
 
   @Transactional
   @Override
-  public void accept(DonationCreationForm donationCreationForm) {
+  public void accept(DonationCreationForm donationCreationForm, String email) {
     if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
       // have to manually check since following volaPsp::create
       // will just return Bad Gateway, reverting the transaction
@@ -37,13 +37,9 @@ public class DonationCreationFormConsumer implements Consumer<DonationCreationFo
     }
 
     var paymentCreatedInVola =
-        volaPsp.create(
-            randomUUID().toString(),
-            pspType(),
-            donationCreationForm.pspId(),
-            donationCreationForm.email());
+        volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
-    var user = userFrom(donationCreationForm);
+    var user = userFrom(donationCreationForm, email);
     eventRepository.save(Event.from(randomUUID().toString(), payment, user, now()));
   }
 
@@ -53,10 +49,8 @@ public class DonationCreationFormConsumer implements Consumer<DonationCreationFo
     };
   }
 
-  private User userFrom(DonationCreationForm donationCreationForm) {
+  private User userFrom(DonationCreationForm donationCreationForm, String email) {
     return userRepository.saveIfEmailNotExist(
-        donationCreationForm.firstName(),
-        donationCreationForm.lastName(),
-        donationCreationForm.email());
+        donationCreationForm.firstName(), donationCreationForm.lastName(), email);
   }
 }
