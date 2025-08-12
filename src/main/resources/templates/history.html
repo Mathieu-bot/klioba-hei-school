@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tsinjo - Historique</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen bg-gray-100" >
+<div th:replace="fragments/header :: header"></div>
+
+<h2 class="text-2xl font-bold text-[#3F2F6A] mb-6">Fonds</h2>
+<p th:text="${fund.toString()}"/>
+
+<h2 class="text-2xl font-bold text-[#3F2F6A] mb-6">Historique</h2>
+<ul>
+    <li th:each="event : ${events}" th:text="${event.toString()}" th:style="'color: ' + ${event.color()}"></li>
+</ul>
+</body>
+</html>

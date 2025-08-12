@@ -22,8 +22,8 @@ class DonationCreationFormConsumerIT extends FacadeIT {
     var ref1 = randomUUID().toString();
     var ref2 = randomUUID().toString();
     var newEmail = randomUUID() + "@cute.dev";
-    donationCreationFormConsumer.accept(new DonationCreationForm(newEmail, "Lou", "Andria", ref1));
-    donationCreationFormConsumer.accept(new DonationCreationForm(newEmail, null, null, ref2));
+    donationCreationFormConsumer.accept(new DonationCreationForm("Lou", "Andria", ref1), newEmail);
+    donationCreationFormConsumer.accept(new DonationCreationForm(null, null, ref2), newEmail);
 
     var events = eventService.findAllWithPaymentResolution();
     assertEquals(2, events.size());
@@ -50,11 +50,11 @@ class DonationCreationFormConsumerIT extends FacadeIT {
   void donations_cannot_have_same_pspId() {
     String pspId = randomUUID().toString();
     donationCreationFormConsumer.accept(
-        new DonationCreationForm("lou@cute.dev", "Lou", "Andria", pspId));
+        new DonationCreationForm("Lou", "Andria", pspId), "lou@cute.dev");
     assertThrows(
         IllegalArgumentException.class,
         () ->
             donationCreationFormConsumer.accept(
-                new DonationCreationForm("lou@cute.dev", null, null, pspId)));
+                new DonationCreationForm(null, null, pspId), "lou@cute.dev"));
   }
 }
