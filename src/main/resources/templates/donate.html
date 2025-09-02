@@ -2,35 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Tsinjo - Donner</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .donate-page-bg {
+            background-color: #f7f2ff;
+        }
+    </style>
 </head>
 
-<body class="h-screen bg-gray-100" >
+<body class="min-h-screen donate-page-bg">
 <div th:replace="fragments/header :: header"></div>
 
-<!-- TODO: phone number as variable, or better: from a call to Vola -->
-<h2 class="text-2xl font-bold text-[#3F2F6A] mb-6">Donner au 0328965189</h2>
-<form th:action="@{/donate}" method="post">
-    <label for="pspId">Référence de paiement Orange:</label>
-    <input type="text" id="pspId" name="pspId"/>
+<main class="container mx-auto px-6 py-12 flex justify-center items-center">
+    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-lg">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-[#16163f]">Donner au <span class="text-[#9933cc]">0328965189</span></h1>
+            <p class="text-gray-500 mt-2">Votre soutien est précieux. Merci.</p>
+        </div>
 
-    <br><br>
+        <form th:action="@{/donate}" method="post">
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pspId">Référence de paiement Orange :</label>
+                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                       id="pspId" name="pspId" type="text"/>
+            </div>
 
-    <label for="firstName">Prénom:</label>
-    <input type="text" id="firstName" name="firstName"/>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">Prénom :</label>
+                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                       id="firstName" name="firstName" type="text"/>
+            </div>
 
-    <br><br>
+            <div class="mb-8">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">Nom :</label>
+                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                       id="lastName" name="lastName" type="text"/>
+            </div>
 
-    <label for="lastName">Nom:</label>
-    <input type="text" id="lastName" name="lastName"/>
-
-    <br><br>
-
-    <button type="submit"
-            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-        Donner
-    </button>
-</form>
+            <div class="flex items-center justify-center">
+                <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-10 rounded-full w-full transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
+                        type="submit">
+                    Donner
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>

@@ -1,31 +1,62 @@
 <div th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <div class="bg-[#16163F] p-6 flex items-center w-full">
-        <div sec:authorize="isAuthenticated()" class="flex items-center w-full">
-            <th:block
-                    th:replace="fragments/nav :: nav('/history', 'Historique', 'subject', '', 'text-gray-300')"></th:block>
-            <th:block
-                    th:replace="fragments/nav :: nav('/donate', 'Donner', 'subject', '', 'text-gray-300')"></th:block>
+    <header class="bg-[#16163f] text-white">
+        <nav sec:authorize="isAuthenticated()" class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="material-icons text-2xl">business_center</i>
+                <span class="text-2xl font-bold">Tsinjo</span>
+            </div>
 
-            <div class="ml-auto flex text-white items-center gap-2">
-                <div
-                        class="flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-[#2D2D5A] transition">
-                    <i class="material-icons">person</i>
-                    <strong th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></strong>
+            <div class="hidden md:flex items-center space-x-6">
+                <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/donate', 'Faire un don', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
+
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center gap-2 text-white">
+                        <i class="material-icons">account_circle</i>
+                        <span class="hidden sm:inline" th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></span>
+                    </div>
+                    <th:block th:replace="fragments/nav :: nav('/logout', 'Log out', '', 'bg-red-600', 'hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors')"></th:block>
                 </div>
-                <th:block
-                        th:replace="fragments/nav :: nav('/logout', 'Log out', 'logout', 'bg-red-600', 'bg-red-700')"></th:block>
+            </div>
+
+            <button class="md:hidden focus:outline-none" id="mobile-menu-button">
+                <span class="material-icons">menu</span>
+            </button>
+        </nav>
+
+        <div sec:authorize="isAuthenticated()" class="hidden md:hidden px-6 pt-2 pb-4" id="mobile-menu">
+            <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'block py-2 hover:text-[#9933cc] transition-colors')"></th:block>
+            <th:block th:replace="fragments/nav :: nav('/donate', 'Faire un don', '', 'bg-[#9933cc]', 'block mt-2 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors text-center')"></th:block>
+            <div class="mt-4 pt-4 border-t border-gray-600">
+                <div class="flex items-center gap-2 text-white mb-2">
+                    <i class="material-icons">account_circle</i>
+                    <span th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></span>
+                </div>
+                <th:block th:replace="fragments/nav :: nav('/logout', 'Log out', '', 'bg-red-600', 'block hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors text-center')"></th:block>
             </div>
         </div>
 
-        <div sec:authorize="isAnonymous()" class="flex items-center gap-6 w-full">
-            <div class="flex items-center gap-4 px-4 text-white">
-                <i class="material-icons">business_center</i>
-                <h1 class="font-medium text-lg">Tsinjo - Fonds de sécurité de HEI</h1>
+        <nav sec:authorize="isAnonymous()" class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="material-icons text-2xl">business_center</i>
+                <span class="text-2xl font-bold">Tsinjo</span>
             </div>
-            <div class="ml-auto flex items-center gap-2">
-                <th:block
-                        th:replace="fragments/nav :: nav('/oauth2/authorization/cognito', 'Log in', 'login', 'bg-[#9933CC]', 'bg-[#7A29A5]')"></th:block>
+
+            <div class="hidden md:flex items-center space-x-6">
+                <a class="hover:text-[#9933cc] transition-colors" href="#contact">Contact</a>
+                <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/cognito', 'Log in', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
             </div>
+
+            <button class="md:hidden focus:outline-none">
+                <span class="material-icons">menu</span>
+            </button>
+        </nav>
+
+        <div sec:authorize="isAnonymous()" class="hidden md:hidden px-6 pt-2 pb-4" id="mobile-menu-anonymous">
+            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#about">À Propos</a>
+            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#testimonials">Témoignages</a>
+            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#contact">Contact</a>
+            <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/cognito', 'Log in', '', 'bg-[#9933cc]', 'block mt-2 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors text-center')"></th:block>
         </div>
-    </div>
+    </header>
 </div>

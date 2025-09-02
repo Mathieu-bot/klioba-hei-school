@@ -2,19 +2,96 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Tsinjo - Historique</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="min-h-screen bg-gray-100 font-[Poppins] text-gray-700">
 
-<body class="h-screen bg-gray-100" >
 <div th:replace="fragments/header :: header"></div>
 
-<h2 class="text-2xl font-bold text-[#3F2F6A] mb-6">Fonds</h2>
-<p th:text="${fund.toString()}"/>
+<div class="container mx-auto px-4 py-8">
 
-<h2 class="text-2xl font-bold text-[#3F2F6A] mb-6">Historique</h2>
-<ul>
-    <li th:each="event : ${events}" th:text="${event.toString()}" th:style="'color: ' + ${event.color()}"></li>
-</ul>
+    <!-- Fonds -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 justify-center max-w-4xl mx-auto place-items-center">
+        <div class="bg-white rounded-xl shadow-md p-3 gap-4 hover:shadow-lg transition w-[280px] h-36 flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold mb-1 text-xl">Donations Confirmées</h3>
+            <p class="text-2xl font-extrabold text-[#9933cc]"
+               th:text="${fund.allConfirmedDonations != null ? #numbers.formatInteger(fund.allConfirmedDonations, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-3 gap-4 hover:shadow-lg transition w-[280px] h-36 flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold mb-1 text-xl">Aides Confirmées</h3>
+            <p class="text-2xl font-extrabold text-[#9933cc]"
+               th:text="${fund.allConfirmedHelps != null ? #numbers.formatInteger(fund.allConfirmedHelps, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-3 gap-4 hover:shadow-lg transition w-[280px] h-36 flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold mb-1 text-xl">Fonds Restants</h3>
+            <p class="text-2xl font-extrabold text-[#9933cc]"
+               th:text="${fund.confirmedRemainingFund != null ? #numbers.formatInteger(fund.confirmedRemainingFund, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+        </div>
+    </div>
+
+    <!-- Historique -->
+    <h2 class="text-2xl font-bold text-[#16163f] mb-6 text-center">Historique des donations</h2>
+    <div class="space-y-4">
+        <div th:each="event : ${events}"
+             th:class="${event.event.payment.status.name() == 'VERIFYING' or event.event.payment.status.name() == 'CONFIRMED' ?
+               'flex flex-col md:flex-row md:items-center justify-between rounded-lg shadow p-5 border-l-4 border-[#9933cc] hover:shadow-lg hover:scale-[1.01] transition bg-white' :
+            (event.event.payment.status.name() == 'REFUSED' ?
+               'flex flex-col md:flex-row md:items-center justify-between rounded-lg shadow p-5 border-l-4 border-[#9933cc] hover:shadow-lg hover:scale-[1.01] transition bg-red-50' :
+               '')}">
+
+        <!-- Date + Montant -->
+            <div class="flex flex-col md:flex-row md:items-center justify-around w-full md:w-1/3 mb-3 md:mb-0 text-[0.95rem]">
+                <!-- Date -->
+                <p class="text-gray-500 min-w-[110px] text-center"
+                   th:text="${event.event.creationInstant != null ? #temporals.format(event.event.creationInstant, 'dd/MM/yy à HH:mm:ss') : '--'}">--</p>
+
+                <!-- Montant -->
+                <p class="font-bold text-purple-700 min-w-[110px] text-center"
+                   th:text="${event.event.payment.amount != null ? #numbers.formatInteger(event.event.payment.amount, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+            </div>
+
+            <!-- Nom -->
+            <div class="w-full md:w-1/3 mb-3 md:mb-0 border border-transparent flex items-center justify-center">
+                <p class="text-[0.95rem] truncate overflow-hidden whitespace-nowrap text-center"
+                   th:text="${event.event.user.firstName + ' ' + event.event.user.lastName}">Nom du donateur</p>
+            </div>
+
+            <!-- Méthode + Statut -->
+            <div class="flex items-center justify-around gap-3 w-full md:w-1/3 text-[0.95rem] border border-transparent">
+                <span class="bg-purple-100 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap"
+                      th:text="'Payé via ' + ${event.event.payment.pspType}">Méthode</span>
+
+                <span th:class="${event.event.payment.status.name() == 'CONFIRMED' ?
+                                'inline-block w-[120px] text-xs font-bold px-3 py-1 rounded-full text-center bg-[#9933cc] text-white' :
+                             (event.event.payment.status.name() == 'VERIFYING' ?
+                                'inline-block w-[120px] text-xs font-bold px-3 py-1 rounded-full text-center bg-gray-200 text-[#9933cc]' :
+                                'inline-block w-[120px] text-xs font-bold px-3 py-1 rounded-full text-center bg-red-200 text-red-700')}"
+                      th:text="${event.event.payment.status.name() == 'CONFIRMED' ? 'Succès' :
+                           (event.event.payment.status.name() == 'VERIFYING' ? 'En vérification' : 'Refusé')}">
+                    Statut
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center mt-6 gap-4">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/history(page=${currentPage - 1}, size=10)}"
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Précédent</a>
+
+        <span class="px-3 py-1 bg-gray-100 rounded">
+            Page <span th:text="${currentPage + 1}"></span> / <span th:text="${totalPages}"></span>
+        </span>
+
+        <a th:if="${currentPage + 1 < totalPages}"
+           th:href="@{/history(page=${currentPage + 1}, size=10)}"
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Suivant</a>
+    </div>
+
+</div>
+
 </body>
 </html>
