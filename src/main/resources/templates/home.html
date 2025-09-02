@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Tsinjo</title>
+    <title>Tsinjo - Fonds de sécurité HEI</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(22, 22, 63, 0.7), rgba(22, 22, 63, 0.7)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .section-bg {
+            background-color: #f7f2ff;
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-white">
 <div th:replace="fragments/header :: header"></div>
-</body>
 
+<main>
+    <section class="hero-bg text-white py-20 md:py-32">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Ensemble, pour nos étudiants.</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">Un fonds d'urgence pour soutenir les étudiants de HEI face aux imprévus de la vie. Votre don peut faire la différence.</p>
+            <a class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors" href="/donate">Soutenir un étudiant</a>
+        </div>
+    </section>
+
+    <section class="section-bg py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img alt="Groupe d'étudiants souriants"
+                         class="rounded-lg shadow-2xl"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDNc0askNDDFS3o3dxdq8wLozbNGAYjpyAUWi6j0FFvHJGeuATtFh2Rep0MWe-LI90W58hZn1IMcfu3Wx24qvVO4_xs1rgrgU1w2l0GmNg4Fl7wRmBOLnoZ0BSkrDb6HLQn5aYfjjWIaVTX7BFcMXi0fxSuPYXkoIdz9hZ0wOcJBekZ1maQ5_G0TgI4-WF_kh4F4KdYnfgN7SREx_-eay6YaGuiQO0WX-pdiKU4i0aw5qn-FK2zEKqJ4o8HEZA8MXowdASdQ_Z6ps"/>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#16163f] mb-4">Votre Impact est Réel</h2>
+                    <p class="text-gray-700 mb-6">Chaque contribution, petite ou grande, est un message d'espoir. Elle permet à nos étudiants de surmonter les obstacles, de rester concentrés sur leurs études et de ne pas abandonner leurs rêves. Vous ne donnez pas seulement de l'argent, vous offrez de la sérénité et un avenir.</p>
+                    <a class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-full transition-colors inline-flex items-center" href="/donate">
+                        <span class="material-icons mr-2">favorite_border</span>
+                        Je fais un don
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#16163f] text-white py-12" id="contact">
+    <div class="container mx-auto px-6 text-center">
+        <h3 class="text-2xl font-bold mb-4">Contactez-nous</h3>
+        <p class="mb-4">Pour toute question sur le fonds ou pour faire un don par un autre moyen.</p>
+        <p class="text-lg text-[#9933cc] font-semibold">contact@hei.school</p>
+        <p class="mt-8 text-sm text-gray-400">© 2025 Tsinjo - Fonds de sécurité HEI. Tous droits réservés.</p>
+    </div>
+</footer>
+</body>
 </html>
