@@ -8,52 +8,141 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .donate-page-bg {
-            background-color: #f7f2ff;
-        }
+        body { font-family: 'Poppins', sans-serif; }
+        .donate-page-bg { background-color: #f7f2ff; }
+        .copy-btn { transition: all 0.2s ease; }
+        .copy-btn:active { transform: scale(0.95); background-color: #f3f4f6; }
+        .copy-icon { transition: all 0.3s ease; }
+        .bounce { animation: bounce 0.5s ease; }
+        .success { animation: pulse 0.6s ease; }
+        @keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2) rotate(8deg); } }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
     </style>
 </head>
 
 <body class="min-h-screen donate-page-bg">
 <div th:replace="fragments/header :: header"></div>
 
-<main class="container mx-auto px-6 py-12 flex justify-center items-center">
-    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-lg">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-[#16163f]">Donner au <span class="text-[#9933cc]">0328965189</span></h1>
+<main class="container mx-auto px-6 py-8 max-w-4xl">
+    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-[#16163f]">Faites vos dons avec
+                <br>
+                <span class="text-[#9933cc]">Orange Money</span>
+            </h1>
             <p class="text-gray-500 mt-2">Votre soutien est précieux. Merci.</p>
         </div>
 
-        <form th:action="@{/donate}" method="post">
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="pspId">Référence de paiement Orange :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="pspId" name="pspId" type="text"/>
-            </div>
-
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">Prénom :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="firstName" name="firstName" type="text"/>
-            </div>
-
-            <div class="mb-8">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">Nom :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="lastName" name="lastName" type="text"/>
-            </div>
-
-            <div class="flex items-center justify-center">
-                <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-10 rounded-full w-full transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
-                        type="submit">
-                    Donner
+        <div class="bg-purple-50 p-6 rounded-lg mb-6 text-center border border-purple-200">
+            <p class="text-sm text-gray-600 mb-2">Code marchand</p>
+            <div class="flex items-center justify-center space-x-2">
+                <span class="text-3xl font-bold text-[#9933cc]">317610</span>
+                <button onclick="copyCode()" class="copy-btn bg-white hover:bg-gray-50 p-2 rounded border" title="Copier le code">
+                    <i class="material-icons text-[#9933cc] copy-icon">content_copy</i>
                 </button>
             </div>
+            <p class="text-xs text-gray-500 mt-2">Cliquez pour copier le code</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-orange-50 p-5 rounded-lg border border-orange-200">
+                <div class="flex items-center mb-3">
+                    <i class="material-icons text-orange-600 mr-2">smartphone</i>
+                    <h3 class="font-semibold text-orange-800">Via l'application</h3>
+                </div>
+                <p class="text-sm text-orange-700">
+                    Utilisez l'application <strong>Orange Money Afrique</strong> et recherchez le paiement marchand avec le code <strong>317610</strong>
+                </p>
+            </div>
+
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <div class="flex items-center mb-3">
+                    <i class="material-icons text-blue-600 mr-2">dialpad</i>
+                    <h3 class="font-semibold text-blue-800">Via code USSD</h3>
+                </div>
+                <ol class="text-sm text-blue-700 space-y-1">
+                    <li>1. Composez <strong>#144#</strong></li>
+                    <li>2. Choisissez <strong>3</strong> "Paiements et Partenaires"</li>
+                    <li>3. Puis <strong>2</strong> "Paiement Marchand"</li>
+                    <li>4. Entrez le code <strong>317610</strong></li>
+                    <li>5. Suivez les instructions</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+            <div class="flex items-center">
+                <i class="material-icons text-green-600 text-sm mr-2">info</i>
+                <p class="text-sm text-green-700">
+                    Après le paiement, vous recevrez une référence de transaction. Utilisez-la dans le formulaire ci-dessous.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-bold text-[#16163f]">Confirmer votre don</h2>
+            <p class="text-gray-500 text-sm mt-1">Remplissez ces informations après votre paiement</p>
+        </div>
+
+        <form th:action="@{/donate}" method="post" class="max-w-md mx-auto">
+            <div class="mb-5">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pspId">
+                    <i class="material-icons text-xs mr-1 text-gray-500">receipt</i>
+                    Référence de paiement Orange :
+                </label>
+                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                       id="pspId" name="pspId" type="text" placeholder="Ex: MP240201.1234.A12345"/>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">
+                        <i class="material-icons text-xs mr-1 text-gray-500">person</i>
+                        Prénom :
+                    </label>
+                    <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                           id="firstName" name="firstName" type="text"/>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
+                        <i class="material-icons text-xs mr-1 text-gray-500">badge</i>
+                        Nom :
+                    </label>
+                    <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
+                           id="lastName" name="lastName" type="text"/>
+                </div>
+            </div>
+
+            <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full w-full transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
+                    type="submit">
+                <i class="material-icons text-sm mr-2">volunteer_activism</i>
+                Confirmer ma donation
+            </button>
         </form>
     </div>
 </main>
+
+<script>
+    function copyCode() {
+        const btn = event.target.closest('button');
+        const icon = btn.querySelector('i');
+
+        icon.classList.add('bounce');
+        navigator.clipboard.writeText("317610").then(() => {
+            setTimeout(() => {
+                icon.textContent = 'check';
+                icon.className = 'material-icons text-green-600 copy-icon success';
+            }, 250);
+            setTimeout(() => {
+                icon.textContent = 'content_copy';
+                icon.className = 'material-icons text-[#9933cc] copy-icon';
+            }, 1500);
+        });
+    }
+</script>
+
 </body>
 </html>
