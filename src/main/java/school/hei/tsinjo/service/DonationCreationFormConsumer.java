@@ -34,6 +34,8 @@ public class DonationCreationFormConsumer implements BiConsumer<DonationCreation
       // will just return Bad Gateway, reverting the transaction
       // but without us knowing why
       throw new IllegalArgumentException("pspId already exists");
+    } else if (!isPspIdFormat(donationCreationForm.pspId())) {
+      throw new IllegalArgumentException("pspId format incorrect format");
     }
 
     var paymentCreatedInVola =
@@ -52,5 +54,13 @@ public class DonationCreationFormConsumer implements BiConsumer<DonationCreation
   private User userFrom(DonationCreationForm donationCreationForm, String email) {
     return userRepository.saveIfEmailNotExist(
         donationCreationForm.firstName(), donationCreationForm.lastName(), email);
+  }
+
+  // TODO: The pspId format should be variable, we need to include the pspType
+  public boolean isPspIdFormat(String pspId) {
+    if (pspId == null) {
+      return false;
+    }
+    return pspId.matches("^MP\\d{6}\\.\\d{4}\\.[A-Z]\\d{5}$");
   }
 }
