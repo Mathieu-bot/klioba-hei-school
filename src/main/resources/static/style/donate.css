@@ -11,59 +11,99 @@
     --input: 25 6% 90%;
     --primary: 25 79% 59%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 205 79% 59%;
+    /* Removed blue colors and replaced with neutral grays */
+    --secondary: 0 0% 60%;
     --secondary-foreground: 0 0% 0%;
-    --accent: 205 79% 59%;
+    --accent: 0 0% 65%;
     --accent-foreground: 0 0% 0%;
     --destructive: 13 98% 20%;
     --destructive-foreground: 13 98% 80%;
-    --ring: 25 79% 59%;
+    --ring: 25 79% 59%; /* Updated ring color to match primary button color */
     --chart-1: 25 79% 59%;
-    --chart-2: 205 79% 59%;
-    --chart-3: 205 79% 59%;
-    --chart-4: 205 79% 62%;
+    /* Changed blue chart colors to neutral grays */
+    --chart-2: 0 0% 55%;
+    --chart-3: 0 0% 50%;
+    --chart-4: 0 0% 45%;
     --chart-5: 25 82% 59%;
     --radius: 0.5rem;
 }
 
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
 
+/* Copy button animations */
+.copy-btn {
+    transition: all 0.2s ease;
+}
 
- body {
-     font-family: 'Poppins', sans-serif;
-     background-color: hsl(var(--background));
-     color: hsl(var(--foreground));
- }
+.copy-btn:active {
+    transform: scale(0.95);
+    background-color: #f3f4f6;
+}
 
-.copy-btn { transition: all 0.2s ease; }
-.copy-btn:active { transform: scale(0.95); background-color: #f3f4f6; }
-.copy-icon { transition: all 0.3s ease; }
-.bounce { animation: bounce 0.5s ease; }
-.success { animation: pulse 0.6s ease; }
-@keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2) rotate(8deg); } }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+.copy-icon {
+    transition: all 0.3s ease;
+}
 
+.bounce {
+    animation: bounce 0.5s ease;
+}
+
+.success {
+    animation: pulse 0.6s ease;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2) rotate(8deg);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* Dropdown animations */
 .dropdown-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease;
 }
+
 .dropdown-open .dropdown-content {
     max-height: 600px;
 }
+
 .dropdown-toggle::after {
-    content: '▼';
+    content: "▼";
     transition: transform 0.3s ease;
     margin-left: 8px;
 }
+
 .dropdown-open .dropdown-toggle::after {
     transform: rotate(180deg);
 }
+
+/* Form validation styles */
 .required-checkbox:checked + label {
     color: hsl(var(--destructive));
 }
+
 .submit-disabled {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
 }
-

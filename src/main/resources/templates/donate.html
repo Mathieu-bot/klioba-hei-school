@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
     <title>Tsinjo - Donner</title>
     <meta charset="utf-8"/>
@@ -7,74 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root {
-            --background: 25 54% 100%;
-            --foreground: 25 63% 5%;
-            --muted: 205 26% 91%;
-            --muted-foreground: 205 10% 25%;
-            --popover: 25 54% 100%;
-            --popover-foreground: 25 63% 5%;
-            --card: 0 0% 99%;
-            --card-foreground: 25 63% 4%;
-            --border: 25 6% 90%;
-            --input: 25 6% 90%;
-            --primary: 25 79% 59%;
-            --primary-foreground: 0 0% 0%;
-            --secondary: 205 79% 59%;
-            --secondary-foreground: 0 0% 0%;
-            --accent: 205 79% 59%;
-            --accent-foreground: 0 0% 0%;
-            --destructive: 13 98% 20%;
-            --destructive-foreground: 13 98% 80%;
-            --ring: 25 79% 59%;
-            --chart-1: 25 79% 59%;
-            --chart-2: 205 79% 59%;
-            --chart-3: 205 79% 59%;
-            --chart-4: 205 79% 62%;
-            --chart-5: 25 82% 59%;
-            --radius: 0.5rem;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: hsl(var(--background));
-            color: hsl(var(--foreground));
-        }
-
-        .copy-btn { transition: all 0.2s ease; }
-        .copy-btn:active { transform: scale(0.95); background-color: #f3f4f6; }
-        .copy-icon { transition: all 0.3s ease; }
-        .bounce { animation: bounce 0.5s ease; }
-        .success { animation: pulse 0.6s ease; }
-        @keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2) rotate(8deg); } }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
-        .dropdown-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-        .dropdown-open .dropdown-content {
-            max-height: 600px;
-        }
-        .dropdown-toggle::after {
-            content: '▼';
-            transition: transform 0.3s ease;
-            margin-left: 8px;
-        }
-        .dropdown-open .dropdown-toggle::after {
-            transform: rotate(180deg);
-        }
-        .required-checkbox:checked + label {
-            color: hsl(var(--destructive));
-        }
-        .submit-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/style/donate.css}">
 </head>
 
 <body class="min-h-screen">
@@ -192,7 +125,7 @@
                     Référence de paiement Orange :
                 </label>
                 <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
-                       style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: hsl(var(--ring));"
+                       style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
                        id="pspId" name="pspId" type="text" placeholder="Ex: MP240201.1234.A12345" required/>
             </div>
 
@@ -203,7 +136,7 @@
                         Prénom :
                     </label>
                     <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
-                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: hsl(var(--ring));"
+                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
                            id="firstName" name="firstName" type="text" required/>
                 </div>
 
@@ -213,7 +146,7 @@
                         Nom :
                     </label>
                     <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
-                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: hsl(var(--ring));"
+                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
                            id="lastName" name="lastName" type="text" required/>
                 </div>
             </div>
@@ -227,54 +160,7 @@
     </div>
 </main>
 
-<script>
-    function copyCode() {
-        const btn = event.target.closest('button');
-        const icon = btn.querySelector('i');
-
-        icon.classList.add('bounce');
-        navigator.clipboard.writeText("317610").then(() => {
-            setTimeout(() => {
-                icon.textContent = 'check';
-                icon.className = 'material-icons text-green-600 copy-icon success';
-            }, 250);
-            setTimeout(() => {
-                icon.textContent = 'content_copy';
-                icon.className = 'material-icons copy-icon';
-                icon.style.color = 'hsl(var(--primary))';
-            }, 1500);
-        });
-    }
-
-    function toggleStatuts() {
-        const dropdown = document.getElementById('statutsDropdown');
-        dropdown.classList.toggle('dropdown-open');
-    }
-
-    function toggleSubmitButton() {
-        const checkbox = document.getElementById('confirmStatuts');
-        const submitButton = document.querySelector('button[type="submit"]');
-
-        if (submitButton) {
-            if (checkbox.checked) {
-                submitButton.classList.remove('submit-disabled');
-                submitButton.disabled = false;
-            } else {
-                submitButton.classList.add('submit-disabled');
-                submitButton.disabled = true;
-            }
-        }
-    }
-
-    // Désactiver le bouton au chargement de la page
-    document.addEventListener('DOMContentLoaded', function() {
-        const submitButton = document.querySelector('button[type="submit"]');
-        if (submitButton) {
-            submitButton.classList.add('submit-disabled');
-            submitButton.disabled = true;
-        }
-    });
-</script>
+<script th:src="@{/script/donate.js}"></script>
 
 </body>
 </html>
