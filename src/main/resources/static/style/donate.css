@@ -83,11 +83,6 @@ body {
     max-height: 600px;
 }
 
-.dropdown-toggle::after {
-    content: "▼";
-    transition: transform 0.3s ease;
-    margin-left: 8px;
-}
 
 .dropdown-open .dropdown-toggle::after {
     transform: rotate(180deg);
