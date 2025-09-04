@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
 <head>
     <title>Tsinjo - Donner</title>
     <meta charset="utf-8"/>
@@ -7,53 +7,162 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .donate-page-bg {
-            background-color: #f7f2ff;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/style/donate.css}">
 </head>
 
-<body class="min-h-screen donate-page-bg">
+<body class="min-h-screen">
 <div th:replace="fragments/header :: header"></div>
 
-<main class="container mx-auto px-6 py-12 flex justify-center items-center">
-    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-lg">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-[#16163f]">Donner au <span class="text-[#9933cc]">0328965189</span></h1>
-            <p class="text-gray-500 mt-2">Votre soutien est précieux. Merci.</p>
+<main class="container mx-auto px-6 py-8 max-w-4xl">
+    <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-6">
+        <div class="dropdown" id="statutsDropdown">
+            <button type="button" class="dropdown-toggle w-full flex items-center justify-between p-3 bg-red-100 hover:bg-red-200 rounded-lg transition-colors" onclick="toggleStatuts()">
+                <div class="flex items-center">
+                    <i class="material-icons text-red-600 mr-2">warning</i>
+                    <span class="font-semibold text-red-800">L'acceptation des statuts constitutifs est obligatoire avant chaque don.</span>
+                </div>
+                <i class="material-icons text-red-600">keyboard_arrow_down</i>
+            </button>
+
+            <div class="dropdown-content mt-3">
+                <div class="bg-white rounded-lg border-2 border-red-200">
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-4 text-center flex items-center justify-center">
+                            <i class="material-icons text-red-600 mr-2">picture_as_pdf</i>
+                            Statuts constitutifs du Fonds Tsinjo
+                        </h3>
+
+                        <div class="text-center p-8 bg-red-50 border-2 border-red-200 rounded-lg">
+                            <i class="material-icons text-red-600 text-6xl mb-4">description</i>
+                            <p class="text-red-800 font-semibold mb-4">Consultez les statuts constitutifs</p>
+                            <a th:href="@{/documents/statuts-fonds-tsinjo.pdf}" target="_blank"
+                               class="inline-flex items-center px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                <i class="material-icons mr-2">open_in_new</i>
+                                Ouvrir le document PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="px-4 pb-4">
+                        <div class="flex items-center bg-red-50 p-4 rounded-lg border-2 border-red-300">
+                            <input type="checkbox" id="confirmStatuts" class="required-checkbox mr-3 w-5 h-5" onchange="toggleSubmitButton()">
+                            <label for="confirmStatuts" class="text-sm font-bold cursor-pointer text-red-800">
+                                <i class="material-icons text-red-600 text-sm mr-1">warning</i>
+                                J'ai lu et j'accepte les statuts constitutifs du Fonds Tsinjo (OBLIGATOIRE)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6" style="background-color: hsl(var(--card));">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold" style="color: hsl(var(--foreground));">Faites vos dons avec
+                <br>
+                <span style="color: hsl(var(--primary));">Orange Money</span>
+            </h1>
+            <p class="mt-2" style="color: hsl(var(--muted-foreground));">Votre soutien est précieux. Merci.</p>
         </div>
 
-        <form th:action="@{/donate}" method="post">
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="pspId">Référence de paiement Orange :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="pspId" name="pspId" type="text"/>
-            </div>
-
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">Prénom :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="firstName" name="firstName" type="text"/>
-            </div>
-
-            <div class="mb-8">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">Nom :</label>
-                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#9933cc] focus:border-transparent transition"
-                       id="lastName" name="lastName" type="text"/>
-            </div>
-
-            <div class="flex items-center justify-center">
-                <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-10 rounded-full w-full transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
-                        type="submit">
-                    Donner
+        <div class="p-6 rounded-lg mb-6 text-center border-2" style="background-color: hsl(var(--accent) / 0.1); border-color: hsl(var(--accent));">
+            <p class="text-sm mb-2" style="color: hsl(var(--muted-foreground));">Code marchand</p>
+            <div class="flex items-center justify-center space-x-2">
+                <span class="text-3xl font-bold" style="color: hsl(var(--primary));">317610</span>
+                <button onclick="copyCode()" class="copy-btn bg-white hover:bg-gray-50 p-2 rounded border" title="Copier le code">
+                    <i class="material-icons copy-icon" style="color: hsl(var(--primary));">content_copy</i>
                 </button>
             </div>
+            <p class="text-xs mt-2" style="color: hsl(var(--muted-foreground));">Cliquez pour copier le code</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-5 rounded-lg border-2" style="background-color: hsl(var(--secondary) / 0.1); border-color: hsl(var(--secondary));">
+                <div class="flex items-center mb-3">
+                    <i class="material-icons mr-2" style="color: hsl(var(--secondary));">smartphone</i>
+                    <h3 class="font-semibold" style="color: hsl(var(--secondary-foreground));">Via l'application</h3>
+                </div>
+                <p class="text-sm" style="color: hsl(var(--muted-foreground));">
+                    Utilisez l'application <strong>Orange Money Afrique</strong> et recherchez le paiement marchand avec le code <strong>317610</strong>
+                </p>
+            </div>
+
+            <div class="p-5 rounded-lg border-2" style="background-color: hsl(var(--accent) / 0.1); border-color: hsl(var(--accent));">
+                <div class="flex items-center mb-3">
+                    <i class="material-icons mr-2" style="color: hsl(var(--accent));">dialpad</i>
+                    <h3 class="font-semibold" style="color: hsl(var(--accent-foreground));">Via code USSD</h3>
+                </div>
+                <ol class="text-sm space-y-1" style="color: hsl(var(--muted-foreground));">
+                    <li>1. Composez <strong>#144#</strong></li>
+                    <li>2. Choisissez <strong>3</strong> "Paiements et Partenaires"</li>
+                    <li>3. Puis <strong>2</strong> "Paiement Marchand"</li>
+                    <li>4. Entrez le code <strong>317610</strong></li>
+                    <li>5. Suivez les instructions</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 rounded-lg border-2" style="background-color: hsl(var(--primary) / 0.1); border-color: hsl(var(--primary));">
+            <div class="flex items-center">
+                <i class="material-icons text-sm mr-2" style="color: hsl(var(--primary));">info</i>
+                <p class="text-sm" style="color: hsl(var(--muted-foreground));">
+                    Après le paiement, vous recevrez une référence de transaction. Utilisez-la dans le formulaire ci-dessous.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg" style="background-color: hsl(var(--card));">
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-bold" style="color: hsl(var(--foreground));">Confirmer votre don</h2>
+            <p class="text-sm mt-1" style="color: hsl(var(--muted-foreground));">Remplissez ces informations après votre paiement</p>
+        </div>
+
+        <form th:action="@{/donate}" method="post" class="max-w-md mx-auto">
+            <div class="mb-5">
+                <label class="block text-sm font-bold mb-2" for="pspId" style="color: hsl(var(--foreground));">
+                    <i class="material-icons text-xs mr-1" style="color: hsl(var(--muted-foreground));">receipt</i>
+                    Référence de paiement Orange :
+                </label>
+                <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
+                       style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
+                       id="pspId" name="pspId" type="text" placeholder="Ex: MP240201.1234.A12345" required/>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-bold mb-2" for="firstName" style="color: hsl(var(--foreground));">
+                        <i class="material-icons text-xs mr-1" style="color: hsl(var(--muted-foreground));">person</i>
+                        Prénom :
+                    </label>
+                    <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
+                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
+                           id="firstName" name="firstName" type="text" required/>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2" for="lastName" style="color: hsl(var(--foreground));">
+                        <i class="material-icons text-xs mr-1" style="color: hsl(var(--muted-foreground));">badge</i>
+                        Nom :
+                    </label>
+                    <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
+                           style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
+                           id="lastName" name="lastName" type="text" required/>
+                </div>
+            </div>
+
+            <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full w-full transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
+                    type="submit">
+                <i class="material-icons text-sm mr-2">volunteer_activism</i>
+                Confirmer ma donation
+            </button>
         </form>
     </div>
 </main>
+
+<script th:src="@{/script/donate.js}"></script>
+
 </body>
 </html>

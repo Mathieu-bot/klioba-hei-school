@@ -27,9 +27,13 @@ class EventServiceIT extends FacadeIT {
   @Autowired EventService eventService;
   @MockBean VolaClient volaClientMock;
 
+  private String generateValidPspId() {
+    return "MP250811.1103.C" + String.format("%05d", (int) (Math.random() * 99999));
+  }
+
   @Test
   void create_then_confirm() {
-    var ref1 = randomUUID().toString();
+    var ref1 = generateValidPspId();
     var newEmail = randomUUID() + "@cute.dev";
 
     var verifyingVolaPayment = aVolaPayment(VERIFYING);
