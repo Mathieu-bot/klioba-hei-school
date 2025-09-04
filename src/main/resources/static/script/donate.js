@@ -1,6 +1,3 @@
-/**
- * Copie le code marchand dans le presse-papiers
- */
 function copyCode() {
     const btn = event.target.closest("button")
     const icon = btn.querySelector("i")
@@ -19,17 +16,11 @@ function copyCode() {
     })
 }
 
-/**
- * Toggle l'affichage du dropdown des statuts
- */
 function toggleStatuts() {
     const dropdown = document.getElementById("statutsDropdown")
     dropdown.classList.toggle("dropdown-open")
 }
 
-/**
- * Active/désactive le bouton de soumission selon l'état de la checkbox
- */
 function toggleSubmitButton() {
     const checkbox = document.getElementById("confirmStatuts")
     const submitButton = document.querySelector('button[type="submit"]')
@@ -45,11 +36,7 @@ function toggleSubmitButton() {
     }
 }
 
-/**
- * Initialisation au chargement de la page
- */
 document.addEventListener("DOMContentLoaded", () => {
-    // Désactiver le bouton de soumission au chargement
     const submitButton = document.querySelector('button[type="submit"]')
     if (submitButton) {
         submitButton.classList.add("submit-disabled")

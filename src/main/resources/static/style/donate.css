@@ -11,16 +11,14 @@
     --input: 25 6% 90%;
     --primary: 25 79% 59%;
     --primary-foreground: 0 0% 0%;
-    /* Removed blue colors and replaced with neutral grays */
     --secondary: 0 0% 60%;
     --secondary-foreground: 0 0% 0%;
     --accent: 0 0% 65%;
     --accent-foreground: 0 0% 0%;
     --destructive: 13 98% 20%;
     --destructive-foreground: 13 98% 80%;
-    --ring: 25 79% 59%; /* Updated ring color to match primary button color */
+    --ring: 25 79% 59%;
     --chart-1: 25 79% 59%;
-    /* Changed blue chart colors to neutral grays */
     --chart-2: 0 0% 55%;
     --chart-3: 0 0% 50%;
     --chart-4: 0 0% 45%;
@@ -34,7 +32,6 @@ body {
     color: hsl(var(--foreground));
 }
 
-/* Copy button animations */
 .copy-btn {
     transition: all 0.2s ease;
 }
@@ -76,7 +73,6 @@ body {
     }
 }
 
-/* Dropdown animations */
 .dropdown-content {
     max-height: 0;
     overflow: hidden;
@@ -97,7 +93,6 @@ body {
     transform: rotate(180deg);
 }
 
-/* Form validation styles */
 .required-checkbox:checked + label {
     color: hsl(var(--destructive));
 }
