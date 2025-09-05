@@ -23,7 +23,6 @@ public class TsinjoController {
   private final DonationCreationFormConsumer donationCreationFormConsumer;
   private final DonationFormService donationFormService;
 
-
   @GetMapping("/")
   public String home() {
     return "home";
@@ -58,7 +57,6 @@ public class TsinjoController {
     model.addAttribute("donationForm", donationForm);
     return "donate";
   }
-
 
   @PostMapping("/donate")
   public String donate(Authentication authentication, DonationCreationForm donationCreationForm) {
