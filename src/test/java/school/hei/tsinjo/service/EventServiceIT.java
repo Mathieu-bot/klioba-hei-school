@@ -11,9 +11,11 @@ import static school.hei.tsinjo.model.psp.vola.api.gen.client.model.Payment.Veri
 import static school.hei.tsinjo.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum.VERIFYING;
 import static school.hei.tsinjo.model.psp.vola.api.gen.client.model.PspPayment.PspTypeEnum.ORANGE_MONEY;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.Rollback;
 import school.hei.tsinjo.conf.FacadeIT;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
 import school.hei.tsinjo.model.PaymentStatus;
@@ -30,7 +32,8 @@ class EventServiceIT extends FacadeIT {
   private String generateValidPspId() {
     return "MP250811.1103.C" + String.format("%05d", (int) (Math.random() * 99999));
   }
-
+  @Transactional
+  @Rollback
   @Test
   void create_then_confirm() {
     var ref1 = generateValidPspId();
