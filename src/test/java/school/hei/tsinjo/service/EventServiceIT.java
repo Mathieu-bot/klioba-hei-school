@@ -32,6 +32,7 @@ class EventServiceIT extends FacadeIT {
   private String generateValidPspId() {
     return "MP250811.1103.C" + String.format("%05d", (int) (Math.random() * 99999));
   }
+
   @Transactional
   @Rollback
   @Test
