@@ -12,6 +12,7 @@ import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 import school.hei.tsinjo.endpoint.http.model.ThFund;
 import school.hei.tsinjo.service.DonationCreationFormConsumer;
+import school.hei.tsinjo.service.DonationFormService;
 import school.hei.tsinjo.service.EventService;
 
 @Controller
@@ -20,6 +21,7 @@ public class TsinjoController {
 
   private final EventService eventService;
   private final DonationCreationFormConsumer donationCreationFormConsumer;
+  private final DonationFormService donationFormService;
 
   @GetMapping("/")
   public String home() {
@@ -46,7 +48,13 @@ public class TsinjoController {
   }
 
   @GetMapping("/donate")
-  public String donate() {
+  public String donate(Authentication authentication, Model model) {
+    var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+    var email = defaultOAuth2User.getAttributes().get("email").toString();
+
+    DonationCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+
+    model.addAttribute("donationForm", donationForm);
     return "donate";
   }
 

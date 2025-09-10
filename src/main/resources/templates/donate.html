@@ -120,7 +120,7 @@
             <p class="text-sm mt-1" style="color: hsl(var(--muted-foreground));">Remplissez ces informations après votre paiement</p>
         </div>
 
-        <form th:action="@{/donate}" method="post" class="max-w-md mx-auto">
+        <form th:action="@{/donate}" th:object="${donationForm}" method="post" class="max-w-md mx-auto">
             <div class="mb-5">
                 <label class="block text-sm font-bold mb-2" for="pspId" style="color: hsl(var(--foreground));">
                     <i class="material-icons text-xs mr-1" style="color: hsl(var(--muted-foreground));">receipt</i>
@@ -128,7 +128,7 @@
                 </label>
                 <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
                        style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
-                       id="pspId" name="pspId" type="text" placeholder="Ex: MP240201.1234.A12345" required/>
+                       th:field="*{pspId}" id="pspId" type="text" placeholder="Ex: MP240201.1234.A12345" required/>
             </div>
 
             <div class="grid grid-cols-2 gap-4 mb-6">
@@ -139,7 +139,8 @@
                     </label>
                     <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
                            style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
-                           id="firstName" name="firstName" type="text" required/>
+                           th:field="*{firstName}" id="firstName"
+                           th:attr="required=${#strings.isEmpty(donationForm.firstName)},readonly=${!#strings.isEmpty(donationForm.firstName)}"/>
                 </div>
 
                 <div>
@@ -149,9 +150,11 @@
                     </label>
                     <input class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 transition"
                            style="border-color: hsl(var(--border)); background-color: hsl(var(--input)); color: hsl(var(--foreground)); --tw-ring-color: #16163f;"
-                           id="lastName" name="lastName" type="text" required/>
+                           th:field="*{lastName}" id="lastName"
+                           th:attr="required=${#strings.isEmpty(donationForm.lastName)},readonly=${!#strings.isEmpty(donationForm.lastName)}"/>
                 </div>
             </div>
+
 
             <button class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full w-full transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16163f]"
                     type="submit">
@@ -159,6 +162,7 @@
                 Confirmer ma donation
             </button>
         </form>
+
     </div>
 </main>
 
