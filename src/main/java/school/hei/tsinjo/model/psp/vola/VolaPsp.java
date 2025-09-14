@@ -1,7 +1,6 @@
 package school.hei.tsinjo.model.psp.vola;
 
-import static school.hei.tsinjo.model.PaymentStatus.CONFIRMED;
-import static school.hei.tsinjo.model.PaymentStatus.REFUSED;
+import static school.hei.tsinjo.model.PaymentStatus.*;
 
 import lombok.AllArgsConstructor;
 import school.hei.tsinjo.model.Payment;
@@ -38,7 +37,10 @@ public class VolaPsp implements Psp {
         toPaymentStatus(volaPayment.getVerificationStatus()),
         volaPayment.getLastPspVerificationInstant() == null
             ? null
-            : volaPayment.getLastPspVerificationInstant().toInstant());
+            : volaPayment.getLastPspVerificationInstant().toInstant(),
+        volaPayment.getCreationInstant() == null
+            ? null
+            : volaPayment.getCreationInstant().toInstant());
   }
 
   private PspType toPspType(PspPayment.PspTypeEnum volaPspType) {
@@ -51,7 +53,7 @@ public class VolaPsp implements Psp {
       school.hei.tsinjo.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum
           volaPaymentStatus) {
     return switch (volaPaymentStatus) {
-      case VERIFYING -> PaymentStatus.VERIFYING;
+      case VERIFYING -> VERIFYING;
       case SUCCEEDED -> CONFIRMED;
       case FAILED -> REFUSED;
     };

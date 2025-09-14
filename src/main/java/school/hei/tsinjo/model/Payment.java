@@ -9,4 +9,5 @@ public record Payment(
     PspType pspType,
     String pspId,
     PaymentStatus status,
-    Instant pspLastVerificationInstant) {}
+    Instant pspLastVerificationInstant,
+    Instant creationInstant) {}

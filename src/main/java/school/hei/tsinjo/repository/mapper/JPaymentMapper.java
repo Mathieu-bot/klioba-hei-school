@@ -20,7 +20,8 @@ public class JPaymentMapper {
               ORANGE_MONEY,
               jPayment.getPspId(),
               jPayment.getStatus(),
-              jPayment.getPspLastVerificationInstant());
+              jPayment.getPspLastVerificationInstant(),
+              jPayment.getCreationInstant());
     };
   }
 
@@ -30,6 +31,7 @@ public class JPaymentMapper {
         payment.amount(),
         payment.status(),
         payment.pspId(),
-        payment.pspLastVerificationInstant());
+        payment.pspLastVerificationInstant(),
+        payment.creationInstant());
   }
 }
