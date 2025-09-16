@@ -38,7 +38,8 @@
             <table class="w-full compact-table">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th class="py-2 px-3 text-left font-semibold text-gray-600 text-sm">Date/Heure</th>
+                    <th class="py-2 px-3 text-left font-semibold text-gray-600 text-sm">Date Soumission</th>
+                    <th class="py-2 px-3 text-left font-semibold text-gray-600 text-sm">Date Transaction</th>
                     <th class="py-2 px-3 text-left font-semibold text-gray-600 text-sm">Donateur</th>
                     <th class="py-2 px-3 text-right font-semibold text-gray-600 text-sm">Montant</th>
                     <th class="py-2 px-3 text-left font-semibold text-gray-600 text-sm">Référence</th>
@@ -50,23 +51,38 @@
                     th:class="${event.event.payment.status.name() == 'REFUSED' ? 'transaction-row bg-red-50' : 'transaction-row'}"
                     class="hover:bg-gray-50">
 
+                    <!-- Date de soumission du don -->
                     <td class="py-2 px-3 whitespace-nowrap">
+                        <div class="flex flex-col">
+                            <span class="text-gray-700 text-xs font-medium">Soumission</span>
                             <span class="text-gray-500 text-sm"
                                   th:text="${event.event.creationInstant != null ? #temporals.format(event.event.creationInstant, 'dd/MM/yy HH:mm') : '--'}">
                                 --
                             </span>
+                        </div>
+                    </td>
+
+                    <!-- Date de transaction Vola -->
+                    <td class="py-2 px-3 whitespace-nowrap">
+                        <div class="flex flex-col">
+                            <span class="text-orange-700 text-xs font-medium">Transaction</span>
+                            <span class="text-orange-600 text-sm"
+                                  th:text="${event.event.payment.creationInstant() != null ? #dates.format(event.event.payment.creationInstant(), 'dd/MM/yy HH:mm') : '--'}">
+                                --
+                            </span>
+                        </div>
                     </td>
 
                     <td class="py-2 px-3">
-                            <span class="text-sm" th:text="${event.event.user.firstName + ' ' + event.event.user.lastName}">
-                                Nom du donateur
-                            </span>
+                        <span class="text-sm" th:text="${event.event.user.firstName + ' ' + event.event.user.lastName}">
+                            Nom du donateur
+                        </span>
                     </td>
 
                     <td class="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">
-                            <span class="text-sm" th:text="${event.event.payment.amount != null ? #numbers.formatInteger(event.event.payment.amount, 0, 'COMMA') + ' Ar' : '--'}">
-                                0 Ar
-                            </span>
+                        <span class="text-sm" th:text="${event.event.payment.amount != null ? #numbers.formatInteger(event.event.payment.amount, 0, 'COMMA') + ' Ar' : '--'}">
+                            0 Ar
+                        </span>
                     </td>
 
                     <td class="py-2 px-3 ref-cell">
@@ -74,24 +90,24 @@
                             <div class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-1.5 flex-shrink-0"></div>
                             <span class="text-orange-700 font-mono text-sm truncate"
                                   th:text="${event.event.payment.pspId()}">
-                                    OM123456789
-                                </span>
+                                OM123456789
+                            </span>
                         </div>
                     </td>
 
                     <td class="py-2 px-3 text-center">
-                            <span th:if="${event.event.payment.status.name() == 'CONFIRMED'}"
-                                  class="status-badge bg-green-100 text-green-800">
-                                Succès
-                            </span>
+                        <span th:if="${event.event.payment.status.name() == 'CONFIRMED'}"
+                              class="status-badge bg-green-100 text-green-800">
+                            Succès
+                        </span>
                         <span th:if="${event.event.payment.status.name() == 'VERIFYING'}"
                               class="status-badge bg-yellow-100 text-yellow-800">
-                                En cours
-                            </span>
+                            En cours
+                        </span>
                         <span th:if="${event.event.payment.status.name() == 'REFUSED'}"
                               class="status-badge bg-red-100 text-red-800">
-                                Refusé
-                            </span>
+                            Refusé
+                        </span>
                     </td>
                 </tr>
                 </tbody>

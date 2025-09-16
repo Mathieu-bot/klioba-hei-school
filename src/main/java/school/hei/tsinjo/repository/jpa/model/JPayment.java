@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,6 @@ import school.hei.tsinjo.model.PaymentStatus;
 @Setter
 public class JPayment {
   @Id private String id;
-
   private Integer amount;
 
   @Enumerated(STRING)
@@ -29,4 +29,5 @@ public class JPayment {
 
   private String pspId;
   private Instant pspLastVerificationInstant;
+  private Date creationInstant;
 }

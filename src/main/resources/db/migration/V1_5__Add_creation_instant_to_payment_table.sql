@@ -1,0 +1,2 @@
+ALTER TABLE payment
+    ADD COLUMN creation_instant TIMESTAMP WITH TIME ZONE;
