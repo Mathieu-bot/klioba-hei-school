@@ -1,0 +1,21 @@
+.compact-table {
+    font-size: 0.85rem;
+}
+.status-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.transaction-row:hover {
+    background-color: #f9fafb;
+}
+.table-container {
+    overflow-x: auto;
+}
+.ref-cell {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

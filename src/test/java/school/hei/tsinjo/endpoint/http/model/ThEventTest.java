@@ -7,6 +7,7 @@ import static school.hei.tsinjo.model.PaymentStatus.VERIFYING;
 import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import java.time.Instant;
+import java.util.Date;
 import org.junit.jupiter.api.Test;
 import school.hei.tsinjo.model.Donation;
 import school.hei.tsinjo.model.Help;
@@ -24,7 +25,8 @@ class ThEventTest {
             ORANGE_MONEY,
             "pspId",
             CONFIRMED,
-            Instant.parse("2025-08-11T13:51:26.165532Z"));
+            Instant.parse("2025-08-11T13:51:26.165532Z"),
+            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
     var user = new User("userId", "Lou", "Andria", "lou@hei.school");
 
     var thEvent =
@@ -47,7 +49,8 @@ class ThEventTest {
             ORANGE_MONEY,
             "pspId",
             CONFIRMED,
-            Instant.parse("2025-08-11T13:51:36.165532Z"));
+            Instant.parse("2025-08-11T13:51:36.165532Z"),
+            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
 
     var user = new User("userId", "Lou", "Andria", "lou@hei.school");
 
@@ -62,7 +65,15 @@ class ThEventTest {
 
   @Test
   void verifying_withNo_lastPspVerificationInstant_to_string() {
-    var payment = new Payment("paymentId", null, ORANGE_MONEY, "pspId", VERIFYING, null);
+    var payment =
+        new Payment(
+            "paymentId",
+            null,
+            ORANGE_MONEY,
+            "pspId",
+            VERIFYING,
+            null,
+            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
     var user = new User("userId", "Lou", "Andria", "lou@hei.school");
 
     var thEvent =
@@ -85,7 +96,8 @@ class ThEventTest {
             ORANGE_MONEY,
             "pspId",
             REFUSED,
-            Instant.parse("2025-08-11T13:51:36.165532Z"));
+            Instant.parse("2025-08-11T13:51:36.165532Z"),
+            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
 
     var user = new User("userId", "Lou", "Andria", "lou@hei.school");
 

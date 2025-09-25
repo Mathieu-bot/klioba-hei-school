@@ -1,6 +1,7 @@
 package school.hei.tsinjo.model;
 
 import java.time.Instant;
+import java.util.Date;
 import school.hei.tsinjo.model.psp.PspType;
 
 public record Payment(
@@ -9,4 +10,5 @@ public record Payment(
     PspType pspType,
     String pspId,
     PaymentStatus status,
-    Instant pspLastVerificationInstant) {}
+    Instant pspLastVerificationInstant,
+    Date creationInstant) {}

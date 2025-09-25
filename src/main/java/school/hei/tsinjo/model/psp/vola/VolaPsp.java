@@ -1,8 +1,10 @@
 package school.hei.tsinjo.model.psp.vola;
 
-import static school.hei.tsinjo.model.PaymentStatus.CONFIRMED;
-import static school.hei.tsinjo.model.PaymentStatus.REFUSED;
+import static school.hei.tsinjo.model.PaymentStatus.*;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
@@ -29,16 +31,23 @@ public class VolaPsp implements Psp {
 
   private Payment toPayment(
       String tsinjoId, school.hei.tsinjo.model.psp.vola.api.gen.client.model.Payment volaPayment) {
+
     var volaPspPayment = volaPayment.getPspPayment();
+
+    // ✅ gestion du null pour éviter le NPE
+    Instant lastVerificationInstant =
+        Optional.ofNullable(volaPayment.getLastPspVerificationInstant())
+            .map(Date::toInstant)
+            .orElse(null);
+
     return new Payment(
         tsinjoId,
         volaPspPayment.getAmount(),
         toPspType(volaPspPayment.getPspType()),
         volaPspPayment.getId(),
         toPaymentStatus(volaPayment.getVerificationStatus()),
-        volaPayment.getLastPspVerificationInstant() == null
-            ? null
-            : volaPayment.getLastPspVerificationInstant().toInstant());
+        lastVerificationInstant,
+        volaPayment.getCreationInstant());
   }
 
   private PspType toPspType(PspPayment.PspTypeEnum volaPspType) {
@@ -51,7 +60,7 @@ public class VolaPsp implements Psp {
       school.hei.tsinjo.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum
           volaPaymentStatus) {
     return switch (volaPaymentStatus) {
-      case VERIFYING -> PaymentStatus.VERIFYING;
+      case VERIFYING -> VERIFYING;
       case SUCCEEDED -> CONFIRMED;
       case FAILED -> REFUSED;
     };

@@ -602,7 +602,7 @@ public class ApiClient {
     }
 
     private void logResponse(ClientHttpResponse response) throws IOException {
-      log.info("HTTP Status Code: " + response.getRawStatusCode());
+      log.info("HTTP Status Code: " + response.getStatusCode());
       log.info("Status Text: " + response.getStatusText());
       log.info("HTTP Headers: " + headersToString(response.getHeaders()));
       log.info("Response Body: " + bodyToString(response.getBody()));
