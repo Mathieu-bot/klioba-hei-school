@@ -36,10 +36,55 @@ function toggleSubmitButton() {
     }
 }
 
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById("mobile-menu")
+    const mobileMenuAnonymous = document.getElementById("mobile-menu-anonymous")
+
+    if (mobileMenu) {
+        mobileMenu.classList.toggle("hidden")
+    }
+
+    if (mobileMenuAnonymous) {
+        mobileMenuAnonymous.classList.toggle("hidden")
+    }
+}
+
+function handleResize() {
+    const mobileMenu = document.getElementById("mobile-menu")
+    const mobileMenuAnonymous = document.getElementById("mobile-menu-anonymous")
+
+    if (window.innerWidth >= 768) {
+        if (mobileMenu) mobileMenu.classList.add("hidden")
+        if (mobileMenuAnonymous) mobileMenuAnonymous.classList.add("hidden")
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.querySelector('button[type="submit"]')
     if (submitButton) {
         submitButton.classList.add("submit-disabled")
         submitButton.disabled = true
+    }
+
+    const mobileMenuButton = document.getElementById("mobile-menu-button")
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener("click", toggleMobileMenu)
+    }
+
+    const mobileMenuButtons = document.querySelectorAll(".md\\:hidden.focus\\:outline-none")
+    mobileMenuButtons.forEach(button => {
+        if (!button.id) {
+            button.addEventListener("click", toggleMobileMenu)
+        }
+    })
+
+    window.addEventListener("resize", handleResize)
+
+    const dropdownToggle = document.querySelector(".dropdown-toggle")
+    if (dropdownToggle) {
+        dropdownToggle.addEventListener("click", (e) => {
+            e.preventDefault()
+            toggleStatuts()
+        })
     }
 })
