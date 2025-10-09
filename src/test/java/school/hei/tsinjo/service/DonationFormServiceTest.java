@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,7 @@ public class DonationFormServiceTest {
             "MP240201.1234.A12345",
             PaymentStatus.CONFIRMED,
             Instant.now(),
-            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
     Donation donation = new Donation("d1", payment, user, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
@@ -85,7 +84,7 @@ public class DonationFormServiceTest {
             "PSP1",
             PaymentStatus.CONFIRMED,
             Instant.now().minusSeconds(3600),
-            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
     Donation donation1 = new Donation("d1", payment1, user1, Instant.now().minusSeconds(3600));
 
     User user2 = new User("2", "Tiavina", "Andriamamivony", email);
@@ -97,7 +96,7 @@ public class DonationFormServiceTest {
             "PSP2",
             PaymentStatus.CONFIRMED,
             Instant.now(),
-            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
     Donation donation2 = new Donation("d2", payment2, user2, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));

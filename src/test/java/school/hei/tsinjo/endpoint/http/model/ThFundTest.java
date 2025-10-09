@@ -7,7 +7,6 @@ import static school.hei.tsinjo.model.PaymentStatus.VERIFYING;
 import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import school.hei.tsinjo.model.Donation;
@@ -50,7 +49,7 @@ class ThFundTest {
             "pspId",
             paymentStatus,
             Instant.parse("2025-08-11T13:51:26.165532Z"),
-            Date.from(Instant.parse("2025-08-11T13:51:36.165532Z")));
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
     var event =
         new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"));
     return event;

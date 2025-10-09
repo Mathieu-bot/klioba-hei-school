@@ -2,12 +2,12 @@ package school.hei.tsinjo.repository.jpa.model;
 
 import static jakarta.persistence.EnumType.STRING;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +29,7 @@ public class JPayment {
 
   private String pspId;
   private Instant pspLastVerificationInstant;
-  private Date creationInstant;
+
+  @Column(name = "creation_instant")
+  private Instant creationInstant;
 }
