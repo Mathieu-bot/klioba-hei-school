@@ -30,6 +30,7 @@ public record ThEvent(Event event) {
       case VERIFYING -> "lightgray";
       case CONFIRMED -> payment.amount() >= 0 ? "black" : "blue";
       case REFUSED -> "red";
+      case UNKNOWN -> "yellow";
     };
   }
 
@@ -46,6 +47,7 @@ public record ThEvent(Event event) {
           case VERIFYING -> "en vérification";
           case CONFIRMED -> "en succès";
           case REFUSED -> "en échec";
+          case UNKNOWN -> "inconnu";
         },
         format(payment.pspLastVerificationInstant()));
   }

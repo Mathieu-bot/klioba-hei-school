@@ -1,62 +1,75 @@
 <div th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header class="bg-[#16163f] text-white">
-        <nav sec:authorize="isAuthenticated()" class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Authenticated Header -->
+        <nav sec:authorize="isAuthenticated()" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <i class="material-icons text-2xl">business_center</i>
-                <span class="text-2xl font-bold">Tsinjo</span>
+                <i class="material-icons text-xl sm:text-2xl">business_center</i>
+                <span class="text-xl sm:text-2xl font-bold">Tsinjo</span>
             </div>
 
-            <div class="hidden md:flex items-center space-x-6">
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
                 <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
                 <th:block th:replace="fragments/nav :: nav('/donate', 'Faire un don', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
 
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center gap-2 text-white">
                         <i class="material-icons">account_circle</i>
-                        <span class="hidden sm:inline" th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></span>
+                        <span class="hidden lg:inline text-sm" th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></span>
                     </div>
                     <th:block th:replace="fragments/nav :: nav('/logout', 'Log out', '', 'bg-red-600', 'hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors')"></th:block>
                 </div>
             </div>
 
-            <button class="md:hidden focus:outline-none" id="mobile-menu-button">
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden focus:outline-none p-2" id="mobile-menu-button" aria-label="Toggle menu">
                 <span class="material-icons">menu</span>
             </button>
         </nav>
 
-        <div sec:authorize="isAuthenticated()" class="hidden md:hidden px-6 pt-2 pb-4" id="mobile-menu">
-            <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'block py-2 hover:text-[#9933cc] transition-colors')"></th:block>
-            <th:block th:replace="fragments/nav :: nav('/donate', 'Faire un don', '', 'bg-[#9933cc]', 'block mt-2 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors text-center')"></th:block>
-            <div class="mt-4 pt-4 border-t border-gray-600">
-                <div class="flex items-center gap-2 text-white mb-2">
-                    <i class="material-icons">account_circle</i>
-                    <span th:text="'(' + ${#authentication.getPrincipal().getAttribute('email')} + ')'"></span>
+        <!-- Mobile Menu - Authenticated -->
+        <div sec:authorize="isAuthenticated()" class="hidden md:hidden px-4 sm:px-6 pt-2 pb-4" id="mobile-menu">
+            <div class="space-y-2">
+                <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'block py-3 hover:text-[#9933cc] transition-colors text-base')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/donate', 'Faire un don', '', 'bg-[#9933cc]', 'block hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-full transition-colors text-center text-base')"></th:block>
+
+                <div class="pt-4 border-t border-gray-600 space-y-3">
+                    <div class="flex items-center gap-2 text-white py-2">
+                        <i class="material-icons">account_circle</i>
+                        <span class="text-sm break-all" th:text="${#authentication.getPrincipal().getAttribute('email')}"></span>
+                    </div>
+                    <th:block th:replace="fragments/nav :: nav('/logout', 'Log out', '', 'bg-red-600', 'block hover:bg-red-700 text-white font-bold py-3 px-4 rounded transition-colors text-center text-base')"></th:block>
                 </div>
-                <th:block th:replace="fragments/nav :: nav('/logout', 'Log out', '', 'bg-red-600', 'block hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors text-center')"></th:block>
             </div>
         </div>
 
-        <nav sec:authorize="isAnonymous()" class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Anonymous Header -->
+        <nav sec:authorize="isAnonymous()" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <i class="material-icons text-2xl">business_center</i>
-                <span class="text-2xl font-bold">Tsinjo</span>
+                <i class="material-icons text-xl sm:text-2xl">business_center</i>
+                <span class="text-xl sm:text-2xl font-bold">Tsinjo</span>
             </div>
 
-            <div class="hidden md:flex items-center space-x-6">
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
                 <a class="hover:text-[#9933cc] transition-colors" href="#contact">Contact</a>
-                <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/cognito', 'Log in', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/casdoor', 'Log in', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
             </div>
 
-            <button class="md:hidden focus:outline-none">
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden focus:outline-none p-2" aria-label="Toggle menu">
                 <span class="material-icons">menu</span>
             </button>
         </nav>
 
-        <div sec:authorize="isAnonymous()" class="hidden md:hidden px-6 pt-2 pb-4" id="mobile-menu-anonymous">
-            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#about">À Propos</a>
-            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#testimonials">Témoignages</a>
-            <a class="block py-2 hover:text-[#9933cc] transition-colors" href="#contact">Contact</a>
-            <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/cognito', 'Log in', '', 'bg-[#9933cc]', 'block mt-2 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors text-center')"></th:block>
+        <!-- Mobile Menu - Anonymous -->
+        <div sec:authorize="isAnonymous()" class="hidden md:hidden px-4 sm:px-6 pt-2 pb-4" id="mobile-menu-anonymous">
+            <div class="space-y-2">
+                <a class="block py-3 hover:text-[#9933cc] transition-colors text-base" href="#about">À Propos</a>
+                <a class="block py-3 hover:text-[#9933cc] transition-colors text-base" href="#testimonials">Témoignages</a>
+                <a class="block py-3 hover:text-[#9933cc] transition-colors text-base" href="#contact">Contact</a>
+                <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/casdoor', 'Log in', '', 'bg-[#9933cc]', 'block mt-2 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-full transition-colors text-center text-base')"></th:block>
+            </div>
         </div>
     </header>
 </div>
