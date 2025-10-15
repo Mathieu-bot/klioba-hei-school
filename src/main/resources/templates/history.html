@@ -68,9 +68,9 @@
                     <!-- Date paiement -->
                     <td class="px-2 sm:px-3 py-2 sm:py-3 text-xs">
                        <span th:if="${event.event.payment.creationInstant() != null}"
-                             th:text="${#temporals.format(event.event.payment.creationInstant(), 'yyyy-MM-dd', 'UTC+3')}"></span>
+                             th:text="${#temporals.format(event.event.payment.creationInstant(), 'yyyy-MM-dd', 'UTC+0')}"></span>
                         <span th:if="${event.event.payment.creationInstant() != null}"
-                              th:text="${#temporals.format(event.event.payment.creationInstant(), 'HH:mm:ss', 'UTC+3')}"></span>
+                              th:text="${#temporals.format(event.event.payment.creationInstant(), 'HH:mm:ss', 'UTC+0')}"></span>
                         <span th:unless="${event.event.payment.creationInstant() != null}" class="text-gray-400">--</span>
                     </td>
 
