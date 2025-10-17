@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -49,6 +50,7 @@ public class SecurityConf {
         .oauth2Login(
             oauth2 ->
                 oauth2
+                    .loginPage("/oauth2/authorization/casdoor")
                     .authorizationEndpoint(
                         auth ->
                             auth.authorizationRequestResolver(
@@ -73,18 +75,24 @@ public class SecurityConf {
                         }))
         .logout(
             logout ->
-                logout.logoutSuccessHandler(
-                    (request, response, authentication) -> {
-                      var principal = (DefaultOidcUser) authentication.getPrincipal();
-                      String accessToken = principal.getIdToken().getTokenValue();
-                      log.info("🔒 Logout SUCCESS for user {}", principal.getEmail());
-                      response.sendRedirect(
-                          casdoorLogoutUrl
-                              + "?id_token_hint="
-                              + accessToken
-                              + "&post_logout_redirect_uri="
-                              + tsinjoLogoutUrl);
-                    }));
+                logout
+                    .logoutUrl("/logout")
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutSuccessHandler(
+                        (request, response, authentication) -> {
+                          if (authentication != null) {
+                            var principal = (DefaultOidcUser) authentication.getPrincipal();
+                            String accessToken = principal.getIdToken().getTokenValue();
+                            response.sendRedirect(
+                                casdoorLogoutUrl
+                                    + "?id_token_hint="
+                                    + accessToken
+                                    + "&post_logout_redirect_uri="
+                                    + tsinjoLogoutUrl);
+                          } else {
+                            response.sendRedirect(tsinjoLogoutUrl);
+                          }
+                        }));
     return http.build();
   }
 }
