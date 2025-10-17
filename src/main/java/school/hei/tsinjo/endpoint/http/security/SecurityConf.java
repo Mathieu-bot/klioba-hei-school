@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -76,8 +75,7 @@ public class SecurityConf {
         .logout(
             logout ->
                 logout
-                    .logoutUrl("/logout")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutUrl("/perform-logout")
                     .logoutSuccessHandler(
                         (request, response, authentication) -> {
                           if (authentication != null) {

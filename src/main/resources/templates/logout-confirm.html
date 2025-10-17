@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmer la déconnexion</title>
+</head>
+<body>
+<h1>Voulez-vous vraiment vous déconnecter ?</h1>
+<form action="/perform-logout" method="post">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  <button type="submit">Oui, me déconnecter</button>
+  <a href="/">Non, rester connecté</a>
+</form>
+</body>
+</html>

@@ -65,4 +65,9 @@ public class TsinjoController {
     donationCreationFormConsumer.accept(donationCreationForm, email);
     return "redirect:/history";
   }
+
+  @GetMapping("/logout")
+  public String showLogoutConfirmation() {
+    return "logout-confirm";
+  }
 }
