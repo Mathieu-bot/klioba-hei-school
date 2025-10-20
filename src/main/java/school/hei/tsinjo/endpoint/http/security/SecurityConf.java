@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -22,23 +21,21 @@ public class SecurityConf {
   private final String casdoorClientId;
   private final String casdoorLogoutUrl;
   private final String tsinjoLogoutUrl;
-  private final ClientRegistrationRepository clientRegistrationRepository;
+  private final GeneratedStateAuthorizationRequestRepository customRepo;
+  private final DynamicStateAuthorizationRequestResolver customResolver;
 
   public SecurityConf(
       @Value("${spring.security.oauth2.client.registration.casdoor.clientid}")
           String casdoorClientId,
       @Value("${casdoor.logout.url}") String casdoorLogoutUrl,
       @Value("${tsinjo.logout.url}") String tsinjoLogoutUrl,
-      ClientRegistrationRepository clientRegistrationRepository) {
+      GeneratedStateAuthorizationRequestRepository customRepo,
+      DynamicStateAuthorizationRequestResolver customResolver) {
     this.casdoorClientId = casdoorClientId;
     this.casdoorLogoutUrl = casdoorLogoutUrl;
     this.tsinjoLogoutUrl = tsinjoLogoutUrl;
-    this.clientRegistrationRepository = clientRegistrationRepository;
-  }
-
-  @Bean
-  public GeneratedStateAuthorizationRequestRepository generatedStateRepository() {
-    return new GeneratedStateAuthorizationRequestRepository();
+    this.customRepo = customRepo;
+    this.customResolver = customResolver;
   }
 
   @Bean
@@ -52,11 +49,8 @@ public class SecurityConf {
                     .loginPage("/oauth2/authorization/casdoor")
                     .authorizationEndpoint(
                         auth ->
-                            auth.authorizationRequestResolver(
-                                new DynamicStateAuthorizationRequestResolver(
-                                    clientRegistrationRepository,
-                                    "/oauth2/authorization",
-                                    generatedStateRepository())))
+                            auth.authorizationRequestResolver(customResolver)
+                                .authorizationRequestRepository(customRepo))
                     .successHandler(
                         (request, response, authentication) -> {
                           log.info("✅ OAuth2 login SUCCESS");
@@ -66,6 +60,10 @@ public class SecurityConf {
                         })
                     .failureHandler(
                         (request, response, exception) -> {
+                          // On success redirection from Casdoor URL instead of
+                          // custom domain URL
+                          // so it is incorrectly interpreted as authorization_request_not_found.
+                          // Redo the call and it will be Ok.
                           log.error("❌ OAuth2 login FAILURE", exception);
                           log.error("Message: {}", exception.getMessage());
                           new SimpleUrlAuthenticationFailureHandler("/oauth2/authorization/casdoor")
