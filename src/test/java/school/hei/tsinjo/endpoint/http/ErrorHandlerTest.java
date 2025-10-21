@@ -20,39 +20,30 @@ class ErrorHandlerTest {
 
   @Test
   void handleException_setsErrorMessageAndReturnsErrorView() {
-    // Arrange
-    Exception exception = new RuntimeException("Test error message");
+    var exception = new RuntimeException("Test error message");
 
-    // Act
-    String result = errorHandler.handleException(exception, model);
+    var result = errorHandler.handleException(exception, model);
 
-    // Assert
     assertEquals("error", result);
     verify(model).addAttribute("errorMessage", "Test error message");
   }
 
   @Test
   void handleException_withNullMessage_setsNullErrorMessage() {
-    // Arrange
-    Exception exception = new RuntimeException((String) null);
+    var exception = new RuntimeException((String) null);
 
-    // Act
-    String result = errorHandler.handleException(exception, model);
+    var result = errorHandler.handleException(exception, model);
 
-    // Assert
     assertEquals("error", result);
     verify(model).addAttribute("errorMessage", null);
   }
 
   @Test
   void handleException_withDifferentExceptionTypes_handlesAll() {
-    // Arrange
-    IllegalArgumentException illegalArgException = new IllegalArgumentException("Invalid argument");
+    var illegalArgException = new IllegalArgumentException("Invalid argument");
 
-    // Act
-    String result = errorHandler.handleException(illegalArgException, model);
+    var result = errorHandler.handleException(illegalArgException, model);
 
-    // Assert
     assertEquals("error", result);
     verify(model).addAttribute("errorMessage", "Invalid argument");
   }
