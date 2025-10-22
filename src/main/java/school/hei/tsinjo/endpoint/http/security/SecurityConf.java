@@ -19,21 +19,15 @@ public class SecurityConf {
   private final String casdoorClientId;
   private final String casdoorLogoutUrl;
   private final String tsinjoLogoutUrl;
-  private final GeneratedStateAuthorizationRequestRepository customRepo;
-  private final DynamicStateAuthorizationRequestResolver customResolver;
 
   public SecurityConf(
       @Value("${spring.security.oauth2.client.registration.casdoor.clientid}")
           String casdoorClientId,
       @Value("${casdoor.logout.url}") String casdoorLogoutUrl,
-      @Value("${tsinjo.logout.url}") String tsinjoLogoutUrl,
-      GeneratedStateAuthorizationRequestRepository customRepo,
-      DynamicStateAuthorizationRequestResolver customResolver) {
+      @Value("${tsinjo.logout.url}") String tsinjoLogoutUrl) {
     this.casdoorClientId = casdoorClientId;
     this.casdoorLogoutUrl = casdoorLogoutUrl;
     this.tsinjoLogoutUrl = tsinjoLogoutUrl;
-    this.customRepo = customRepo;
-    this.customResolver = customResolver;
   }
 
   @Bean
@@ -45,10 +39,6 @@ public class SecurityConf {
             oauth2 ->
                 oauth2
                     .loginPage("/oauth2/authorization/casdoor")
-                    .authorizationEndpoint(
-                        auth ->
-                            auth.authorizationRequestResolver(customResolver)
-                                .authorizationRequestRepository(customRepo))
                     .successHandler(
                         (request, response, authentication) -> {
                           log.info("✅ OAuth2 login SUCCESS");
