@@ -1,7 +1,6 @@
 package school.hei.tsinjo.endpoint.http.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +13,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConf {
-
-  private static final Logger log = LoggerFactory.getLogger(SecurityConf.class);
 
   private final String casdoorClientId;
   private final String casdoorLogoutUrl;
