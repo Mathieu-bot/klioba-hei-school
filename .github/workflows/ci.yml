@@ -43,7 +43,10 @@ jobs:
           distribution: 'corretto'
       - run: chmod +x gradlew
       - run: chmod +x .shell/publish_gen_to_maven_local.sh
-      - run: ./gradlew test
+      - run: |
+          ./gradlew test \
+            -Dvola.api.url="$VOLA_API_URL" \
+            -Dvola.api.key="$VOLA_API_KEY"
 
       
 
