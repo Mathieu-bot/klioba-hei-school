@@ -1,3 +1,0 @@
-\
--Dvola.api.url="$VOLA_API_URL" \
--Dvola.api.key="$VOLA_API_KEY"
