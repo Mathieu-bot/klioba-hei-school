@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public final class Donation extends Event {
   public Donation(String id, Payment payment, User user, Instant creationInstant) {
-    super(id, payment, user, creationInstant);
+    super(id, payment, user, creationInstant, "");
   }
 
   @Override

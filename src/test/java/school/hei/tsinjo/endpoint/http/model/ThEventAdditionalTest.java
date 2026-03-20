@@ -54,7 +54,7 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals("yellow", thEvent.color());
   }
@@ -96,7 +96,8 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new Help(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), "OUT"));
 
     assertEquals(
         "2025-08-11 16:51:16, -500 Ar. Pour Alice Smith<alice@example.com>. ", thEvent.toString());

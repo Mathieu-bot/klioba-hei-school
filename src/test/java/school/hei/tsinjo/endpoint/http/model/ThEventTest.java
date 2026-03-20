@@ -55,7 +55,7 @@ class ThEventTest {
 
     var thEvent =
         new ThEvent(
-            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals(
         "2025-08-11 16:51:16, -17 Ar. Pour Lou Andria<lou@hei.school>. ", thEvent.toString());

@@ -50,6 +50,8 @@
                     <th class="px-2 sm:px-3 py-2 sm:py-3 text-center font-semibold text-xs">Statut</th>
                     <th class="px-2 sm:px-3 py-2 sm:py-3 text-left font-semibold text-xs whitespace-nowrap">Date vérification</th>
                     <th class="px-2 sm:px-3 py-2 sm:py-3 text-left font-semibold text-xs whitespace-nowrap">Référence OM</th>
+                    <th class="px-2 sm:px-3 py-2 sm:py-3 text-left font-semibold text-xs whitespace-nowrap">Commentaire</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -142,6 +144,11 @@
                             MP250917.1604.D33118
                         </span>
                         <span th:unless="${event.event.getClass().getSimpleName() == 'Donation' and event.event.payment.pspId != null}"
+                              class="text-gray-400 text-xs">--</span>
+                    </td>
+                    <td class="px-2 sm:px-3 py-2 sm:py-3">
+
+                        <span th:text="${event.event().getComment()}"
                               class="text-gray-400 text-xs">--</span>
                     </td>
                 </tr>

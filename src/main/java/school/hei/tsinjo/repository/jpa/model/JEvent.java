@@ -29,4 +29,5 @@ public class JEvent {
   private JPayment payment;
 
   private Instant creationInstant;
+  private String comment;
 }

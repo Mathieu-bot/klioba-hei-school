@@ -22,7 +22,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     Instant creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant);
+    var event = Event.from("e1", payment, user, creationInstant, "");
 
     assertInstanceOf(Donation.class, event);
     assertEquals("e1", event.getId());
@@ -45,7 +45,7 @@ class EventTest {
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant);
+    var event = Event.from("e1", payment, user, creationInstant, "");
 
     assertInstanceOf(Help.class, event);
     assertEquals("e1", event.getId());
@@ -68,7 +68,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant);
+    var event = Event.from("e1", payment, user, creationInstant, "");
 
     assertInstanceOf(Donation.class, event);
   }
@@ -87,7 +87,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant);
+    var event = Event.from("e1", payment, user, creationInstant, "");
 
     assertInstanceOf(Donation.class, event);
   }
@@ -139,7 +139,7 @@ class EventTest {
             Instant.now());
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     var creationInstant = Instant.now();
-    var help = new Help("h1", oldPayment, user, creationInstant);
+    var help = new Help("h1", oldPayment, user, creationInstant, "");
 
     var newPayment =
         new Payment(

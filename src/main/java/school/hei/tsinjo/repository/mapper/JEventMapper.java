@@ -16,12 +16,13 @@ public class JEventMapper {
     var payment = jPaymentMapper.toDomain(jEvent.getPayment());
     var user = jUserMapper.toDomain(jEvent.getUser());
     var creationInstant = jEvent.getCreationInstant();
-    return Event.from(jEvent.getId(), payment, user, creationInstant);
+    return Event.from(jEvent.getId(), payment, user, creationInstant, jEvent.getComment());
   }
 
   public JEvent toEntity(Event event) {
     var jUser = jUserMapper.toEntity(event.getUser());
     var jPayment = jPaymentMapper.toEntity(event.getPayment());
-    return new JEvent(event.getId(), jUser, jPayment, event.getCreationInstant());
+    return new JEvent(
+        event.getId(), jUser, jPayment, event.getCreationInstant(), event.getComment());
   }
 }
