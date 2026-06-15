@@ -1,6 +1,5 @@
 package school.hei.tsinjo.repository.mapper;
 
-import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import school.hei.tsinjo.model.User;
 import school.hei.tsinjo.repository.jpa.model.JUser;
@@ -13,7 +12,11 @@ public class JUserMapper {
   }
 
   public JUser toEntity(User user) {
-    return new JUser(
-        user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), new ArrayList<>());
+    JUser jUser = new JUser();
+    jUser.setId(user.getId());
+    jUser.setEmail(user.getEmail());
+    jUser.setFirstName(user.getFirstName());
+    jUser.setLastName(user.getLastName());
+    return jUser;
   }
 }

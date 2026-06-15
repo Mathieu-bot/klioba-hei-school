@@ -1,6 +1,5 @@
 package school.hei.tsinjo.repository.mapper;
 
-import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import school.hei.tsinjo.model.Club;
 import school.hei.tsinjo.repository.jpa.model.JClub;
@@ -13,6 +12,9 @@ public class JClubMapper {
   }
 
   public JClub toEntity(Club club) {
-    return new JClub(club.getId(), club.getName(), new ArrayList<>());
+    JClub jClub = new JClub();
+    jClub.setId(club.getId());
+    jClub.setName(club.getName());
+    return jClub;
   }
 }
