@@ -20,7 +20,7 @@ class UserTest {
 
   @Test
   void beneficiary_creation_succeeds() {
-    Beneficiary beneficiary = new Beneficiary("b1", "Jane", "Smith", "jane@example.com");
+    WithDrawer beneficiary = new WithDrawer("b1", "Jane", "Smith", "jane@example.com");
 
     assertNotNull(beneficiary);
     assertEquals("b1", beneficiary.getId());
