@@ -5,11 +5,11 @@ import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 
 @Service
-public class DonationFormService {
+public class MembershipFormService {
 
   private final EventService eventService;
 
-  public DonationFormService(EventService eventService) {
+  public MembershipFormService(EventService eventService) {
     this.eventService = eventService;
   }
 
@@ -20,14 +20,14 @@ public class DonationFormService {
     var lastEvent =
         thEvents.stream()
             .filter(e -> e.event().getUser().getEmail().equals(email))
-            .reduce((first, second) -> second) // dernier event de l'utilisateur
+            .reduce((first, second) -> second)
             .orElse(null);
 
     if (lastEvent != null) {
       return new MembershipCreationForm(
           lastEvent.event().getUser().getFirstName(),
           lastEvent.event().getUser().getLastName(),
-          "" // pspId toujours vide
+          ""
           );
     } else {
       return new MembershipCreationForm("", "", "");

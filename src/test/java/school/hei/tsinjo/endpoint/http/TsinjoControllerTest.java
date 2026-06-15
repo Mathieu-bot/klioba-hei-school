@@ -12,35 +12,35 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.model.Donation;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
 import school.hei.tsinjo.model.User;
 import school.hei.tsinjo.model.psp.PspType;
-import school.hei.tsinjo.service.DonationCreationFormConsumer;
-import school.hei.tsinjo.service.DonationFormService;
+import school.hei.tsinjo.service.MembershipCreationFormConsumer;
+import school.hei.tsinjo.service.MembershipFormService;
 import school.hei.tsinjo.service.EventService;
 
 class TsinjoControllerTest {
 
   private TsinjoController controller;
   private EventService eventService;
-  private DonationCreationFormConsumer donationCreationFormConsumer;
-  private DonationFormService donationFormService;
+  private MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private MembershipFormService membershipFormService;
   private Model model;
   private Authentication authentication;
 
   @BeforeEach
   void setUp() {
     eventService = mock(EventService.class);
-    donationCreationFormConsumer = mock(DonationCreationFormConsumer.class);
-    donationFormService = mock(DonationFormService.class);
+    membershipCreationFormConsumer = mock(MembershipCreationFormConsumer.class);
+    membershipFormService = mock(MembershipFormService.class);
     model = mock(Model.class);
     authentication = mock(Authentication.class);
 
     controller =
-        new TsinjoController(eventService, donationCreationFormConsumer, donationFormService);
+        new TsinjoController(eventService, membershipCreationFormConsumer, membershipFormService);
   }
 
   @Test
@@ -127,13 +127,13 @@ class TsinjoControllerTest {
     when(oAuth2User.getAttributes()).thenReturn(attributes);
     when(authentication.getPrincipal()).thenReturn(oAuth2User);
 
-    var prefilledForm = new DonationCreationForm("John", "Doe", "");
-    when(donationFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
+    var prefilledForm = new MembershipCreationForm("John", "Doe", "");
+    when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
     var result = controller.donate(authentication, model);
 
     assertEquals("donate", result);
-    verify(donationFormService).getPrefilledDonationForm(email);
+    verify(membershipFormService).getPrefilledDonationForm(email);
     verify(model).addAttribute("donationForm", prefilledForm);
   }
 
@@ -147,12 +147,12 @@ class TsinjoControllerTest {
     when(oAuth2User.getAttributes()).thenReturn(attributes);
     when(authentication.getPrincipal()).thenReturn(oAuth2User);
 
-    var form = new DonationCreationForm("John", "Doe", "PSP123");
+    var form = new MembershipCreationForm("John", "Doe", "PSP123");
 
     var result = controller.donate(authentication, form);
 
     assertEquals("redirect:/history", result);
-    verify(donationCreationFormConsumer).accept(form, email);
+    verify(membershipCreationFormConsumer).accept(form, email);
   }
 
   @Test

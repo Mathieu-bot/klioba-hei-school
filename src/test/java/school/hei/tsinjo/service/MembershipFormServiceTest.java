@@ -8,34 +8,31 @@ import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.model.Donation;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
 import school.hei.tsinjo.model.User;
 import school.hei.tsinjo.model.psp.PspType;
 
-public class DonationFormServiceTest {
+public class MembershipFormServiceTest {
 
   private EventService eventService;
-  private DonationFormService donationFormService;
+  private MembershipFormService membershipFormService;
 
   @BeforeEach
   void setUp() {
     eventService = mock(EventService.class);
-    donationFormService = new DonationFormService(eventService);
+    membershipFormService = new MembershipFormService(eventService);
   }
 
   @Test
   void getPrefilledDonationForm_noPreviousEvent_returnsEmptyForm() {
-    // Arrange
     String email = "user@example.com";
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of());
 
-    // Act
-    DonationCreationForm form = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
-    // Assert
     assertEquals("", form.firstName());
     assertEquals("", form.lastName());
     assertEquals("", form.pspId());
@@ -43,10 +40,8 @@ public class DonationFormServiceTest {
 
   @Test
   void getPrefilledDonationForm_hasPreviousEvent_returnsPrefilledForm() {
-    // Arrange
     String email = "user@example.com";
 
-    // Créer de vrais objets pour test
     User user = new User("1", "Tiavina", "Andriamamivony", email);
     Payment payment =
         new Payment(
@@ -61,10 +56,8 @@ public class DonationFormServiceTest {
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
-    // Act
-    DonationCreationForm form = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
-    // Assert
     assertEquals("Tiavina", form.firstName());
     assertEquals("Andriamamivony", form.lastName());
     assertEquals("", form.pspId());
@@ -72,7 +65,6 @@ public class DonationFormServiceTest {
 
   @Test
   void getPrefilledDonationForm_multipleEvents_returnsLatestForUser() {
-    // Arrange
     String email = "user@example.com";
 
     User user1 = new User("1", "Alice", "Smith", email);
@@ -101,10 +93,8 @@ public class DonationFormServiceTest {
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));
 
-    // Act
-    DonationCreationForm form = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
-    // Assert: doit prendre le dernier event de l'utilisateur
     assertEquals("Tiavina", form.firstName());
     assertEquals("Andriamamivony", form.lastName());
     assertEquals("", form.pspId());

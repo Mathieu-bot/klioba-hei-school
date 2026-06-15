@@ -3,11 +3,11 @@ package school.hei.tsinjo.service.methods;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import school.hei.tsinjo.service.DonationCreationFormConsumer;
+import school.hei.tsinjo.service.MembershipCreationFormConsumer;
 
 public class PspIdValidatorTest {
-  private final DonationCreationFormConsumer consumer =
-      new DonationCreationFormConsumer(null, null, null, null);
+  private final MembershipCreationFormConsumer consumer =
+      new MembershipCreationFormConsumer(null, null, null, null);
 
   @Test
   void validPspIds_shouldReturnTrue() {

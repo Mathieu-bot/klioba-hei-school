@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 import school.hei.tsinjo.endpoint.http.model.ThFund;
-import school.hei.tsinjo.service.DonationCreationFormConsumer;
-import school.hei.tsinjo.service.DonationFormService;
+import school.hei.tsinjo.service.MembershipCreationFormConsumer;
+import school.hei.tsinjo.service.MembershipFormService;
 import school.hei.tsinjo.service.EventService;
 
 @Controller
@@ -21,8 +21,8 @@ import school.hei.tsinjo.service.EventService;
 public class TsinjoController {
 
   private final EventService eventService;
-  private final DonationCreationFormConsumer donationCreationFormConsumer;
-  private final DonationFormService donationFormService;
+  private final MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private final MembershipFormService membershipFormService;
 
   @GetMapping("/")
   public String home() {
@@ -53,7 +53,7 @@ public class TsinjoController {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
 
-    MembershipCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm donationForm = membershipFormService.getPrefilledDonationForm(email);
 
     model.addAttribute("donationForm", donationForm);
     return "donate";
@@ -63,7 +63,7 @@ public class TsinjoController {
   public String donate(Authentication authentication, MembershipCreationForm donationCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    donationCreationFormConsumer.accept(donationCreationForm, email);
+    membershipCreationFormConsumer.accept(donationCreationForm, email);
     return "redirect:/history";
   }
 
@@ -72,7 +72,7 @@ public class TsinjoController {
       @PathVariable String clubId, Authentication authentication, Model model) {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    MembershipCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm donationForm = membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("donationForm", donationForm);
     return "membership-fee";
   }

@@ -9,15 +9,14 @@ import static school.hei.tsinjo.model.PaymentStatus.VERIFYING;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.tsinjo.conf.FacadeIT;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.model.Event;
 
-class DonationCreationFormConsumerIT extends FacadeIT {
+class MembershipCreationFormConsumerIT extends FacadeIT {
 
-  @Autowired DonationCreationFormConsumer donationCreationFormConsumer;
+  @Autowired MembershipCreationFormConsumer membershipCreationFormConsumer;
   @Autowired EventService eventService;
 
-  // Génère un PSP ID valide au format attendu
   private String generateValidPspId() {
     return "MP250811.1103.C" + String.format("%05d", (int) (Math.random() * 99999));
   }
@@ -28,8 +27,8 @@ class DonationCreationFormConsumerIT extends FacadeIT {
     var ref2 = generateValidPspId();
     var newEmail = randomUUID() + "@cute.dev";
 
-    donationCreationFormConsumer.accept(new DonationCreationForm("Lou", "Andria", ref1), newEmail);
-    donationCreationFormConsumer.accept(new DonationCreationForm(null, null, ref2), newEmail);
+    membershipCreationFormConsumer.accept(new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
+    membershipCreationFormConsumer.accept(new MembershipCreationForm(null, null, ref2), newEmail);
 
     var events = eventService.findAllWithPaymentResolution();
     assertEquals(2, events.size());
@@ -58,24 +57,24 @@ class DonationCreationFormConsumerIT extends FacadeIT {
   void donations_cannot_have_same_pspId() {
     String pspId = generateValidPspId();
 
-    donationCreationFormConsumer.accept(
-        new DonationCreationForm("Lou", "Andria", pspId), "lou@cute.dev");
+    membershipCreationFormConsumer.accept(
+        new MembershipCreationForm("Lou", "Andria", pspId), "lou@cute.dev");
 
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            donationCreationFormConsumer.accept(
-                new DonationCreationForm(null, null, pspId), "lou@cute.dev"));
+            membershipCreationFormConsumer.accept(
+                new MembershipCreationForm(null, null, pspId), "lou@cute.dev"));
   }
 
   @Test
   void donation_with_invalid_pspId_shouldFail() {
-    String invalidPspId = randomUUID().toString(); // format invalide
+    String invalidPspId = randomUUID().toString();
 
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            donationCreationFormConsumer.accept(
-                new DonationCreationForm("Lou", "Andria", invalidPspId), "lou@cute.dev"));
+            membershipCreationFormConsumer.accept(
+                new MembershipCreationForm("Lou", "Andria", invalidPspId), "lou@cute.dev"));
   }
 }

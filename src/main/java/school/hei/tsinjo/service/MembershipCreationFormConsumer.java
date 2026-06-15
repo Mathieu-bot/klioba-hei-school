@@ -30,9 +30,6 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
   @Override
   public void accept(MembershipCreationForm donationCreationForm, String email) {
     if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
-      // have to manually check since following volaPsp::create
-      // will just return Bad Gateway, reverting the transaction
-      // but without us knowing why
       throw new IllegalArgumentException("pspId already exists");
     } else if (!isPspIdFormat(donationCreationForm.pspId())) {
       throw new IllegalArgumentException("pspId format incorrect format");
@@ -56,7 +53,6 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
         donationCreationForm.firstName(), donationCreationForm.lastName(), email);
   }
 
-  // TODO: The pspId format should be variable, we need to include the pspType
   public boolean isPspIdFormat(String pspId) {
     if (pspId == null) {
       return false;
