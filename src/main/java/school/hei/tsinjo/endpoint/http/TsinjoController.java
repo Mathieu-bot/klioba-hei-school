@@ -68,7 +68,12 @@ public class TsinjoController {
   }
 
   @GetMapping("/club/{clubId}/membershipFee")
-  public String membershipFee(@PathVariable String clubId, Model model) {
+  public String membershipFee(
+      @PathVariable String clubId, Authentication authentication, Model model) {
+    var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+    var email = defaultOAuth2User.getAttributes().get("email").toString();
+    DonationCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+    model.addAttribute("donationForm", donationForm);
     return "membership-fee";
   }
 
