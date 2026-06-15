@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
@@ -64,6 +65,11 @@ public class TsinjoController {
     var email = defaultOAuth2User.getAttributes().get("email").toString();
     donationCreationFormConsumer.accept(donationCreationForm, email);
     return "redirect:/history";
+  }
+
+  @GetMapping("/club/{clubId}/membershipFee")
+  public String membershipFee(@PathVariable String clubId, Model model) {
+    return "membership-fee";
   }
 
   @GetMapping("/logout")
