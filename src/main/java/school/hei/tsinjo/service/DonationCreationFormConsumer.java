@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import java.util.function.BiConsumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.model.Event;
 import school.hei.tsinjo.model.User;
 import school.hei.tsinjo.model.psp.PspType;
@@ -19,7 +19,7 @@ import school.hei.tsinjo.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
-public class DonationCreationFormConsumer implements BiConsumer<DonationCreationForm, String> {
+public class MembershipCreationFormConsumer implements BiConsumer<MembershipCreationForm, String> {
   private final UserRepository userRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
@@ -28,7 +28,7 @@ public class DonationCreationFormConsumer implements BiConsumer<DonationCreation
 
   @Transactional
   @Override
-  public void accept(DonationCreationForm donationCreationForm, String email) {
+  public void accept(MembershipCreationForm donationCreationForm, String email) {
     if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
       // have to manually check since following volaPsp::create
       // will just return Bad Gateway, reverting the transaction
@@ -51,7 +51,7 @@ public class DonationCreationFormConsumer implements BiConsumer<DonationCreation
     };
   }
 
-  private User userFrom(DonationCreationForm donationCreationForm, String email) {
+  private User userFrom(MembershipCreationForm donationCreationForm, String email) {
     return userRepository.saveIfEmailNotExist(
         donationCreationForm.firstName(), donationCreationForm.lastName(), email);
   }

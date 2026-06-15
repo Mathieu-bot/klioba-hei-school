@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 import school.hei.tsinjo.endpoint.http.model.ThFund;
 import school.hei.tsinjo.service.DonationCreationFormConsumer;
@@ -53,14 +53,14 @@ public class TsinjoController {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
 
-    DonationCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
 
     model.addAttribute("donationForm", donationForm);
     return "donate";
   }
 
   @PostMapping("/donate")
-  public String donate(Authentication authentication, DonationCreationForm donationCreationForm) {
+  public String donate(Authentication authentication, MembershipCreationForm donationCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
     donationCreationFormConsumer.accept(donationCreationForm, email);
@@ -72,7 +72,7 @@ public class TsinjoController {
       @PathVariable String clubId, Authentication authentication, Model model) {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    DonationCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
+    MembershipCreationForm donationForm = donationFormService.getPrefilledDonationForm(email);
     model.addAttribute("donationForm", donationForm);
     return "membership-fee";
   }

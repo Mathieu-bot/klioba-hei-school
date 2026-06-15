@@ -1,7 +1,7 @@
 package school.hei.tsinjo.service;
 
 import org.springframework.stereotype.Service;
-import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
+import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 
 @Service
@@ -13,7 +13,7 @@ public class DonationFormService {
     this.eventService = eventService;
   }
 
-  public DonationCreationForm getPrefilledDonationForm(String email) {
+  public MembershipCreationForm getPrefilledDonationForm(String email) {
     var events = eventService.findAllWithPaymentResolution();
     var thEvents = events.stream().map(ThEvent::new).toList();
 
@@ -24,13 +24,13 @@ public class DonationFormService {
             .orElse(null);
 
     if (lastEvent != null) {
-      return new DonationCreationForm(
+      return new MembershipCreationForm(
           lastEvent.event().getUser().getFirstName(),
           lastEvent.event().getUser().getLastName(),
           "" // pspId toujours vide
           );
     } else {
-      return new DonationCreationForm("", "", "");
+      return new MembershipCreationForm("", "", "");
     }
   }
 }
