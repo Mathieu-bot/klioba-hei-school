@@ -48,17 +48,6 @@ public class TsinjoController {
     return "history";
   }
 
-  @GetMapping("/donate")
-  public String donate(Authentication authentication, Model model) {
-    var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-    var email = defaultOAuth2User.getAttributes().get("email").toString();
-
-    MembershipCreationForm donationForm = membershipFormService.getPrefilledDonationForm(email);
-
-    model.addAttribute("donationForm", donationForm);
-    return "donate";
-  }
-
   @PostMapping("/donate")
   public String donate(Authentication authentication, MembershipCreationForm donationCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
