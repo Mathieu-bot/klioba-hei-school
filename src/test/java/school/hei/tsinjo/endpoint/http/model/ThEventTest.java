@@ -8,10 +8,10 @@ import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
-import school.hei.tsinjo.model.Donation;
-import school.hei.tsinjo.model.Help;
+import school.hei.tsinjo.model.MembershipFee;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.User;
+import school.hei.tsinjo.model.Withdrawal;
 
 class ThEventTest {
 
@@ -30,7 +30,8 @@ class ThEventTest {
 
     var thEvent =
         new ThEvent(
-            new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new MembershipFee(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16, 17 Ar. Par Lou Andria<lou@hei.school>. Statut: en succès, récupéré le"
@@ -55,7 +56,8 @@ class ThEventTest {
 
     var thEvent =
         new ThEvent(
-            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
+            new Withdrawal(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals(
         "2025-08-11 16:51:16, -17 Ar. Pour Lou Andria<lou@hei.school>. ", thEvent.toString());
@@ -77,7 +79,8 @@ class ThEventTest {
 
     var thEvent =
         new ThEvent(
-            new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new MembershipFee(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: en vérification, récupéré le"
@@ -102,7 +105,8 @@ class ThEventTest {
 
     var thEvent =
         new ThEvent(
-            new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new MembershipFee(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: en échec, récupéré le"

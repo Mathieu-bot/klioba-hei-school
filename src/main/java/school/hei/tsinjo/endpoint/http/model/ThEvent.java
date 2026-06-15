@@ -3,8 +3,8 @@ package school.hei.tsinjo.endpoint.http.model;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import school.hei.tsinjo.model.Donation;
 import school.hei.tsinjo.model.Event;
+import school.hei.tsinjo.model.MembershipFee;
 
 public record ThEvent(Event event) {
 
@@ -15,13 +15,13 @@ public record ThEvent(Event event) {
     var withoutStatusNorPaymentDetails =
         String.format(
             "%s%s. %s %s. ", format(event.getCreationInstant()), amount(), byOrFor(), user());
-    return event instanceof Donation
+    return event instanceof MembershipFee
         ? withoutStatusNorPaymentDetails + status() + ". " + paymentDetails()
         : withoutStatusNorPaymentDetails;
   }
 
   private String byOrFor() {
-    return event instanceof Donation ? "Par" : "Pour";
+    return event instanceof MembershipFee ? "Par" : "Pour";
   }
 
   public String color() {

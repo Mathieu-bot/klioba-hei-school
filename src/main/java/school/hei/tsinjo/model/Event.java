@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @Getter
-public abstract sealed class Event permits Donation, Help {
+public abstract sealed class Event permits MembershipFee, Withdrawal {
   protected final String id;
   protected final Payment payment;
   protected final User user;
@@ -17,10 +17,10 @@ public abstract sealed class Event permits Donation, Help {
   protected final String comment;
 
   public static Event from(
-      String id, Payment payment, User user, Club club,Instant creationInstant, String comment) {
+      String id, Payment payment, User user, Club club, Instant creationInstant, String comment) {
     return payment.amount() == null || payment.amount() >= 0
-        ? new Donation(id, payment, user, club,creationInstant)
-        : new Help(id, payment, user, club,creationInstant, comment);
+        ? new MembershipFee(id, payment, user, club, creationInstant)
+        : new Withdrawal(id, payment, user, club, creationInstant, comment);
   }
 
   public abstract Event withPayment(Payment newPayment);
