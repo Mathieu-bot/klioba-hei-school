@@ -27,7 +27,8 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
     var ref2 = generateValidPspId();
     var newEmail = randomUUID() + "@cute.dev";
 
-    membershipCreationFormConsumer.accept(new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
+    membershipCreationFormConsumer.accept(
+        new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
     membershipCreationFormConsumer.accept(new MembershipCreationForm(null, null, ref2), newEmail);
 
     var events = eventService.findAllWithPaymentResolution();

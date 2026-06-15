@@ -18,9 +18,9 @@ import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
 import school.hei.tsinjo.model.User;
 import school.hei.tsinjo.model.psp.PspType;
+import school.hei.tsinjo.service.EventService;
 import school.hei.tsinjo.service.MembershipCreationFormConsumer;
 import school.hei.tsinjo.service.MembershipFormService;
-import school.hei.tsinjo.service.EventService;
 
 class TsinjoControllerTest {
 

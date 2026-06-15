@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import school.hei.tsinjo.endpoint.http.model.MembershipCreationForm;
 import school.hei.tsinjo.endpoint.http.model.ThEvent;
 import school.hei.tsinjo.endpoint.http.model.ThFund;
+import school.hei.tsinjo.service.EventService;
 import school.hei.tsinjo.service.MembershipCreationFormConsumer;
 import school.hei.tsinjo.service.MembershipFormService;
-import school.hei.tsinjo.service.EventService;
 
 @Controller
 @AllArgsConstructor

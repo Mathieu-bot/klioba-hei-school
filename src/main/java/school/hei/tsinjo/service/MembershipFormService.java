@@ -27,8 +27,7 @@ public class MembershipFormService {
       return new MembershipCreationForm(
           lastEvent.event().getUser().getFirstName(),
           lastEvent.event().getUser().getLastName(),
-          ""
-          );
+          "");
     } else {
       return new MembershipCreationForm("", "", "");
     }
