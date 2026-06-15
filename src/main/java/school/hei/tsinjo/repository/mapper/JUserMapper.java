@@ -1,5 +1,6 @@
 package school.hei.tsinjo.repository.mapper;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class JUserMapper {
             user.getEmail(),
             user.getFirstName(),
             user.getLastName(),
-            new java.util.ArrayList<>());
+            new ArrayList<>());
 
     jUser.setClubs(jClubs);
 
