@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
-import school.hei.tsinjo.model.Donation;
+import school.hei.tsinjo.model.MembershipFee;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
 import school.hei.tsinjo.model.User;
@@ -61,7 +61,7 @@ class TsinjoControllerTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.now());
-    Donation donation = new Donation("d1", payment, user, Instant.now());
+    MembershipFee donation = new MembershipFee("d1", payment, user, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
@@ -89,11 +89,11 @@ class TsinjoControllerTest {
 
     List<school.hei.tsinjo.model.Event> events =
         List.of(
-            new Donation("d1", payment, user, Instant.now()),
-            new Donation("d2", payment, user, Instant.now()),
-            new Donation("d3", payment, user, Instant.now()),
-            new Donation("d4", payment, user, Instant.now()),
-            new Donation("d5", payment, user, Instant.now()));
+            new MembershipFee("d1", payment, user, Instant.now()),
+            new MembershipFee("d2", payment, user, Instant.now()),
+            new MembershipFee("d3", payment, user, Instant.now()),
+            new MembershipFee("d4", payment, user, Instant.now()),
+            new MembershipFee("d5", payment, user, Instant.now()));
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(events);
 

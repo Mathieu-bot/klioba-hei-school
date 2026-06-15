@@ -6,10 +6,10 @@ import static school.hei.tsinjo.model.psp.PspType.ORANGE_MONEY;
 
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
-import school.hei.tsinjo.model.Donation;
-import school.hei.tsinjo.model.Help;
+import school.hei.tsinjo.model.MembershipFee;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.User;
+import school.hei.tsinjo.model.Withdrawal;
 
 class ThEventAdditionalTest {
 
@@ -29,7 +29,8 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new MembershipFee(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: inconnu, récupéré le"
@@ -54,7 +55,8 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Help("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
+            new Withdrawal(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals("yellow", thEvent.color());
   }
@@ -75,7 +77,8 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+            new MembershipFee(
+                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals("black", thEvent.color());
   }
@@ -96,7 +99,7 @@ class ThEventAdditionalTest {
 
     var thEvent =
         new ThEvent(
-            new Help(
+            new Withdrawal(
                 "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), "OUT"));
 
     assertEquals(

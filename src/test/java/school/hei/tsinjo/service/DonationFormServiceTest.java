@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import school.hei.tsinjo.endpoint.http.model.DonationCreationForm;
-import school.hei.tsinjo.model.Donation;
+import school.hei.tsinjo.model.MembershipFee;
 import school.hei.tsinjo.model.Payment;
 import school.hei.tsinjo.model.PaymentStatus;
 import school.hei.tsinjo.model.User;
@@ -57,7 +57,7 @@ public class DonationFormServiceTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
-    Donation donation = new Donation("d1", payment, user, Instant.now());
+    MembershipFee donation = new MembershipFee("d1", payment, user, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
@@ -85,7 +85,8 @@ public class DonationFormServiceTest {
             PaymentStatus.CONFIRMED,
             Instant.now().minusSeconds(3600),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
-    Donation donation1 = new Donation("d1", payment1, user1, Instant.now().minusSeconds(3600));
+    MembershipFee donation1 =
+        new MembershipFee("d1", payment1, user1, Instant.now().minusSeconds(3600));
 
     User user2 = new User("2", "Tiavina", "Andriamamivony", email);
     Payment payment2 =
@@ -97,7 +98,7 @@ public class DonationFormServiceTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
-    Donation donation2 = new Donation("d2", payment2, user2, Instant.now());
+    MembershipFee donation2 = new MembershipFee("d2", payment2, user2, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));
 

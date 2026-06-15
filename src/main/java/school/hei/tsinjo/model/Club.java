@@ -8,6 +8,6 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 public final class Club {
-    private final String id;
-    private final String name;
+  private final String id;
+  private final String name;
 }
