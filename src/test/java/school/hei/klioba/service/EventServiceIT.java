@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import school.hei.klioba.conf.FacadeIT;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.psp.vola.api.VolaClient;
 import school.hei.klioba.model.psp.vola.api.gen.client.model.Payment;
@@ -26,7 +26,7 @@ import school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.Verificatio
 import school.hei.klioba.model.psp.vola.api.gen.client.model.PspPayment;
 
 class EventServiceIT extends FacadeIT {
-  @Autowired MembershipCreationFormConsumer membershipCreationFormConsumer;
+  @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
   @Autowired EventService eventService;
   @MockBean VolaClient volaClientMock;
 
@@ -44,7 +44,7 @@ class EventServiceIT extends FacadeIT {
     var verifyingVolaPayment = aVolaPayment(VERIFYING);
     when(volaClientMock.create(any(), eq(ref1), eq(newEmail))).thenReturn(verifyingVolaPayment);
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
+        new MembershipFeeCreationForm("Lou", "Andria", ref1), newEmail, "club1");
 
     // Just after creation, we simulate that Vola still replies with VERIFYING
     when(volaClientMock.get(any(), any(), any())).thenReturn(verifyingVolaPayment);

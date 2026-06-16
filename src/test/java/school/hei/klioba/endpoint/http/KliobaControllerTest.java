@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Club;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
@@ -21,7 +21,7 @@ import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
 import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
-import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
 class KliobaControllerTest {
@@ -29,7 +29,7 @@ class KliobaControllerTest {
   private KliobaController controller;
   private EventService eventService;
   private ClubService clubService;
-  private MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private MembershipFeeCreationFormConsumer membershipFeeCreationFormConsumer;
   private MembershipFormService membershipFormService;
   private Model model;
   private Authentication authentication;
@@ -38,14 +38,14 @@ class KliobaControllerTest {
   void setUp() {
     eventService = mock(EventService.class);
     clubService = mock(ClubService.class);
-    membershipCreationFormConsumer = mock(MembershipCreationFormConsumer.class);
+    membershipFeeCreationFormConsumer = mock(MembershipFeeCreationFormConsumer.class);
     membershipFormService = mock(MembershipFormService.class);
     model = mock(Model.class);
     authentication = mock(Authentication.class);
 
     controller =
         new KliobaController(
-            eventService, clubService, membershipCreationFormConsumer, membershipFormService);
+            eventService, clubService, membershipFeeCreationFormConsumer, membershipFormService);
   }
 
   @Test
@@ -128,23 +128,30 @@ class KliobaControllerTest {
   }
 
   @Test
-  void showPayForm_returnsPrefilledForm() {
+  void showMembershipFeeForm_returnsPrefilledForm() {
     var email = "test@example.com";
     var club = new Club("c1", "Club 1");
     when(clubService.findById("c1")).thenReturn(club);
-    var prefilledForm = new MembershipCreationForm("John", "Doe", "");
+    var prefilledForm = new MembershipFeeCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
-    var result = controller.showPayForm("c1", email, model);
+    Map<String, Object> attributes = new HashMap<>();
+    attributes.put("email", email);
+    DefaultOAuth2User oAuth2User = mock(DefaultOAuth2User.class);
+    when(oAuth2User.getAttributes()).thenReturn(attributes);
+    when(authentication.getPrincipal()).thenReturn(oAuth2User);
 
-    assertEquals("membershipFeeForm", result);
+    var result = controller.showMembershipFeeForm("c1", authentication, model);
+
+    assertEquals("membership-fee", result);
     verify(model).addAttribute("club", club);
-    verify(model).addAttribute("form", prefilledForm);
+    verify(model).addAttribute("membershipForm", prefilledForm);
   }
 
   @Test
-  void donate_post_processesFormAndRedirects() {
+  void membershipFee_post_processesFormAndRedirects() {
     var email = "test@example.com";
+    var clubId = "c1";
     Map<String, Object> attributes = new HashMap<>();
     attributes.put("email", email);
 
@@ -152,12 +159,12 @@ class KliobaControllerTest {
     when(oAuth2User.getAttributes()).thenReturn(attributes);
     when(authentication.getPrincipal()).thenReturn(oAuth2User);
 
-    var form = new MembershipCreationForm("John", "Doe", "PSP123");
+    var form = new MembershipFeeCreationForm("John", "Doe", "PSP123");
 
-    var result = controller.donate(authentication, form);
+    var result = controller.membershipFee(clubId, authentication, form);
 
     assertEquals("redirect:/history", result);
-    verify(membershipCreationFormConsumer).accept(form, email);
+    verify(membershipFeeCreationFormConsumer).accept(form, email, clubId);
   }
 
   @Test
