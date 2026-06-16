@@ -21,12 +21,6 @@ function toggleStatuts() {
     dropdownElement.classList.toggle("dropdown-open")
 }
 
-function toggleSubmitButton() {
-    const submitButtonElement = document.querySelector('button[type="submit"]')
-    submitButtonElement.classList.remove("submit-disabled")
-    submitButtonElement.disabled = false
-}
-
 function toggleMobileMenu() {
     const mobileMenuElement = document.getElementById("mobile-menu")
     const mobileMenuAnonymousElement = document.getElementById("mobile-menu-anonymous")
@@ -55,24 +49,10 @@ function handleResize() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const submitButtonElement = document.querySelector('button[type="submit"]')
-    if (submitButtonElement) {
-        submitButtonElement.classList.add("submit-disabled")
-        submitButtonElement.disabled = true
-    }
-
     const mobileMenuButtons = document.querySelectorAll("header button.md\\:hidden")
     mobileMenuButtons.forEach(buttonElement => {
         buttonElement.addEventListener("click", toggleMobileMenu)
     })
 
     window.addEventListener("resize", handleResize)
-
-    const dropdownToggleElement = document.querySelector(".dropdown-toggle")
-    if (dropdownToggleElement) {
-        dropdownToggleElement.addEventListener("click", (event) => {
-            event.preventDefault()
-            toggleStatuts()
-        })
-    }
 })
