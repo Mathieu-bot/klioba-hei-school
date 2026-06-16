@@ -100,7 +100,12 @@ class ThEventAdditionalTest {
     var thEvent =
         new ThEvent(
             new Withdrawal(
-                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z"), "OUT"));
+                "eventId",
+                payment,
+                user,
+                null,
+                Instant.parse("2025-08-11T13:51:16.165532Z"),
+                "OUT"));
 
     assertEquals(
         "2025-08-11 16:51:16, -500 Ar. Pour Alice Smith<alice@example.com>. ", thEvent.toString());

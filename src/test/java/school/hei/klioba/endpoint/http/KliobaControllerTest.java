@@ -13,12 +13,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
-import school.hei.klioba.model.Club;
 import school.hei.klioba.repository.ClubRepository;
 import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
@@ -48,8 +48,11 @@ class KliobaControllerTest {
 
     controller =
         new KliobaController(
-            eventService, membershipCreationFormConsumer, clubRepository,
-            membershipFormService, clubService);
+            eventService,
+            membershipCreationFormConsumer,
+            clubRepository,
+            membershipFormService,
+            clubService);
   }
 
   @Test
@@ -162,5 +165,4 @@ class KliobaControllerTest {
     String result = controller.showLogoutConfirmation();
     assertEquals("logout-confirm", result);
   }
-
 }

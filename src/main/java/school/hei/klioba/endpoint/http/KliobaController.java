@@ -64,7 +64,12 @@ public class KliobaController {
     model.addAttribute("totalPages", (int) Math.ceil((double) total / size));
     model.addAttribute("size", size);
     model.addAttribute("clubId", clubId);
-    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
+    model.addAttribute(
+        "clubName",
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .getName());
     return "history";
   }
 
@@ -88,7 +93,12 @@ public class KliobaController {
         membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("clubId", clubId);
     model.addAttribute("membershipForm", membershipForm);
-    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
+    model.addAttribute(
+        "clubName",
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .getName());
     return "membership-fee";
   }
 
