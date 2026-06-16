@@ -50,12 +50,8 @@ public class TsinjoController {
   public String history(
       Model model,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "50") int size,
-      @RequestParam(required = false) String clubId) {
-    var events =
-        clubId != null
-            ? eventService.findAllByClubIdWithPaymentResolution(clubId)
-            : eventService.findAllWithPaymentResolution();
+      @RequestParam(defaultValue = "50") int size) {
+    var events = eventService.findAllWithPaymentResolution();
     var thEvents = events.stream().map(ThEvent::new).toList();
     int total = thEvents.size();
     int fromIndex = Math.min(page * size, total);
@@ -66,6 +62,27 @@ public class TsinjoController {
     model.addAttribute("currentPage", page);
     model.addAttribute("totalPages", (int) Math.ceil((double) total / size));
 
+    return "history";
+  }
+
+  @GetMapping("/history/{clubId}")
+  public String historyByClub(
+      @PathVariable String clubId,
+      Model model,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "50") int size) {
+    var events = eventService.findAllByClubIdWithPaymentResolution(clubId);
+    var thEvents = events.stream().map(ThEvent::new).toList();
+    int total = thEvents.size();
+    int fromIndex = Math.min(page * size, total);
+    int toIndex = Math.min(fromIndex + size, total);
+    var pagedEvents = thEvents.subList(fromIndex, toIndex);
+    model.addAttribute("events", pagedEvents);
+    model.addAttribute("fund", new ThFund(events));
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", (int) Math.ceil((double) total / size));
+    model.addAttribute("size", size);
+    model.addAttribute("clubId", clubId);
     return "history";
   }
 
