@@ -12,6 +12,7 @@ import school.hei.klioba.model.Event;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
 import school.hei.klioba.model.psp.vola.VolaPsp;
+import school.hei.klioba.repository.ClubRepository;
 import school.hei.klioba.repository.EventRepository;
 import school.hei.klioba.repository.PaymentRepository;
 import school.hei.klioba.repository.UserRepository;
@@ -20,6 +21,7 @@ import school.hei.klioba.repository.UserRepository;
 @AllArgsConstructor
 public class MembershipFeeCreationFormConsumer {
   private final UserRepository userRepository;
+  private final ClubRepository clubRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
 
@@ -36,18 +38,23 @@ public class MembershipFeeCreationFormConsumer {
     var paymentCreatedInVola =
         volaPsp.create(randomUUID().toString(), pspType(), membershipFeeCreationForm.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
-    var user = userFrom(donationCreationForm, email);
+    var user = userFrom(membershipFeeCreationForm, email);
     var club =
         clubRepository
             .findById(clubId)
             .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
     eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
+    assignUserToClub(user, clubId);
   }
 
   private static PspType pspType() {
     return switch (PspType.values()[0]) {
       case ORANGE_MONEY -> ORANGE_MONEY;
     };
+  }
+
+  private void assignUserToClub(User user, String clubId) {
+    userRepository.addClubToUser(user.getId(), clubId);
   }
 
   private User userFrom(MembershipFeeCreationForm membershipFeeCreationForm, String email) {
