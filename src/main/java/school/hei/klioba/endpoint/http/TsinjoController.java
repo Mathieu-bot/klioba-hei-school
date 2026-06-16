@@ -48,11 +48,11 @@ public class TsinjoController {
     return "history";
   }
 
-  @PostMapping("/donate")
-  public String donate(Authentication authentication, MembershipCreationForm donationCreationForm) {
+  @PostMapping("/club/{clubId}/membershipFee")
+  public String membershipFee(@RequestParam String clubId, Authentication authentication, MembershipCreationForm membershipCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    membershipCreationFormConsumer.accept(donationCreationForm, email);
+    membershipCreationFormConsumer.accept(membershipCreationForm, email, clubId);
     return "redirect:/history";
   }
 
