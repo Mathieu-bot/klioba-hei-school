@@ -1,0 +1,102 @@
+package school.hei.klioba.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.time.Instant;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.model.Donation;
+import school.hei.klioba.model.Payment;
+import school.hei.klioba.model.PaymentStatus;
+import school.hei.klioba.model.User;
+import school.hei.klioba.model.psp.PspType;
+
+public class MembershipFormServiceTest {
+
+  private EventService eventService;
+  private MembershipFormService membershipFormService;
+
+  @BeforeEach
+  void setUp() {
+    eventService = mock(EventService.class);
+    membershipFormService = new MembershipFormService(eventService);
+  }
+
+  @Test
+  void getPrefilledDonationForm_noPreviousEvent_returnsEmptyForm() {
+    String email = "user@example.com";
+    when(eventService.findAllWithPaymentResolution()).thenReturn(List.of());
+
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+
+    assertEquals("", form.firstName());
+    assertEquals("", form.lastName());
+    assertEquals("", form.pspId());
+  }
+
+  @Test
+  void getPrefilledDonationForm_hasPreviousEvent_returnsPrefilledForm() {
+    String email = "user@example.com";
+
+    User user = new User("1", "Tiavina", "Andriamamivony", email);
+    Payment payment =
+        new Payment(
+            "p1",
+            1000,
+            PspType.ORANGE_MONEY,
+            "MP240201.1234.A12345",
+            PaymentStatus.CONFIRMED,
+            Instant.now(),
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
+    Donation donation = new Donation("d1", payment, user, Instant.now());
+
+    when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
+
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+
+    assertEquals("Tiavina", form.firstName());
+    assertEquals("Andriamamivony", form.lastName());
+    assertEquals("", form.pspId());
+  }
+
+  @Test
+  void getPrefilledDonationForm_multipleEvents_returnsLatestForUser() {
+    String email = "user@example.com";
+
+    User user1 = new User("1", "Alice", "Smith", email);
+    Payment payment1 =
+        new Payment(
+            "p1",
+            500,
+            PspType.ORANGE_MONEY,
+            "PSP1",
+            PaymentStatus.CONFIRMED,
+            Instant.now().minusSeconds(3600),
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
+    Donation donation1 = new Donation("d1", payment1, user1, Instant.now().minusSeconds(3600));
+
+    User user2 = new User("2", "Tiavina", "Andriamamivony", email);
+    Payment payment2 =
+        new Payment(
+            "p2",
+            1000,
+            PspType.ORANGE_MONEY,
+            "PSP2",
+            PaymentStatus.CONFIRMED,
+            Instant.now(),
+            Instant.parse("2025-08-11T13:51:36.165532Z"));
+    Donation donation2 = new Donation("d2", payment2, user2, Instant.now());
+
+    when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));
+
+    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+
+    assertEquals("Tiavina", form.firstName());
+    assertEquals("Andriamamivony", form.lastName());
+    assertEquals("", form.pspId());
+  }
+}
