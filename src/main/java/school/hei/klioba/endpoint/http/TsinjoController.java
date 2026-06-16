@@ -50,8 +50,12 @@ public class TsinjoController {
   public String history(
       Model model,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "50") int size) {
-    var events = eventService.findAllWithPaymentResolution();
+      @RequestParam(defaultValue = "50") int size,
+      @RequestParam(required = false) String clubId) {
+    var events =
+        clubId != null
+            ? eventService.findAllByClubIdWithPaymentResolution(clubId)
+            : eventService.findAllWithPaymentResolution();
     var thEvents = events.stream().map(ThEvent::new).toList();
     int total = thEvents.size();
     int fromIndex = Math.min(page * size, total);
