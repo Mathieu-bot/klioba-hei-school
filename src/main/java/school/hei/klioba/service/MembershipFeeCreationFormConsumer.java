@@ -7,7 +7,7 @@ import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
@@ -18,7 +18,7 @@ import school.hei.klioba.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
-public class MembershipCreationFormConsumer {
+public class MembershipFeeCreationFormConsumer {
   private final UserRepository userRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
@@ -26,15 +26,15 @@ public class MembershipCreationFormConsumer {
   private final VolaPsp volaPsp;
 
   @Transactional
-  public void accept(MembershipCreationForm donationCreationForm, String email, String clubId) {
-    if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
+  public void accept(MembershipFeeCreationForm membershipFeeCreationForm, String email, String clubId) {
+    if (paymentRepository.findByPspId(membershipFeeCreationForm.pspId()).isPresent()) {
       throw new IllegalArgumentException("pspId already exists");
-    } else if (!isPspIdFormat(donationCreationForm.pspId())) {
+    } else if (!isPspIdFormat(membershipFeeCreationForm.pspId())) {
       throw new IllegalArgumentException("pspId format incorrect format");
     }
 
     var paymentCreatedInVola =
-        volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
+        volaPsp.create(randomUUID().toString(), pspType(), membershipFeeCreationForm.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
     var user = userFrom(donationCreationForm, email);
     var club =
@@ -50,9 +50,9 @@ public class MembershipCreationFormConsumer {
     };
   }
 
-  private User userFrom(MembershipCreationForm donationCreationForm, String email) {
+  private User userFrom(MembershipFeeCreationForm membershipFeeCreationForm, String email) {
     return userRepository.saveIfEmailNotExist(
-        donationCreationForm.firstName(), donationCreationForm.lastName(), email);
+        membershipFeeCreationForm.firstName(), membershipFeeCreationForm.lastName(), email);
   }
 
   public boolean isPspIdFormat(String pspId) {

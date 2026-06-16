@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.endpoint.http.model.ThEvent;
 import school.hei.klioba.endpoint.http.model.ThFund;
 import school.hei.klioba.service.EventService;
-import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
 @Controller
@@ -21,7 +21,7 @@ import school.hei.klioba.service.MembershipFormService;
 public class TsinjoController {
 
   private final EventService eventService;
-  private final MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private final MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
   private final MembershipFormService membershipFormService;
 
   @GetMapping("/")
@@ -52,7 +52,7 @@ public class TsinjoController {
   public String membershipFee(
       @RequestParam String clubId,
       Authentication authentication,
-      MembershipCreationForm membershipCreationForm) {
+      MembershipFeeCreationForm membershipCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
     membershipCreationFormConsumer.accept(membershipCreationForm, email, clubId);
@@ -64,7 +64,7 @@ public class TsinjoController {
       @PathVariable String clubId, Authentication authentication, Model model) {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    MembershipCreationForm membershipForm = membershipFormService.getPrefilledDonationForm(email);
+    MembershipFeeCreationForm membershipForm = membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("membershipForm", membershipForm);
     return "membership-fee";
   }

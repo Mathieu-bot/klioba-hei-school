@@ -1,7 +1,7 @@
 package school.hei.klioba.service;
 
 import org.springframework.stereotype.Service;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.endpoint.http.model.ThEvent;
 
 @Service
@@ -13,7 +13,7 @@ public class MembershipFormService {
     this.eventService = eventService;
   }
 
-  public MembershipCreationForm getPrefilledDonationForm(String email) {
+  public MembershipFeeCreationForm getPrefilledDonationForm(String email) {
     var events = eventService.findAllWithPaymentResolution();
     var thEvents = events.stream().map(ThEvent::new).toList();
 
@@ -24,12 +24,12 @@ public class MembershipFormService {
             .orElse(null);
 
     if (lastEvent != null) {
-      return new MembershipCreationForm(
+      return new MembershipFeeCreationForm(
           lastEvent.event().getUser().getFirstName(),
           lastEvent.event().getUser().getLastName(),
           "");
     } else {
-      return new MembershipCreationForm("", "", "");
+      return new MembershipFeeCreationForm("", "", "");
     }
   }
 }
