@@ -13,19 +13,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
 import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
+import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
-class TsinjoControllerTest {
+class KliobaControllerTest {
 
-  private TsinjoController controller;
+  private KliobaController controller;
   private EventService eventService;
+  private ClubService clubService;
   private MembershipCreationFormConsumer membershipCreationFormConsumer;
   private MembershipFormService membershipFormService;
   private Model model;
@@ -34,19 +37,26 @@ class TsinjoControllerTest {
   @BeforeEach
   void setUp() {
     eventService = mock(EventService.class);
+    clubService = mock(ClubService.class);
     membershipCreationFormConsumer = mock(MembershipCreationFormConsumer.class);
     membershipFormService = mock(MembershipFormService.class);
     model = mock(Model.class);
     authentication = mock(Authentication.class);
 
     controller =
-        new TsinjoController(eventService, membershipCreationFormConsumer, membershipFormService);
+        new KliobaController(
+            eventService, clubService, membershipCreationFormConsumer, membershipFormService);
   }
 
   @Test
-  void home_returnsHomeView() {
-    String result = controller.home();
+  void home_addsClubsToModel() {
+    var clubs = List.of(new Club("c1", "Club 1"), new Club("c2", "Club 2"));
+    when(clubService.findAll()).thenReturn(clubs);
+
+    String result = controller.home(model);
+
     assertEquals("home", result);
+    verify(model).addAttribute("clubs", clubs);
   }
 
   @Test
@@ -118,23 +128,18 @@ class TsinjoControllerTest {
   }
 
   @Test
-  void donate_get_returnsPrefilledDonationForm() {
+  void showPayForm_returnsPrefilledForm() {
     var email = "test@example.com";
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put("email", email);
-
-    DefaultOAuth2User oAuth2User = mock(DefaultOAuth2User.class);
-    when(oAuth2User.getAttributes()).thenReturn(attributes);
-    when(authentication.getPrincipal()).thenReturn(oAuth2User);
-
+    var club = new Club("c1", "Club 1");
+    when(clubService.findById("c1")).thenReturn(club);
     var prefilledForm = new MembershipCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
-    var result = controller.membershipFee("club1", authentication, model);
+    var result = controller.showPayForm("c1", email, model);
 
-    assertEquals("membership-fee", result);
-    verify(membershipFormService).getPrefilledDonationForm(email);
-    verify(model).addAttribute("membershipForm", prefilledForm);
+    assertEquals("membershipFeeForm", result);
+    verify(model).addAttribute("club", club);
+    verify(model).addAttribute("form", prefilledForm);
   }
 
   @Test
