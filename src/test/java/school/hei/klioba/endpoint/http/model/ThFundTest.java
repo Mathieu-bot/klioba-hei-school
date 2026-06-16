@@ -9,8 +9,8 @@ import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import school.hei.klioba.model.Donation;
 import school.hei.klioba.model.Event;
+import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.User;
@@ -51,7 +51,7 @@ class ThFundTest {
             Instant.parse("2025-08-11T13:51:26.165532Z"),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
     var event =
-        new Donation("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"));
+        new MembershipFee("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"));
     return event;
   }
 }

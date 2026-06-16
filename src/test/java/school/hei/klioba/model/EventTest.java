@@ -24,7 +24,7 @@ class EventTest {
 
     var event = Event.from("e1", payment, user, creationInstant, "");
 
-    assertInstanceOf(Donation.class, event);
+    assertInstanceOf(MembershipFee.class, event);
     assertEquals("e1", event.getId());
     assertEquals(payment, event.getPayment());
     assertEquals(user, event.getUser());
@@ -70,7 +70,7 @@ class EventTest {
 
     var event = Event.from("e1", payment, user, creationInstant, "");
 
-    assertInstanceOf(Donation.class, event);
+    assertInstanceOf(MembershipFee.class, event);
   }
 
   @Test
@@ -89,7 +89,7 @@ class EventTest {
 
     var event = Event.from("e1", payment, user, creationInstant, "");
 
-    assertInstanceOf(Donation.class, event);
+    assertInstanceOf(MembershipFee.class, event);
   }
 
   @Test
@@ -105,7 +105,7 @@ class EventTest {
             Instant.now());
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
-    var donation = new Donation("d1", oldPayment, user, creationInstant);
+    var donation = new MembershipFee("d1", oldPayment, user, creationInstant);
 
     var newPayment =
         new Payment(
@@ -119,7 +119,7 @@ class EventTest {
 
     var updatedEvent = donation.withPayment(newPayment);
 
-    assertInstanceOf(Donation.class, updatedEvent);
+    assertInstanceOf(MembershipFee.class, updatedEvent);
     assertEquals("d1", updatedEvent.getId());
     assertEquals(newPayment, updatedEvent.getPayment());
     assertEquals(user, updatedEvent.getUser());
