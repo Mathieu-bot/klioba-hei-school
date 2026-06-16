@@ -11,18 +11,23 @@ public class JEventMapper {
 
   private final JPaymentMapper jPaymentMapper;
   private final JUserMapper jUserMapper;
+  private final JClubMapper jClubMapper;
 
   public Event toDomain(JEvent jEvent) {
     var payment = jPaymentMapper.toDomain(jEvent.getPayment());
     var user = jUserMapper.toDomain(jEvent.getUser());
+    var club = jClubMapper.toDomain(jEvent.getClub());
     var creationInstant = jEvent.getCreationInstant();
-    return Event.from(jEvent.getId(), payment, user, creationInstant, jEvent.getComment());
+
+    return Event.from(jEvent.getId(), payment, user, club, creationInstant, jEvent.getComment());
   }
 
   public JEvent toEntity(Event event) {
     var jUser = jUserMapper.toEntity(event.getUser());
+    var jClub = jClubMapper.toEntity(event.getClub());
     var jPayment = jPaymentMapper.toEntity(event.getPayment());
+
     return new JEvent(
-        event.getId(), jUser, jPayment, event.getCreationInstant(), event.getComment());
+        event.getId(), jClub, jUser, jPayment, event.getCreationInstant(), event.getComment());
   }
 }

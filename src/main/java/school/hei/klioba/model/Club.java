@@ -7,9 +7,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @AllArgsConstructor
-public sealed class User permits Member, Withdrawer {
+public final class Club {
   private final String id;
-  private final String firstName;
-  private final String lastName;
-  private final String email;
+  private final String name;
 }

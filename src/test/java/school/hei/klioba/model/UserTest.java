@@ -9,7 +9,7 @@ class UserTest {
 
   @Test
   void donor_creation_succeeds() {
-    var donor = new Donor("d1", "John", "Doe", "john@example.com");
+    var donor = new Member("d1", "John", "Doe", "john@example.com");
 
     assertNotNull(donor);
     assertEquals("d1", donor.getId());
@@ -20,7 +20,7 @@ class UserTest {
 
   @Test
   void beneficiary_creation_succeeds() {
-    Beneficiary beneficiary = new Beneficiary("b1", "Jane", "Smith", "jane@example.com");
+    Withdrawer beneficiary = new Withdrawer("b1", "Jane", "Smith", "jane@example.com");
 
     assertNotNull(beneficiary);
     assertEquals("b1", beneficiary.getId());
@@ -41,7 +41,7 @@ class UserTest {
 
   @Test
   void donor_toString_works() {
-    var donor = new Donor("d1", "Bob", "Builder", "bob@example.com");
+    var donor = new Member("d1", "Bob", "Builder", "bob@example.com");
 
     var result = donor.toString();
 
