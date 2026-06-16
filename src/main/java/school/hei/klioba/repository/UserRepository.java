@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     return jUserMapper.toDomain(
-        jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName)));
+        jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName, new java.util.ArrayList<>())));
   }
 
   public User save(User user) {
