@@ -38,12 +38,12 @@
         <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">Club</p>
         <p class="text-2xl sm:text-3xl font-bold text-[#16163f]" th:text="${clubName}">Club Name</p>
     </div>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <h2 class="text-lg sm:text-xl font-bold text-[#16163f]">Cotisations / Retraits</h2>
         <a th:href="@{/club/{clubId}/membershipFee(clubId=${clubId})}"
-           class="inline-flex items-center gap-1 bg-[#9933cc] hover:bg-purple-700 text-white text-xs font-semibold py-2 px-4 rounded-lg transition-colors">
-            <span class="material-icons text-sm">add</span>
-            Payer cotisation
+           class="inline-flex items-center gap-1.5 bg-[#9933cc] hover:bg-purple-700 text-white text-sm font-bold py-2.5 px-5 rounded-lg transition-all shadow-sm hover:shadow-md self-stretch sm:self-auto justify-center">
+            <span class="material-icons text-lg">add_circle</span>
+            Payer une cotisation
         </a>
     </div>
 
