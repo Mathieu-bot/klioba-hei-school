@@ -47,7 +47,7 @@ class EventTest {
 
     var event = Event.from("e1", payment, user, creationInstant, "");
 
-    assertInstanceOf(Help.class, event);
+    assertInstanceOf(Withdrawal.class, event);
     assertEquals("e1", event.getId());
     assertEquals(payment, event.getPayment());
     assertEquals(user, event.getUser());
@@ -139,7 +139,7 @@ class EventTest {
             Instant.now());
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     var creationInstant = Instant.now();
-    var help = new Help("h1", oldPayment, user, creationInstant, "");
+    var help = new Withdrawal("h1", oldPayment, user, creationInstant, "");
 
     var newPayment =
         new Payment(
@@ -153,7 +153,7 @@ class EventTest {
 
     var updatedEvent = help.withPayment(newPayment);
 
-    assertInstanceOf(Help.class, updatedEvent);
+    assertInstanceOf(Withdrawal.class, updatedEvent);
     assertEquals("h1", updatedEvent.getId());
     assertEquals(newPayment, updatedEvent.getPayment());
     assertEquals(user, updatedEvent.getUser());
