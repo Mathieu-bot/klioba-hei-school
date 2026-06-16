@@ -1,5 +1,6 @@
 package school.hei.klioba.repository;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,9 @@ public class ClubRepository {
 
   public Optional<Club> findById(String id) {
     return jClubRepository.findById(id).map(jClubMapper::toDomain);
+  }
+
+  public List<Club> findAll() {
+    return jClubRepository.findAll().stream().map(jClubMapper::toDomain).toList();
   }
 }

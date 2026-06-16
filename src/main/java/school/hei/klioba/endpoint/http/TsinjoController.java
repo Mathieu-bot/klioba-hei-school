@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.endpoint.http.model.ThEvent;
 import school.hei.klioba.endpoint.http.model.ThFund;
+import school.hei.klioba.repository.ClubRepository;
+import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
@@ -22,19 +24,35 @@ public class TsinjoController {
 
   private final EventService eventService;
   private final MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
+  private final ClubRepository clubRepository;
   private final MembershipFormService membershipFormService;
+  private final ClubService clubService;
 
   @GetMapping("/")
-  public String home() {
+  public String home(Authentication authentication, Model model) {
+    if (authentication != null && authentication.isAuthenticated()) {
+      var clubs = clubService.getAllClubStats();
+      int totalCotisations = clubs.stream().mapToInt(ClubService.ClubStats::totalCotisations).sum();
+      int totalDepenses =
+          clubs.stream().mapToInt(c -> c.totalCotisations() - c.remainingFund()).sum();
+      int totalRemaining = clubs.stream().mapToInt(ClubService.ClubStats::remainingFund).sum();
+      int totalMembers = clubs.stream().mapToInt(ClubService.ClubStats::members).sum();
+      model.addAttribute("clubs", clubs);
+      model.addAttribute("totalCotisations", totalCotisations);
+      model.addAttribute("totalDepenses", totalDepenses);
+      model.addAttribute("totalRemaining", totalRemaining);
+      model.addAttribute("totalMembers", totalMembers);
+    }
     return "home";
   }
 
-  @GetMapping("/history")
-  public String history(
+  @GetMapping("/history/{clubId}")
+  public String historyByClub(
+      @PathVariable String clubId,
       Model model,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "50") int size) {
-    var events = eventService.findAllWithPaymentResolution();
+    var events = eventService.findAllByClubIdWithPaymentResolution(clubId);
     var thEvents = events.stream().map(ThEvent::new).toList();
     int total = thEvents.size();
     int fromIndex = Math.min(page * size, total);
@@ -44,7 +62,9 @@ public class TsinjoController {
     model.addAttribute("fund", new ThFund(events));
     model.addAttribute("currentPage", page);
     model.addAttribute("totalPages", (int) Math.ceil((double) total / size));
-
+    model.addAttribute("size", size);
+    model.addAttribute("clubId", clubId);
+    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
     return "history";
   }
 
@@ -56,7 +76,7 @@ public class TsinjoController {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
     membershipCreationFormConsumer.accept(membershipCreationForm, email, clubId);
-    return "redirect:/history";
+    return "redirect:/history/" + clubId;
   }
 
   @GetMapping("/club/{clubId}/membershipFee")
@@ -68,6 +88,7 @@ public class TsinjoController {
         membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("clubId", clubId);
     model.addAttribute("membershipForm", membershipForm);
+    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
     return "membership-fee";
   }
 
