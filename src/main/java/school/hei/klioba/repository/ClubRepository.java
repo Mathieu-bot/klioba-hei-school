@@ -17,4 +17,8 @@ public class ClubRepository {
   public List<Club> findAll() {
     return jClubRepository.findAll().stream().map(jClubMapper::toDomain).toList();
   }
+
+  public Club findById(String id) {
+    return jClubRepository.findById(id).map(jClubMapper::toDomain).orElseThrow();
+  }
 }
