@@ -52,7 +52,7 @@ public class MembershipFormServiceTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
-    MembershipFee donation = new MembershipFee("d1", payment, user, Instant.now());
+    MembershipFee donation = new MembershipFee("d1", payment, user, null, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
@@ -78,7 +78,7 @@ public class MembershipFormServiceTest {
             Instant.now().minusSeconds(3600),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
     MembershipFee donation1 =
-        new MembershipFee("d1", payment1, user1, Instant.now().minusSeconds(3600));
+        new MembershipFee("d1", payment1, user1, null, Instant.now().minusSeconds(3600));
 
     User user2 = new User("2", "Tiavina", "Andriamamivony", email);
     Payment payment2 =
@@ -90,7 +90,7 @@ public class MembershipFormServiceTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
-    MembershipFee donation2 = new MembershipFee("d2", payment2, user2, Instant.now());
+    MembershipFee donation2 = new MembershipFee("d2", payment2, user2, null, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));
 

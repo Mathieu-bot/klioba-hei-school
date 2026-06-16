@@ -23,7 +23,7 @@ class DonationTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
 
-    var donation = new MembershipFee("d1", payment, user, creationInstant);
+    var donation = new MembershipFee("d1", payment, user, null, creationInstant);
 
     assertNotNull(donation);
     assertEquals("d1", donation.getId());
@@ -45,7 +45,7 @@ class DonationTest {
             Instant.parse("2025-08-11T13:51:26.165532Z"),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
     var user = new User("u1", "John", "Doe", "john@example.com");
-    var donation = new MembershipFee("d1", payment, user, Instant.now());
+    var donation = new MembershipFee("d1", payment, user, null, Instant.now());
 
     assertNotNull(donation.toString());
   }

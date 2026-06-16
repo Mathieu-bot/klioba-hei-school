@@ -61,7 +61,7 @@ class TsinjoControllerTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.now());
-    MembershipFee donation = new MembershipFee("d1", payment, user, Instant.now());
+    MembershipFee donation = new MembershipFee("d1", payment, user, null, Instant.now());
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
@@ -89,11 +89,11 @@ class TsinjoControllerTest {
 
     List<school.hei.klioba.model.Event> events =
         List.of(
-            new MembershipFee("d1", payment, user, Instant.now()),
-            new MembershipFee("d2", payment, user, Instant.now()),
-            new MembershipFee("d3", payment, user, Instant.now()),
-            new MembershipFee("d4", payment, user, Instant.now()),
-            new MembershipFee("d5", payment, user, Instant.now()));
+            new MembershipFee("d1", payment, user, null, Instant.now()),
+            new MembershipFee("d2", payment, user, null, Instant.now()),
+            new MembershipFee("d3", payment, user, null, Instant.now()),
+            new MembershipFee("d4", payment, user, null, Instant.now()),
+            new MembershipFee("d5", payment, user, null, Instant.now()));
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(events);
 
@@ -130,11 +130,11 @@ class TsinjoControllerTest {
     var prefilledForm = new MembershipCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
-    var result = controller.donate(authentication, model);
+    var result = controller.membershipFee("club1", authentication, model);
 
-    assertEquals("donate", result);
+    assertEquals("membership-fee", result);
     verify(membershipFormService).getPrefilledDonationForm(email);
-    verify(model).addAttribute("donationForm", prefilledForm);
+    verify(model).addAttribute("membershipForm", prefilledForm);
   }
 
   @Test
