@@ -1,0 +1,75 @@
+package school.hei.klioba.service;
+
+import static java.time.Instant.now;
+import static java.util.UUID.randomUUID;
+import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
+import school.hei.klioba.model.Event;
+import school.hei.klioba.model.User;
+import school.hei.klioba.model.psp.PspType;
+import school.hei.klioba.model.psp.vola.VolaPsp;
+import school.hei.klioba.repository.ClubRepository;
+import school.hei.klioba.repository.EventRepository;
+import school.hei.klioba.repository.PaymentRepository;
+import school.hei.klioba.repository.UserRepository;
+
+@Service
+@AllArgsConstructor
+@Slf4j
+public class MembershipFeeCreationFormConsumer {
+  private final UserRepository userRepository;
+  private final ClubRepository clubRepository;
+  private final PaymentRepository paymentRepository;
+  private final EventRepository eventRepository;
+  private final VolaPsp volaPsp;
+
+  @Transactional
+  public void accept(MembershipFeeCreationForm form, String email, String clubId) {
+    try {
+      if (paymentRepository.findByPspId(form.pspId()).isPresent()) {
+        throw new IllegalArgumentException("pspId already exists");
+      } else if (!isPspIdFormat(form.pspId())) {
+        throw new IllegalArgumentException("pspId format incorrect format");
+      }
+
+      var paymentCreatedInVola =
+          volaPsp.create(randomUUID().toString(), pspType(), form.pspId(), email);
+      var payment = paymentRepository.save(paymentCreatedInVola);
+      var user = userFrom(form, email);
+      var club =
+          clubRepository
+              .findById(clubId)
+              .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
+      eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
+      assignUserToClub(user, clubId);
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+  }
+
+  private static PspType pspType() {
+    return switch (PspType.values()[0]) {
+      case ORANGE_MONEY -> ORANGE_MONEY;
+    };
+  }
+
+  private void assignUserToClub(User user, String clubId) {
+    userRepository.addClubToUser(user.getId(), clubId);
+  }
+
+  private User userFrom(MembershipFeeCreationForm form, String email) {
+    return userRepository.saveIfEmailNotExist(form.firstName(), form.lastName(), email);
+  }
+
+  public boolean isPspIdFormat(String pspId) {
+    if (pspId == null) {
+      return false;
+    }
+    return pspId.matches("^MP\\d{6}\\.\\d{4}\\.[A-Z]\\d{5}$");
+  }
+}
