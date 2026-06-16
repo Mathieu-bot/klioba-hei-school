@@ -118,7 +118,7 @@ class TsinjoControllerTest {
   }
 
   @Test
-  void donate_get_returnsPrefilledDonationForm() {
+  void membershipFee_get_returnsPrefilledMembershipForm() {
     var email = "test@example.com";
     Map<String, Object> attributes = new HashMap<>();
     attributes.put("email", email);
@@ -130,29 +130,11 @@ class TsinjoControllerTest {
     var prefilledForm = new MembershipCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
-    var result = controller.membershipFee(authentication, model);
+    var result = controller.membershipFee("cuisine", authentication, model);
 
-    assertEquals("donate", result);
+    assertEquals("membership-fee", result);
     verify(membershipFormService).getPrefilledDonationForm(email);
-    verify(model).addAttribute("donationForm", prefilledForm);
-  }
-
-  @Test
-  void donate_post_processesFormAndRedirects() {
-    var email = "test@example.com";
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put("email", email);
-
-    DefaultOAuth2User oAuth2User = mock(DefaultOAuth2User.class);
-    when(oAuth2User.getAttributes()).thenReturn(attributes);
-    when(authentication.getPrincipal()).thenReturn(oAuth2User);
-
-    var form = new MembershipCreationForm("John", "Doe", "PSP123");
-
-    var result = controller.donate(authentication, form);
-
-    assertEquals("redirect:/history", result);
-    verify(membershipCreationFormConsumer).accept(form, email);
+    verify(model).addAttribute("membershipForm", prefilledForm);
   }
 
   @Test

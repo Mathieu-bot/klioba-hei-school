@@ -44,7 +44,7 @@ class EventServiceIT extends FacadeIT {
     var verifyingVolaPayment = aVolaPayment(VERIFYING);
     when(volaClientMock.create(any(), eq(ref1), eq(newEmail))).thenReturn(verifyingVolaPayment);
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
+        new MembershipCreationForm("Lou", "Andria", ref1), newEmail, "cuisine");
 
     // Just after creation, we simulate that Vola still replies with VERIFYING
     when(volaClientMock.get(any(), any(), any())).thenReturn(verifyingVolaPayment);

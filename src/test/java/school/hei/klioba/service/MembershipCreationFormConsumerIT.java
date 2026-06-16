@@ -28,8 +28,8 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
     var newEmail = randomUUID() + "@cute.dev";
 
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", ref1), newEmail);
-    membershipCreationFormConsumer.accept(new MembershipCreationForm(null, null, ref2), newEmail);
+        new MembershipCreationForm("Lou", "Andria", ref1), newEmail, "cuisine");
+    membershipCreationFormConsumer.accept(new MembershipCreationForm(null, null, ref2), newEmail, "cuisine");
 
     var events = eventService.findAllWithPaymentResolution();
     assertEquals(2, events.size());
@@ -59,13 +59,13 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
     String pspId = generateValidPspId();
 
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", pspId), "lou@cute.dev");
+        new MembershipCreationForm("Lou", "Andria", pspId), "lou@cute.dev", "cuisine");
 
     assertThrows(
         IllegalArgumentException.class,
         () ->
             membershipCreationFormConsumer.accept(
-                new MembershipCreationForm(null, null, pspId), "lou@cute.dev"));
+                new MembershipCreationForm(null, null, pspId), "lou@cute.dev", "cuisine"));
   }
 
   @Test
@@ -76,6 +76,6 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
         IllegalArgumentException.class,
         () ->
             membershipCreationFormConsumer.accept(
-                new MembershipCreationForm("Lou", "Andria", invalidPspId), "lou@cute.dev"));
+                new MembershipCreationForm("Lou", "Andria", invalidPspId), "lou@cute.dev", "cuisine"));
   }
 }
