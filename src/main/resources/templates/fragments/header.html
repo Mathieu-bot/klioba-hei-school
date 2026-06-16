@@ -4,12 +4,11 @@
         <nav sec:authorize="isAuthenticated()" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <i class="material-icons text-xl sm:text-2xl">business_center</i>
-                <span class="text-xl sm:text-2xl font-bold">Tsinjo</span>
+                <span class="text-xl sm:text-2xl font-bold">Klioba</span>
             </div>
 
-            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
-                <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/', 'Clubs', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
 
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center gap-2 text-white">
@@ -20,16 +19,14 @@
                 </div>
             </div>
 
-            <!-- Mobile Menu Button -->
             <button class="md:hidden focus:outline-none p-2" id="mobile-menu-button" aria-label="Toggle menu">
                 <span class="material-icons">menu</span>
             </button>
         </nav>
 
-        <!-- Mobile Menu - Authenticated -->
         <div sec:authorize="isAuthenticated()" class="hidden md:hidden px-4 sm:px-6 pt-2 pb-4" id="mobile-menu">
             <div class="space-y-2">
-                <th:block th:replace="fragments/nav :: nav('/history', 'Historique', '', '', 'block py-3 hover:text-[#9933cc] transition-colors text-base')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/', 'Clubs', '', '', 'block py-3 hover:text-[#9933cc] transition-colors text-base')"></th:block>
 
                 <div class="pt-4 border-t border-gray-600 space-y-3">
                     <div class="flex items-center gap-2 text-white py-2">
@@ -41,26 +38,22 @@
             </div>
         </div>
 
-        <!-- Anonymous Header -->
         <nav sec:authorize="isAnonymous()" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <i class="material-icons text-xl sm:text-2xl">business_center</i>
-                <span class="text-xl sm:text-2xl font-bold">Tsinjo</span>
+                <span class="text-xl sm:text-2xl font-bold">Klioba</span>
             </div>
 
-            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
                 <a class="hover:text-[#9933cc] transition-colors" href="#contact">Contact</a>
                 <th:block th:replace="fragments/nav :: nav('/oauth2/authorization/casdoor', 'Log in', '', 'bg-[#9933cc]', 'hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-colors')"></th:block>
             </div>
 
-            <!-- Mobile Menu Button -->
             <button class="md:hidden focus:outline-none p-2" aria-label="Toggle menu">
                 <span class="material-icons">menu</span>
             </button>
         </nav>
 
-        <!-- Mobile Menu - Anonymous -->
         <div sec:authorize="isAnonymous()" class="hidden md:hidden px-4 sm:px-6 pt-2 pb-4" id="mobile-menu-anonymous">
             <div class="space-y-2">
                 <a class="block py-3 hover:text-[#9933cc] transition-colors text-base" href="#about">À Propos</a>

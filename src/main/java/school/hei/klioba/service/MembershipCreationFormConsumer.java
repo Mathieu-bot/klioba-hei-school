@@ -39,7 +39,7 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
         volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
     var user = userFrom(donationCreationForm, email);
-    eventRepository.save(Event.from(randomUUID().toString(), payment, user, now(), ""));
+    eventRepository.save(Event.from(randomUUID().toString(), payment, user, null, now(), ""));
   }
 
   private static PspType pspType() {
