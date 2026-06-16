@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.endpoint.http.model.ThEvent;
 import school.hei.klioba.endpoint.http.model.ThFund;
 import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
-import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
 @Controller
@@ -23,7 +23,7 @@ public class KliobaController {
 
   private final EventService eventService;
   private final ClubService clubService;
-  private final MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private final MembershipFeeCreationFormConsumer membershipFeeCreationFormConsumer;
   private final MembershipFormService membershipFormService;
 
   @GetMapping("/")
@@ -74,14 +74,6 @@ public class KliobaController {
     return "history";
   }
 
-  @PostMapping("/donate")
-  public String donate(Authentication authentication, MembershipCreationForm donationCreationForm) {
-    var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
-    var email = defaultOAuth2User.getAttributes().get("email").toString();
-    membershipCreationFormConsumer.accept(donationCreationForm, email);
-    return "redirect:/history";
-  }
-
   @GetMapping("/clubs/{clubId}")
   public String showClubDetail(@PathVariable String clubId, Model model) {
     var club = clubService.findById(clubId);
@@ -93,25 +85,27 @@ public class KliobaController {
     return "clubDetail";
   }
 
-  @GetMapping("/clubs/{clubId}/membershipFee")
-  public String showPayForm(
+  @PostMapping("/club/{clubId}/membershipFee")
+  public String membershipFee(
       @PathVariable String clubId,
-      @RequestParam(defaultValue = "") String email,
-      Model model) {
+      Authentication authentication,
+      MembershipFeeCreationForm membershipFeeCreationForm) {
+    var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
+    var email = defaultOAuth2User.getAttributes().get("email").toString();
+    membershipFeeCreationFormConsumer.accept(membershipFeeCreationForm, email, clubId);
+    return "redirect:/history";
+  }
+
+  @GetMapping("/club/{clubId}/membershipFee")
+  public String showMembershipFeeForm(
+      @PathVariable String clubId, Authentication authentication, Model model) {
+    var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+    var email = defaultOAuth2User.getAttributes().get("email").toString();
     var club = clubService.findById(clubId);
     var form = membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("club", club);
-    model.addAttribute("form", form);
-    return "membershipFeeForm";
-  }
-
-  @PostMapping("/clubs/{clubId}/membershipFee")
-  public String submitPay(
-      @PathVariable String clubId,
-      MembershipCreationForm membershipCreationForm,
-      @RequestParam String email) {
-    membershipCreationFormConsumer.accept(membershipCreationForm, email);
-    return "redirect:/history/" + clubId;
+    model.addAttribute("membershipForm", form);
+    return "membership-fee";
   }
 
   @GetMapping("/logout")
