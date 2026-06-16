@@ -7,10 +7,10 @@ import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import school.hei.klioba.model.psp.PspType;
 
-class HelpTest {
+class WithdrawalTest {
 
   @Test
-  void help_creation_succeeds() {
+  void withdrawal_creation_succeeds() {
     var payment =
         new Payment(
             "p1",
@@ -23,17 +23,17 @@ class HelpTest {
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     Instant creationInstant = Instant.now();
 
-    var help = new Withdrawal("h1", payment, user, null, creationInstant, "");
+    var withdrawal = new Withdrawal("h1", payment, user, null, creationInstant, "");
 
-    assertNotNull(help);
-    assertEquals("h1", help.getId());
-    assertEquals(payment, help.getPayment());
-    assertEquals(user, help.getUser());
-    assertEquals(creationInstant, help.getCreationInstant());
+    assertNotNull(withdrawal);
+    assertEquals("h1", withdrawal.getId());
+    assertEquals(payment, withdrawal.getPayment());
+    assertEquals(user, withdrawal.getUser());
+    assertEquals(creationInstant, withdrawal.getCreationInstant());
   }
 
   @Test
-  void help_toString_works() {
+  void withdrawal_toString_works() {
     // Arrange
     var payment =
         new Payment(
@@ -45,8 +45,8 @@ class HelpTest {
             Instant.parse("2025-08-11T13:51:26.165532Z"),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
-    var help = new Withdrawal("h1", payment, user, null, Instant.now(), "");
+    var withdrawal = new Withdrawal("h1", payment, user, null, Instant.now(), "");
 
-    assertNotNull(help.toString());
+    assertNotNull(withdrawal.toString());
   }
 }
