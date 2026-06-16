@@ -130,7 +130,7 @@ class TsinjoControllerTest {
     var prefilledForm = new MembershipCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
-    var result = controller.donate(authentication, model);
+    var result = controller.membershipFee(authentication, model);
 
     assertEquals("donate", result);
     verify(membershipFormService).getPrefilledDonationForm(email);

@@ -19,7 +19,7 @@ import school.hei.klioba.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
-public class MembershipCreationFormConsumer implements BiConsumer<MembershipCreationForm, String> {
+public class MembershipCreationFormConsumer {
   private final UserRepository userRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
@@ -27,13 +27,13 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
   private final VolaPsp volaPsp;
 
   @Transactional
-  @Override
-  public void accept(MembershipCreationForm donationCreationForm, String email) {
+  public void accept(MembershipCreationForm donationCreationForm, String email, String clubId) {
     if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
       throw new IllegalArgumentException("pspId already exists");
     } else if (!isPspIdFormat(donationCreationForm.pspId())) {
       throw new IllegalArgumentException("pspId format incorrect format");
     }
+
 
     var paymentCreatedInVola =
         volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
