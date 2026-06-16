@@ -26,30 +26,29 @@ public class MembershipFeeCreationFormConsumer {
   private final ClubRepository clubRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
+
   private final VolaPsp volaPsp;
 
   @Transactional
-  public void accept(MembershipFeeCreationForm form, String email, String clubId) {
-    try {
-      if (paymentRepository.findByPspId(form.pspId()).isPresent()) {
-        throw new IllegalArgumentException("pspId already exists");
-      } else if (!isPspIdFormat(form.pspId())) {
-        throw new IllegalArgumentException("pspId format incorrect format");
-      }
-
-      var paymentCreatedInVola =
-          volaPsp.create(randomUUID().toString(), pspType(), form.pspId(), email);
-      var payment = paymentRepository.save(paymentCreatedInVola);
-      var user = userFrom(form, email);
-      var club =
-          clubRepository
-              .findById(clubId)
-              .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
-      eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
-      assignUserToClub(user, clubId);
-    } catch (Exception e) {
-      log.error(e.getMessage());
+  public void accept(
+      MembershipFeeCreationForm membershipFeeCreationForm, String email, String clubId) {
+    if (paymentRepository.findByPspId(membershipFeeCreationForm.pspId()).isPresent()) {
+      throw new IllegalArgumentException("pspId already exists");
+    } else if (!isPspIdFormat(membershipFeeCreationForm.pspId())) {
+      throw new IllegalArgumentException("pspId format incorrect format");
     }
+
+    var paymentCreatedInVola =
+        volaPsp.create(
+            randomUUID().toString(), pspType(), membershipFeeCreationForm.pspId(), email);
+    var payment = paymentRepository.save(paymentCreatedInVola);
+    var user = userFrom(membershipFeeCreationForm, email);
+    var club =
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
+    eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
+    assignUserToClub(user, clubId);
   }
 
   private static PspType pspType() {
@@ -62,8 +61,9 @@ public class MembershipFeeCreationFormConsumer {
     userRepository.addClubToUser(user.getId(), clubId);
   }
 
-  private User userFrom(MembershipFeeCreationForm form, String email) {
-    return userRepository.saveIfEmailNotExist(form.firstName(), form.lastName(), email);
+  private User userFrom(MembershipFeeCreationForm membershipFeeCreationForm, String email) {
+    return userRepository.saveIfEmailNotExist(
+        membershipFeeCreationForm.firstName(), membershipFeeCreationForm.lastName(), email);
   }
 
   public boolean isPspIdFormat(String pspId) {

@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.MembershipFee;
-import school.hei.klioba.model.Club;
 import school.hei.klioba.repository.ClubRepository;
 
 @Service
@@ -23,14 +22,6 @@ public class ClubService {
   public List<ClubStats> getAllClubStats() {
     return clubRepository.findAll().stream().map(this::computeStats).toList();
   }
-
-public List<Club> findAll() {
-    return clubRepository.findAll();
-}
-
-  public Club findById(String id) {
-    return clubRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Club not found: " + id));
 
   private ClubStats computeStats(school.hei.klioba.model.Club club) {
     var events = eventService.findAllByClubIdWithPaymentResolution(club.getId());
@@ -48,13 +39,8 @@ public List<Club> findAll() {
             .filter(p -> CONFIRMED.equals(p.status()))
             .mapToInt(p -> Math.abs(Math.min(0, p.amount() == null ? 0 : p.amount())))
             .sum();
-    long members =
-        events.stream().map(e -> e.getUser().getEmail()).distinct().count();
+    long members = events.stream().map(e -> e.getUser().getEmail()).distinct().count();
     return new ClubStats(
-        club.getId(),
-        club.getName(),
-        totalCotisations,
-        (int) members,
-        totalCotisations - depenses);
+        club.getId(), club.getName(), totalCotisations, (int) members, totalCotisations - depenses);
   }
 }

@@ -17,18 +17,23 @@
 <div th:replace="fragments/header :: header"></div>
 
 <!-- Unauthenticated -->
-<div sec:authorize="isAnonymous()" class="min-h-screen flex items-center justify-center bg-[#16163f]">
-    <div class="text-center px-6">
-        <div class="text-white mb-6">
-            <i class="material-icons text-6xl mb-4">business_center</i>
-            <h1 class="text-3xl sm:text-4xl font-bold mb-3">Klioba</h1>
-            <p class="text-lg text-gray-300 mb-8">Connectez-vous pour accéder aux clubs HEI</p>
+<div sec:authorize="isAnonymous()" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#16163f] via-[#1a1a4e] to-[#2a1a3e]">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-[#9933cc] opacity-10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-purple-500 opacity-10 rounded-full blur-3xl"></div>
+    </div>
+    <div class="text-center px-6 relative z-10">
+        <div class="text-white mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">Klioba</h1>
+            <p class="text-lg sm:text-xl text-gray-300 max-w-md mx-auto leading-relaxed">Gérez les cotisations de votre club HEI simplement et en toute transparence.</p>
         </div>
-        <a href="/oauth2/authorization/casdoor"
-           class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors inline-flex items-center gap-2">
-            <i class="material-icons">login</i>
-            <span>Se connecter</span>
-        </a>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/oauth2/authorization/casdoor"
+               class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all transform hover:scale-105 inline-flex items-center gap-2 shadow-lg shadow-purple-500/25">
+                <i class="material-icons">login</i>
+                <span>Se connecter</span>
+            </a>
+        </div>
     </div>
 </div>
 

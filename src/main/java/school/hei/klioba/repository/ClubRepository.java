@@ -15,17 +15,11 @@ public class ClubRepository {
   private final JClubRepository jClubRepository;
   private final JClubMapper jClubMapper;
 
-  public List<Club> findAll() {
-    return jClubRepository.findAll().stream()
-        .map(jClubMapper::toDomain)
-        .toList();
-  }
-
   public Optional<Club> findById(String id) {
     return jClubRepository.findById(id).map(jClubMapper::toDomain);
   }
 
-  public boolean existsById(String id) {
-    return jClubRepository.existsById(id);
+  public List<Club> findAll() {
+    return jClubRepository.findAll().stream().map(jClubMapper::toDomain).toList();
   }
 }
