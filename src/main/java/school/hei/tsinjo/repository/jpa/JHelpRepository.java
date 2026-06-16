@@ -1,0 +1,11 @@
+package school.hei.tsinjo.repository.jpa;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import school.hei.tsinjo.repository.jpa.model.JEvent;
+
+@Repository
+public interface JHelpRepository extends JpaRepository<JEvent, String> {
+    List<JEvent> findAllByOrderByCreationInstantDesc();
+}
