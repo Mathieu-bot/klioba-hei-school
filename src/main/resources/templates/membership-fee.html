@@ -79,7 +79,7 @@
             <p class="text-xs sm:text-sm mt-1" style="color: hsl(var(--muted-foreground));">Remplissez ces informations après votre paiement</p>
         </div>
 
-        <form th:object="${membershipForm}" class="max-w-md mx-auto">
+        <form th:object="${membershipForm}" method="post" class="max-w-md mx-auto">
             <div class="mb-4 sm:mb-5">
                 <label class="block text-xs sm:text-sm font-bold mb-2" for="pspId" style="color: hsl(var(--foreground));">
                     <i class="material-icons text-xs mr-1" style="color: hsl(var(--muted-foreground));">receipt</i>

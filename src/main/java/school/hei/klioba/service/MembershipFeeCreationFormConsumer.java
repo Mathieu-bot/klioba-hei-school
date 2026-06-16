@@ -6,6 +6,8 @@ import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Event;
@@ -19,6 +21,7 @@ import school.hei.klioba.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MembershipFeeCreationFormConsumer {
   private final UserRepository userRepository;
   private final ClubRepository clubRepository;
@@ -29,7 +32,8 @@ public class MembershipFeeCreationFormConsumer {
 
   @Transactional
   public void accept(MembershipFeeCreationForm membershipFeeCreationForm, String email, String clubId) {
-    if (paymentRepository.findByPspId(membershipFeeCreationForm.pspId()).isPresent()) {
+      try {
+              if (paymentRepository.findByPspId(membershipFeeCreationForm.pspId()).isPresent()) {
       throw new IllegalArgumentException("pspId already exists");
     } else if (!isPspIdFormat(membershipFeeCreationForm.pspId())) {
       throw new IllegalArgumentException("pspId format incorrect format");
@@ -45,6 +49,10 @@ public class MembershipFeeCreationFormConsumer {
             .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
     eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
     assignUserToClub(user, clubId);
+
+      } catch (Exception e) {
+          log.error(e.getMessage());
+      }
   }
 
   private static PspType pspType() {
