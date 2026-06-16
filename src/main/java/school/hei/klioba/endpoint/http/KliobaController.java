@@ -20,7 +20,7 @@ import school.hei.klioba.service.MembershipFormService;
 
 @Controller
 @AllArgsConstructor
-public class TsinjoController {
+public class KliobaController {
 
   private final EventService eventService;
   private final MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
@@ -64,7 +64,12 @@ public class TsinjoController {
     model.addAttribute("totalPages", (int) Math.ceil((double) total / size));
     model.addAttribute("size", size);
     model.addAttribute("clubId", clubId);
-    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
+    model.addAttribute(
+        "clubName",
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .getName());
     return "history";
   }
 
@@ -88,7 +93,12 @@ public class TsinjoController {
         membershipFormService.getPrefilledDonationForm(email);
     model.addAttribute("clubId", clubId);
     model.addAttribute("membershipForm", membershipForm);
-    model.addAttribute("clubName", clubRepository.findById(clubId).orElseThrow(() -> new IllegalArgumentException("This doesn't exist")).getName());
+    model.addAttribute(
+        "clubName",
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .getName());
     return "membership-fee";
   }
 

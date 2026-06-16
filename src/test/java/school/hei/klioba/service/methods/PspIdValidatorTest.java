@@ -7,7 +7,7 @@ import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 
 public class PspIdValidatorTest {
   private final MembershipFeeCreationFormConsumer consumer =
-      new MembershipFeeCreationFormConsumer(null, null, null, null);
+      new MembershipFeeCreationFormConsumer(null, null, null, null, null);
 
   @Test
   void validPspIds_shouldReturnTrue() {

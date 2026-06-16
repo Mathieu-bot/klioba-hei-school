@@ -13,21 +13,26 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
+import school.hei.klioba.repository.ClubRepository;
+import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
-class TsinjoControllerTest {
+class KliobaControllerTest {
 
-  private TsinjoController controller;
+  private KliobaController controller;
   private EventService eventService;
   private MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
+  private ClubRepository clubRepository;
   private MembershipFormService membershipFormService;
+  private ClubService clubService;
   private Model model;
   private Authentication authentication;
 
@@ -35,22 +40,46 @@ class TsinjoControllerTest {
   void setUp() {
     eventService = mock(EventService.class);
     membershipCreationFormConsumer = mock(MembershipFeeCreationFormConsumer.class);
+    clubRepository = mock(ClubRepository.class);
     membershipFormService = mock(MembershipFormService.class);
+    clubService = mock(ClubService.class);
     model = mock(Model.class);
     authentication = mock(Authentication.class);
 
     controller =
-        new TsinjoController(eventService, membershipCreationFormConsumer, membershipFormService);
+        new KliobaController(
+            eventService,
+            membershipCreationFormConsumer,
+            clubRepository,
+            membershipFormService,
+            clubService);
   }
 
   @Test
   void home_returnsHomeView() {
-    String result = controller.home();
+    when(authentication.isAuthenticated()).thenReturn(true);
+    var clubs = List.of(new ClubService.ClubStats("c1", "Club 1", 1000, 5, 800));
+    when(clubService.getAllClubStats()).thenReturn(clubs);
+
+    String result = controller.home(authentication, model);
+
     assertEquals("home", result);
+    verify(model).addAttribute(eq("clubs"), eq(clubs));
   }
 
   @Test
-  void history_withDefaultPagination_returnsHistoryView() {
+  void home_whenNotAuthenticated_returnsHomeView() {
+    when(authentication.isAuthenticated()).thenReturn(false);
+
+    String result = controller.home(authentication, model);
+
+    assertEquals("home", result);
+    verify(model, never()).addAttribute(anyString(), any());
+  }
+
+  @Test
+  void historyByClub_withDefaultPagination_returnsHistoryView() {
+    var club = new Club("c1", "Club 1");
     var user = new User("1", "John", "Doe", "john@example.com");
     var payment =
         new Payment(
@@ -61,11 +90,12 @@ class TsinjoControllerTest {
             PaymentStatus.CONFIRMED,
             Instant.now(),
             Instant.now());
-    MembershipFee donation = new MembershipFee("d1", payment, user, Instant.now());
+    MembershipFee donation = new MembershipFee("d1", payment, user, club, Instant.now());
 
-    when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
+    when(clubRepository.findById("c1")).thenReturn(java.util.Optional.of(club));
+    when(eventService.findAllByClubIdWithPaymentResolution("c1")).thenReturn(List.of(donation));
 
-    String result = controller.history(model, 0, 50);
+    String result = controller.historyByClub("c1", model, 0, 50);
 
     assertEquals("history", result);
     verify(model).addAttribute(eq("events"), anyList());
@@ -75,7 +105,8 @@ class TsinjoControllerTest {
   }
 
   @Test
-  void history_withCustomPagination_returnsPagedEvents() {
+  void historyByClub_withCustomPagination_returnsPagedEvents() {
+    var club = new Club("c1", "Club 1");
     var user = new User("1", "John", "Doe", "john@example.com");
     var payment =
         new Payment(
@@ -89,32 +120,21 @@ class TsinjoControllerTest {
 
     List<school.hei.klioba.model.Event> events =
         List.of(
-            new MembershipFee("d1", payment, user, Instant.now()),
-            new MembershipFee("d2", payment, user, Instant.now()),
-            new MembershipFee("d3", payment, user, Instant.now()),
-            new MembershipFee("d4", payment, user, Instant.now()),
-            new MembershipFee("d5", payment, user, Instant.now()));
+            new MembershipFee("d1", payment, user, club, Instant.now()),
+            new MembershipFee("d2", payment, user, club, Instant.now()),
+            new MembershipFee("d3", payment, user, club, Instant.now()),
+            new MembershipFee("d4", payment, user, club, Instant.now()),
+            new MembershipFee("d5", payment, user, club, Instant.now()));
 
-    when(eventService.findAllWithPaymentResolution()).thenReturn(events);
+    when(clubRepository.findById("c1")).thenReturn(java.util.Optional.of(club));
+    when(eventService.findAllByClubIdWithPaymentResolution("c1")).thenReturn(events);
 
-    var result = controller.history(model, 1, 2);
+    var result = controller.historyByClub("c1", model, 1, 2);
 
     assertEquals("history", result);
     verify(model).addAttribute(eq("events"), anyList());
     verify(model).addAttribute("currentPage", 1);
     verify(model).addAttribute("totalPages", 3);
-  }
-
-  @Test
-  void history_withEmptyEvents_returnsEmptyHistory() {
-    when(eventService.findAllWithPaymentResolution()).thenReturn(List.of());
-
-    String result = controller.history(model, 0, 50);
-
-    assertEquals("history", result);
-    verify(model).addAttribute(eq("events"), anyList());
-    verify(model).addAttribute("currentPage", 0);
-    verify(model).addAttribute("totalPages", 0);
   }
 
   @Test
@@ -126,6 +146,9 @@ class TsinjoControllerTest {
     DefaultOAuth2User oAuth2User = mock(DefaultOAuth2User.class);
     when(oAuth2User.getAttributes()).thenReturn(attributes);
     when(authentication.getPrincipal()).thenReturn(oAuth2User);
+
+    var club = new Club("cuisine", "Club Cuisine");
+    when(clubRepository.findById("cuisine")).thenReturn(java.util.Optional.of(club));
 
     var prefilledForm = new MembershipFeeCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);

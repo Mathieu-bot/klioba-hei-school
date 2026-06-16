@@ -30,7 +30,7 @@ class ThEventAdditionalTest {
     var thEvent =
         new ThEvent(
             new MembershipFee(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: inconnu, récupéré le"
@@ -56,7 +56,7 @@ class ThEventAdditionalTest {
     var thEvent =
         new ThEvent(
             new Withdrawal(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals("yellow", thEvent.color());
   }
@@ -78,7 +78,7 @@ class ThEventAdditionalTest {
     var thEvent =
         new ThEvent(
             new MembershipFee(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals("black", thEvent.color());
   }
@@ -100,7 +100,12 @@ class ThEventAdditionalTest {
     var thEvent =
         new ThEvent(
             new Withdrawal(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), "OUT"));
+                "eventId",
+                payment,
+                user,
+                null,
+                Instant.parse("2025-08-11T13:51:16.165532Z"),
+                "OUT"));
 
     assertEquals(
         "2025-08-11 16:51:16, -500 Ar. Pour Alice Smith<alice@example.com>. ", thEvent.toString());
