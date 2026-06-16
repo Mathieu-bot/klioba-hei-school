@@ -9,10 +9,12 @@ import java.util.function.BiConsumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
 import school.hei.klioba.model.psp.vola.VolaPsp;
+import school.hei.klioba.repository.ClubRepository;
 import school.hei.klioba.repository.EventRepository;
 import school.hei.klioba.repository.PaymentRepository;
 import school.hei.klioba.repository.UserRepository;
@@ -23,23 +25,24 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
   private final UserRepository userRepository;
   private final PaymentRepository paymentRepository;
   private final EventRepository eventRepository;
-
+  private final ClubRepository clubRepository;
   private final VolaPsp volaPsp;
 
   @Transactional
   @Override
-  public void accept(MembershipCreationForm donationCreationForm, String email) {
-    if (paymentRepository.findByPspId(donationCreationForm.pspId()).isPresent()) {
+  public void accept(MembershipCreationForm form, String email) {
+    if (paymentRepository.findByPspId(form.pspId()).isPresent()) {
       throw new IllegalArgumentException("pspId already exists");
-    } else if (!isPspIdFormat(donationCreationForm.pspId())) {
+    } else if (!isPspIdFormat(form.pspId())) {
       throw new IllegalArgumentException("pspId format incorrect format");
     }
 
     var paymentCreatedInVola =
-        volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
+        volaPsp.create(randomUUID().toString(), pspType(), form.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
-    var user = userFrom(donationCreationForm, email);
-    eventRepository.save(Event.from(randomUUID().toString(), payment, user, null, now(), ""));
+    var user = userFrom(form, email);
+    eventRepository.save(
+        Event.from(randomUUID().toString(), payment, user, null, now(), ""));
   }
 
   private static PspType pspType() {
@@ -48,9 +51,9 @@ public class MembershipCreationFormConsumer implements BiConsumer<MembershipCrea
     };
   }
 
-  private User userFrom(MembershipCreationForm donationCreationForm, String email) {
+  private User userFrom(MembershipCreationForm form, String email) {
     return userRepository.saveIfEmailNotExist(
-        donationCreationForm.firstName(), donationCreationForm.lastName(), email);
+        form.firstName(), form.lastName(), email);
   }
 
   public boolean isPspIdFormat(String pspId) {
