@@ -8,4 +8,6 @@ import school.hei.klioba.repository.jpa.model.JEvent;
 @Repository
 public interface JEventRepository extends JpaRepository<JEvent, String> {
   List<JEvent> findAllByOrderByCreationInstantDesc();
+
+  List<JEvent> findAllByClubIdOrderByCreationInstantDesc(String clubId);
 }

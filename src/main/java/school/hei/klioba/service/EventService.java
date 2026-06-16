@@ -24,6 +24,12 @@ public class EventService {
         .toList();
   }
 
+  public List<Event> findAllByClubIdWithPaymentResolution(String clubId) {
+    return eventRepository.findAllByClubIdOrderByCreationInstantDesc(clubId).stream()
+        .map(this::resolvePayment)
+        .toList();
+  }
+
   private Event resolvePayment(Event event) {
     var payment = event.getPayment();
     if (!VERIFYING.equals(payment.status())) {
