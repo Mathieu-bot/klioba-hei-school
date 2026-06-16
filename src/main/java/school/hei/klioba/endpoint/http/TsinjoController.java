@@ -49,7 +49,10 @@ public class TsinjoController {
   }
 
   @PostMapping("/club/{clubId}/membershipFee")
-  public String membershipFee(@RequestParam String clubId, Authentication authentication, MembershipCreationForm membershipCreationForm) {
+  public String membershipFee(
+      @RequestParam String clubId,
+      Authentication authentication,
+      MembershipCreationForm membershipCreationForm) {
     var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal());
     var email = defaultOAuth2User.getAttributes().get("email").toString();
     membershipCreationFormConsumer.accept(membershipCreationForm, email, clubId);

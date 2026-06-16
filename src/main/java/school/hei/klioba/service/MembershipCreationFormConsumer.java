@@ -5,7 +5,6 @@ import static java.util.UUID.randomUUID;
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
-import java.util.function.BiConsumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
@@ -34,12 +33,15 @@ public class MembershipCreationFormConsumer {
       throw new IllegalArgumentException("pspId format incorrect format");
     }
 
-
     var paymentCreatedInVola =
         volaPsp.create(randomUUID().toString(), pspType(), donationCreationForm.pspId(), email);
     var payment = paymentRepository.save(paymentCreatedInVola);
     var user = userFrom(donationCreationForm, email);
-    eventRepository.save(Event.from(randomUUID().toString(), payment, user, now(), ""));
+    var club =
+        clubRepository
+            .findById(clubId)
+            .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
+    eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
   }
 
   private static PspType pspType() {
