@@ -1,6 +1,7 @@
 package school.hei.klioba.repository;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.klioba.model.Club;
@@ -20,10 +21,8 @@ public class ClubRepository {
         .toList();
   }
 
-  public Club findById(String id) {
-    return jClubRepository.findById(id)
-        .map(jClubMapper::toDomain)
-        .orElseThrow(() -> new RuntimeException("Club not found: " + id));
+  public Optional<Club> findById(String id) {
+    return jClubRepository.findById(id).map(jClubMapper::toDomain);
   }
 
   public boolean existsById(String id) {

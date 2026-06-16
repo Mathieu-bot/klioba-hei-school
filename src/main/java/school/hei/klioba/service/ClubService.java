@@ -28,9 +28,9 @@ public List<Club> findAll() {
     return clubRepository.findAll();
 }
 
-public Club findById(String id) {
-    return clubRepository.findById(id);
-}
+  public Club findById(String id) {
+    return clubRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Club not found: " + id));
 
   private ClubStats computeStats(school.hei.klioba.model.Club club) {
     var events = eventService.findAllByClubIdWithPaymentResolution(club.getId());
