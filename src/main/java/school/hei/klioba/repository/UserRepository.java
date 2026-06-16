@@ -5,6 +5,7 @@ import static java.util.UUID.randomUUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.klioba.model.User;
+import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.JUserRepository;
 import school.hei.klioba.repository.jpa.model.JUser;
 import school.hei.klioba.repository.mapper.JUserMapper;
@@ -15,6 +16,7 @@ public class UserRepository {
 
   private final JUserRepository jUserRepository;
   private final JUserMapper jUserMapper;
+  private final JClubRepository jClubRepository;
 
   public User saveIfEmailNotExist(String firstName, String lastName, String email) {
     var userOpt = jUserRepository.findByEmail(email);
@@ -28,5 +30,14 @@ public class UserRepository {
 
   public User save(User user) {
     return jUserMapper.toDomain(jUserRepository.save(jUserMapper.toEntity(user)));
+  }
+
+  public void addClubToUser(String userId, String clubId) {
+    var jUser = jUserRepository.findById(userId).orElseThrow();
+    var jClub = jClubRepository.findById(clubId).orElseThrow();
+    if (jUser.getClubs().stream().noneMatch(c -> c.getId().equals(clubId))) {
+      jUser.getClubs().add(jClub);
+      jUserRepository.save(jUser);
+    }
   }
 }
