@@ -1,95 +1,127 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Tsinjo - Fonds de sécurité HEI</title>
+    <title>Klioba — Clubs HEI</title>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .hero-bg {
-            background-image: linear-gradient(rgba(22, 22, 63, 0.7), rgba(22, 22, 63, 0.7)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-        .section-bg {
-            background-color: #f7f2ff;
-        }
+        body { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
 
-<body class="bg-white">
+<body class="bg-gray-100 min-h-screen">
+
 <div th:replace="fragments/header :: header"></div>
 
-<main>
-    <!-- Hero Section -->
-    <section class="hero-bg text-white py-12 sm:py-20 md:py-32 min-h-[70vh] sm:min-h-screen flex items-center">
-        <div class="container mx-auto px-4 sm:px-6 text-center">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6">
-                Ensemble, pour nos étudiants.
-            </h1>
-            <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-                Un fonds d'urgence pour soutenir les étudiants de HEI face aux imprévus de la vie. Votre don peut faire la différence.
-            </p>
-            <a class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-6 sm:py-3 sm:px-8 rounded-full text-base sm:text-lg transition-colors inline-block"
-               href="/donate">
-                Soutenir un étudiant
-            </a>
+<!-- Unauthenticated -->
+<div sec:authorize="isAnonymous()" class="min-h-screen flex items-center justify-center bg-[#16163f]">
+    <div class="text-center px-6">
+        <div class="text-white mb-6">
+            <i class="material-icons text-6xl mb-4">business_center</i>
+            <h1 class="text-3xl sm:text-4xl font-bold mb-3">Klioba</h1>
+            <p class="text-lg text-gray-300 mb-8">Connectez-vous pour accéder aux clubs HEI</p>
         </div>
-    </section>
+        <a href="/oauth2/authorization/casdoor"
+           class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors inline-flex items-center gap-2">
+            <i class="material-icons">login</i>
+            <span>Se connecter</span>
+        </a>
+    </div>
+</div>
 
-    <!-- Impact Section -->
-    <section class="section-bg py-12 sm:py-16 md:py-20 min-h-[70vh] sm:min-h-screen flex items-center">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="flex flex-col md:flex-row items-center gap-8 sm:gap-12">
-                <!-- Image -->
-                <div class="w-full md:w-1/2 order-2 md:order-1">
-                    <img alt="Groupe d'étudiants souriants"
-                         class="rounded-lg shadow-2xl w-full h-auto"
-                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDNc0askNDDFS3o3dxdq8wLozbNGAYjpyAUWi6j0FFvHJGeuATtFh2Rep0MWe-LI90W58hZn1IMcfu3Wx24qvVO4_xs1rgrgU1w2l0GmNg4Fl7wRmBOLnoZ0BSkrDb6HLQn5aYfjjWIaVTX7BFcMXi0fxSuPYXkoIdz9hZ0wOcJBekZ1maQ5_G0TgI4-WF_kh4F4KdYnfgN7SREx_-eay6YaGuiQO0WX-pdiKU4i0aw5qn-FK2zEKqJ4o8HEZA8MXowdASdQ_Z6ps"/>
+<!-- Authenticated -->
+<div sec:authorize="isAuthenticated()" class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Cotisations</h3>
+            <p class="text-base sm:text-lg font-extrabold text-green-600 mt-1"
+               th:text="${#numbers.formatInteger(totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Dépenses</h3>
+            <p class="text-base sm:text-lg font-extrabold text-blue-600 mt-1"
+               th:text="${#numbers.formatInteger(totalDepenses, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Fonds Restants</h3>
+            <p class="text-base sm:text-lg font-extrabold text-[#9933cc] mt-1"
+               th:text="${#numbers.formatInteger(totalRemaining, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Membres</h3>
+            <p class="text-base sm:text-lg font-extrabold text-[#16163f] mt-1"
+               th:text="${#numbers.formatInteger(totalMembers, 0, 'COMMA')}">0</p>
+        </div>
+    </div>
+
+    <!-- Club Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        <div th:each="club : ${clubs}"
+             class="bg-gray-50 rounded-xl shadow p-5 sm:p-6 hover:shadow-md transition flex flex-col items-center text-center">
+
+            <span class="w-12 h-12 rounded-full bg-[#9933cc]/10 text-[#9933cc] flex items-center justify-center text-lg font-bold mb-3"
+                  th:text="${#strings.substring(club.name, 0, 1)}">C</span>
+
+            <h3 class="text-base sm:text-lg font-bold text-[#16163f] mb-3" th:text="${club.name}">Club Name</h3>
+
+            <div class="space-y-2 text-sm w-full">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500 flex items-center gap-1">
+                        <i class="material-icons text-sm text-gray-400">payments</i>
+                        <span>Cotisations</span>
+                    </span>
+                    <span class="font-semibold text-green-600"
+                          th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</span>
                 </div>
-
-                <!-- Content -->
-                <div class="w-full md:w-1/2 order-1 md:order-2">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#16163f] mb-4 sm:mb-6">
-                        Votre Impact est Réel
-                    </h2>
-                    <p class="text-sm sm:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
-                        Chaque contribution, petite ou grande, est un message d'espoir. Elle permet à nos étudiants de surmonter les obstacles, de rester concentrés sur leurs études et de ne pas abandonner leurs rêves. Vous ne donnez pas seulement de l'argent, vous offrez de la sérénité et un avenir.
-                    </p>
-                    <a class="bg-[#16163f] hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-full transition-colors inline-flex items-center text-sm sm:text-base"
-                       href="/donate">
-                        <span class="material-icons mr-2 text-lg sm:text-xl">favorite_border</span>
-                        <span>Je fais un don</span>
-                    </a>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500 flex items-center gap-1">
+                        <i class="material-icons text-sm text-gray-400">people</i>
+                        <span>Membres</span>
+                    </span>
+                    <span class="font-semibold" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA')}">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500 flex items-center gap-1">
+                        <i class="material-icons text-sm text-gray-400">account_balance</i>
+                        <span>Fonds restants</span>
+                    </span>
+                    <span class="font-semibold text-blue-600"
+                          th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-</main>
+            <div class="mt-4 pt-3 border-t border-gray-200 w-full">
+                <a th:href="@{/club/{id}(id=${club.id})}"
+                   class="bg-[#9933cc] hover:bg-purple-700 text-white text-xs font-semibold py-2 px-5 rounded-full transition-colors inline-flex items-center gap-1">
+                    <span>Voir les détails</span>
+                    <span class="material-icons text-sm">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-12">
+        <span class="material-icons text-5xl text-gray-300 mb-3">groups</span>
+        <p class="text-gray-500">Aucun club trouvé</p>
+    </div>
+
+</div>
 
 <!-- Footer -->
-<footer class="bg-[#16163f] text-white py-8 sm:py-12" id="contact">
+<footer class="bg-[#16163f] text-white py-8 sm:py-12" sec:authorize="isAuthenticated()">
     <div class="container mx-auto px-4 sm:px-6 text-center">
         <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Contactez-nous</h3>
-        <p class="mb-3 sm:mb-4 text-sm sm:text-base">
-            Pour toute question sur le fonds ou pour faire un don par un autre moyen.
-        </p>
-        <p class="text-base sm:text-lg text-[#9933cc] font-semibold mb-2">
-            contact@hei.school
-        </p>
-        <p class="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">
-            © 2025 Tsinjo - Fonds de sécurité HEI. Tous droits réservés.
-        </p>
+        <p class="mb-3 sm:mb-4 text-sm sm:text-base">Pour toute question sur les clubs HEI.</p>
+        <p class="text-base sm:text-lg text-[#9933cc] font-semibold mb-2">contact@hei.school</p>
+        <p class="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">© 2025 Klioba — Clubs HEI. Tous droits réservés.</p>
     </div>
 </footer>
-
-<script th:src="@{/script/donate.js}"></script>
 
 </body>
 </html>
