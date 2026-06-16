@@ -15,10 +15,18 @@ public class ClubRepository {
   private final JClubMapper jClubMapper;
 
   public List<Club> findAll() {
-    return jClubRepository.findAll().stream().map(jClubMapper::toDomain).toList();
+    return jClubRepository.findAll().stream()
+        .map(jClubMapper::toDomain)
+        .toList();
   }
 
   public Club findById(String id) {
-    return jClubRepository.findById(id).map(jClubMapper::toDomain).orElseThrow();
+    return jClubRepository.findById(id)
+        .map(jClubMapper::toDomain)
+        .orElseThrow(() -> new RuntimeException("Club not found: " + id));
+  }
+
+  public boolean existsById(String id) {
+    return jClubRepository.existsById(id);
   }
 }

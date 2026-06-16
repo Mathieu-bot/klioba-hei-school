@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.MembershipFee;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.repository.ClubRepository;
 
 @Service
@@ -22,6 +23,14 @@ public class ClubService {
   public List<ClubStats> getAllClubStats() {
     return clubRepository.findAll().stream().map(this::computeStats).toList();
   }
+
+public List<Club> findAll() {
+    return clubRepository.findAll();
+}
+
+public Club findById(String id) {
+    return clubRepository.findById(id);
+}
 
   private ClubStats computeStats(school.hei.klioba.model.Club club) {
     var events = eventService.findAllByClubIdWithPaymentResolution(club.getId());
