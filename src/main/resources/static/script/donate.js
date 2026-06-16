@@ -22,18 +22,9 @@ function toggleStatuts() {
 }
 
 function toggleSubmitButton() {
-    const checkboxElement = document.getElementById("confirmStatuts")
     const submitButtonElement = document.querySelector('button[type="submit"]')
-
-    if (submitButtonElement) {
-        if (checkboxElement.checked) {
-            submitButtonElement.classList.remove("submit-disabled")
-            submitButtonElement.disabled = false
-        } else {
-            submitButtonElement.classList.add("submit-disabled")
-            submitButtonElement.disabled = true
-        }
-    }
+    submitButtonElement.classList.remove("submit-disabled")
+    submitButtonElement.disabled = false
 }
 
 function toggleMobileMenu() {
