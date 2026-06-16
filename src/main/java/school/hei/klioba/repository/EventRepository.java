@@ -16,6 +16,7 @@ public class EventRepository {
 
   private final PaymentRepository paymentRepository;
   private final UserRepository userRepository;
+  private final ClubRepository clubRepository;
 
   public Event save(Event event) {
     paymentRepository.save(event.getPayment());
