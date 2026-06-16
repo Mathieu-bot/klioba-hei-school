@@ -3,11 +3,11 @@ package school.hei.klioba.service.methods;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 
 public class PspIdValidatorTest {
-  private final MembershipCreationFormConsumer consumer =
-      new MembershipCreationFormConsumer(null, null, null, null);
+  private final MembershipFeeCreationFormConsumer consumer =
+      new MembershipFeeCreationFormConsumer(null, null, null, null);
 
   @Test
   void validPspIds_shouldReturnTrue() {

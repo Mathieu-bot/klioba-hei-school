@@ -12,21 +12,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.ui.Model;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.User;
 import school.hei.klioba.model.psp.PspType;
 import school.hei.klioba.service.EventService;
-import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
 
 class TsinjoControllerTest {
 
   private TsinjoController controller;
   private EventService eventService;
-  private MembershipCreationFormConsumer membershipCreationFormConsumer;
+  private MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
   private MembershipFormService membershipFormService;
   private Model model;
   private Authentication authentication;
@@ -34,7 +34,7 @@ class TsinjoControllerTest {
   @BeforeEach
   void setUp() {
     eventService = mock(EventService.class);
-    membershipCreationFormConsumer = mock(MembershipCreationFormConsumer.class);
+    membershipCreationFormConsumer = mock(MembershipFeeCreationFormConsumer.class);
     membershipFormService = mock(MembershipFormService.class);
     model = mock(Model.class);
     authentication = mock(Authentication.class);
@@ -127,7 +127,7 @@ class TsinjoControllerTest {
     when(oAuth2User.getAttributes()).thenReturn(attributes);
     when(authentication.getPrincipal()).thenReturn(oAuth2User);
 
-    var prefilledForm = new MembershipCreationForm("John", "Doe", "");
+    var prefilledForm = new MembershipFeeCreationForm("John", "Doe", "");
     when(membershipFormService.getPrefilledDonationForm(email)).thenReturn(prefilledForm);
 
     var result = controller.membershipFee("cuisine", authentication, model);

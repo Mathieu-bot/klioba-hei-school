@@ -9,12 +9,12 @@ import static school.hei.klioba.model.PaymentStatus.VERIFYING;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.klioba.conf.FacadeIT;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Event;
 
-class MembershipCreationFormConsumerIT extends FacadeIT {
+class MembershipFeeCreationFormConsumerIT extends FacadeIT {
 
-  @Autowired MembershipCreationFormConsumer membershipCreationFormConsumer;
+  @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
   @Autowired EventService eventService;
 
   private String generateValidPspId() {
@@ -28,9 +28,9 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
     var newEmail = randomUUID() + "@cute.dev";
 
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", ref1), newEmail, "cuisine");
+        new MembershipFeeCreationForm("Lou", "Andria", ref1), newEmail, "cuisine");
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm(null, null, ref2), newEmail, "cuisine");
+        new MembershipFeeCreationForm(null, null, ref2), newEmail, "cuisine");
 
     var events = eventService.findAllWithPaymentResolution();
     assertEquals(2, events.size());
@@ -60,13 +60,13 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
     String pspId = generateValidPspId();
 
     membershipCreationFormConsumer.accept(
-        new MembershipCreationForm("Lou", "Andria", pspId), "lou@cute.dev", "cuisine");
+        new MembershipFeeCreationForm("Lou", "Andria", pspId), "lou@cute.dev", "cuisine");
 
     assertThrows(
         IllegalArgumentException.class,
         () ->
             membershipCreationFormConsumer.accept(
-                new MembershipCreationForm(null, null, pspId), "lou@cute.dev", "cuisine"));
+                new MembershipFeeCreationForm(null, null, pspId), "lou@cute.dev", "cuisine"));
   }
 
   @Test
@@ -77,7 +77,7 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
         IllegalArgumentException.class,
         () ->
             membershipCreationFormConsumer.accept(
-                new MembershipCreationForm("Lou", "Andria", invalidPspId),
+                new MembershipFeeCreationForm("Lou", "Andria", invalidPspId),
                 "lou@cute.dev",
                 "cuisine"));
   }

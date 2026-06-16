@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import school.hei.klioba.endpoint.http.model.MembershipCreationForm;
+import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.model.Payment;
 import school.hei.klioba.model.PaymentStatus;
@@ -31,7 +31,7 @@ public class MembershipFormServiceTest {
     String email = "user@example.com";
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of());
 
-    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+    MembershipFeeCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
     assertEquals("", form.firstName());
     assertEquals("", form.lastName());
@@ -56,7 +56,7 @@ public class MembershipFormServiceTest {
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation));
 
-    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+    MembershipFeeCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
     assertEquals("Tiavina", form.firstName());
     assertEquals("Andriamamivony", form.lastName());
@@ -94,7 +94,7 @@ public class MembershipFormServiceTest {
 
     when(eventService.findAllWithPaymentResolution()).thenReturn(List.of(donation1, donation2));
 
-    MembershipCreationForm form = membershipFormService.getPrefilledDonationForm(email);
+    MembershipFeeCreationForm form = membershipFormService.getPrefilledDonationForm(email);
 
     assertEquals("Tiavina", form.firstName());
     assertEquals("Andriamamivony", form.lastName());
