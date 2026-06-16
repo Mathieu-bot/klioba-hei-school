@@ -9,6 +9,8 @@ import school.hei.klioba.repository.jpa.JUserRepository;
 import school.hei.klioba.repository.jpa.model.JUser;
 import school.hei.klioba.repository.mapper.JUserMapper;
 
+import java.util.List;
+
 @Repository
 @AllArgsConstructor
 public class UserRepository {
@@ -23,7 +25,7 @@ public class UserRepository {
     }
 
     return jUserMapper.toDomain(
-        jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName, new java.util.ArrayList<>())));
+        jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName, List.of())));
   }
 
   public User save(User user) {
