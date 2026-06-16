@@ -29,7 +29,8 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
 
     membershipCreationFormConsumer.accept(
         new MembershipCreationForm("Lou", "Andria", ref1), newEmail, "cuisine");
-    membershipCreationFormConsumer.accept(new MembershipCreationForm(null, null, ref2), newEmail, "cuisine");
+    membershipCreationFormConsumer.accept(
+        new MembershipCreationForm(null, null, ref2), newEmail, "cuisine");
 
     var events = eventService.findAllWithPaymentResolution();
     assertEquals(2, events.size());
@@ -76,6 +77,8 @@ class MembershipCreationFormConsumerIT extends FacadeIT {
         IllegalArgumentException.class,
         () ->
             membershipCreationFormConsumer.accept(
-                new MembershipCreationForm("Lou", "Andria", invalidPspId), "lou@cute.dev", "cuisine"));
+                new MembershipCreationForm("Lou", "Andria", invalidPspId),
+                "lou@cute.dev",
+                "cuisine"));
   }
 }
