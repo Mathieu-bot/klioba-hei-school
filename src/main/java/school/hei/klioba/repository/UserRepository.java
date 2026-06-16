@@ -2,6 +2,7 @@ package school.hei.klioba.repository;
 
 import static java.util.UUID.randomUUID;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.klioba.model.User;
@@ -9,8 +10,6 @@ import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.JUserRepository;
 import school.hei.klioba.repository.jpa.model.JUser;
 import school.hei.klioba.repository.mapper.JUserMapper;
-
-import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -27,7 +26,8 @@ public class UserRepository {
     }
 
     return jUserMapper.toDomain(
-        jUserRepository.save(new JUser(randomUUID().toString(), email, firstName, lastName, List.of())));
+        jUserRepository.save(
+            new JUser(randomUUID().toString(), email, firstName, lastName, List.of())));
   }
 
   public User save(User user) {

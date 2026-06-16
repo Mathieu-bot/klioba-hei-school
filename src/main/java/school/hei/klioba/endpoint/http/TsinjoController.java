@@ -64,7 +64,9 @@ public class TsinjoController {
       @PathVariable String clubId, Authentication authentication, Model model) {
     var defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
     var email = defaultOAuth2User.getAttributes().get("email").toString();
-    MembershipFeeCreationForm membershipForm = membershipFormService.getPrefilledDonationForm(email);
+    MembershipFeeCreationForm membershipForm =
+        membershipFormService.getPrefilledDonationForm(email);
+    model.addAttribute("clubId", clubId);
     model.addAttribute("membershipForm", membershipForm);
     return "membership-fee";
   }
