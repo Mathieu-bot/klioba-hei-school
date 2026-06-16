@@ -2,11 +2,6 @@
 
 ## Running
 
-### On cloud, using JCloudify
-
-This app is hosted on [JCloudify](https://www.jcloudify.com). It's the best way we know to host Spring Boot applications.
-Within a few clicks, you have your Spring Boot running with a publicly accessible URL, and with your CI/CD pipelines automatically configured on GitHub.
-
 ### Locally
 
 First, set all following environment variables:
