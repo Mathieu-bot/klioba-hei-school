@@ -19,10 +19,10 @@ import lombok.Setter;
 @Setter
 public class JClub {
 
-    @Id private String id;
+  @Id private String id;
 
-    private String name;
+  private String name;
 
-    @ManyToMany(mappedBy = "clubs")
-    private List<JUser> users = new ArrayList<>();
+  @ManyToMany(mappedBy = "clubs")
+  private List<JUser> users = new ArrayList<>();
 }

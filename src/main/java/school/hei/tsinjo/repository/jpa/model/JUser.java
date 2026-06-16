@@ -1,8 +1,8 @@
 package school.hei.tsinjo.repository.jpa.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +20,11 @@ public class JUser {
   private String email;
   private String firstName;
   private String lastName;
+
+  @ManyToMany
+  @JoinTable(
+      name = "club_membership",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "club_id"))
+  private List<JClub> clubs = new ArrayList<>();
 }
