@@ -14,6 +14,7 @@ import school.hei.klioba.endpoint.http.model.ThEvent;
 import school.hei.klioba.endpoint.http.model.ThFund;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipCreationFormConsumer;
+import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.MembershipFormService;
 
 @Controller
@@ -23,9 +24,25 @@ public class TsinjoController {
   private final EventService eventService;
   private final MembershipCreationFormConsumer membershipCreationFormConsumer;
   private final MembershipFormService membershipFormService;
+  private final ClubService clubService;
 
   @GetMapping("/")
-  public String home() {
+  public String home(Authentication authentication, Model model) {
+    if (authentication != null && authentication.isAuthenticated()) {
+      var clubs = clubService.getAllClubStats();
+      int totalCotisations = clubs.stream().mapToInt(ClubService.ClubStats::totalCotisations).sum();
+      int totalDepenses =
+          clubs.stream()
+              .mapToInt(c -> c.totalCotisations() - c.remainingFund())
+              .sum();
+      int totalRemaining = clubs.stream().mapToInt(ClubService.ClubStats::remainingFund).sum();
+      int totalMembers = clubs.stream().mapToInt(ClubService.ClubStats::members).sum();
+      model.addAttribute("clubs", clubs);
+      model.addAttribute("totalCotisations", totalCotisations);
+      model.addAttribute("totalDepenses", totalDepenses);
+      model.addAttribute("totalRemaining", totalRemaining);
+      model.addAttribute("totalMembers", totalMembers);
+    }
     return "home";
   }
 
