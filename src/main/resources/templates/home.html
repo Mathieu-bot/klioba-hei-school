@@ -36,70 +36,67 @@
 <div sec:authorize="isAuthenticated()" class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Cotisations</h3>
-            <p class="text-base sm:text-lg font-extrabold text-green-600 mt-1"
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 mb-6">
+        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Cotisations reçues</h3>
+            <p class="text-lg sm:text-xl font-extrabold text-green-600 mt-1"
                th:text="${#numbers.formatInteger(totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Dépenses</h3>
-            <p class="text-base sm:text-lg font-extrabold text-blue-600 mt-1"
+        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Dépenses effectuées</h3>
+            <p class="text-lg sm:text-xl font-extrabold text-blue-600 mt-1"
                th:text="${#numbers.formatInteger(totalDepenses, 0, 'COMMA') + ' Ar'}">0 Ar</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Fonds Restants</h3>
-            <p class="text-base sm:text-lg font-extrabold text-[#9933cc] mt-1"
+        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Trésorerie</h3>
+            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
                th:text="${#numbers.formatInteger(totalRemaining, 0, 'COMMA') + ' Ar'}">0 Ar</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm lg:text-base text-center">Total Membres</h3>
-            <p class="text-base sm:text-lg font-extrabold text-[#16163f] mt-1"
+        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
+            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Membres inscrits</h3>
+            <p class="text-lg sm:text-xl font-extrabold text-[#16163f] mt-1"
                th:text="${#numbers.formatInteger(totalMembers, 0, 'COMMA')}">0</p>
         </div>
     </div>
 
     <!-- Club Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto">
         <div th:each="club : ${clubs}"
-             class="bg-gray-50 rounded-xl shadow p-5 sm:p-6 hover:shadow-md transition flex flex-col items-center text-center">
+             class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all p-6 sm:p-7 flex flex-col">
 
-            <span class="w-12 h-12 rounded-full bg-[#9933cc]/10 text-[#9933cc] flex items-center justify-center text-lg font-bold mb-3"
-                  th:text="${#strings.substring(club.name, 0, 1)}">C</span>
-
-            <h3 class="text-base sm:text-lg font-bold text-[#16163f] mb-3" th:text="${club.name}">Club Name</h3>
-
-            <div class="space-y-2 text-sm w-full">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-500 flex items-center gap-1">
-                        <i class="material-icons text-sm text-gray-400">payments</i>
-                        <span>Cotisations</span>
-                    </span>
-                    <span class="font-semibold text-green-600"
-                          th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#16163f] to-[#2a2a6e] flex items-center justify-center">
+                    <span class="material-icons text-white text-xl">groups</span>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-500 flex items-center gap-1">
-                        <i class="material-icons text-sm text-gray-400">people</i>
-                        <span>Membres</span>
-                    </span>
-                    <span class="font-semibold" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA')}">0</span>
+                <h3 class="text-lg sm:text-xl font-bold text-[#16163f]" th:text="${club.name}">Club Name</h3>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 py-4 border-y border-gray-100 text-center">
+                <div>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Cotisations</p>
+                    <p class="text-base font-bold text-green-600 mt-1"
+                       th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-500 flex items-center gap-1">
-                        <i class="material-icons text-sm text-gray-400">account_balance</i>
-                        <span>Fonds restants</span>
-                    </span>
-                    <span class="font-semibold text-blue-600"
-                          th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+                <div>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Membres</p>
+                    <p class="text-base font-bold text-[#16163f] mt-1"
+                       th:text="${#numbers.formatInteger(club.members, 0, 'COMMA')}">0</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Trésorerie</p>
+                    <p class="text-base font-bold text-blue-600 mt-1"
+                       th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</p>
                 </div>
             </div>
 
-            <div class="mt-4 pt-3 border-t border-gray-200 w-full">
+            <div class="mt-auto pt-5 flex gap-3">
+                <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
+                   class="flex-1 bg-[#9933cc] hover:bg-purple-700 text-white text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
+                    Payer cotisation
+                </a>
                 <a th:href="@{/history/{clubId}(clubId=${club.id})}"
-                   class="bg-[#9933cc] hover:bg-purple-700 text-white text-xs font-semibold py-2 px-5 rounded-full transition-colors inline-flex items-center gap-1">
-                    <span>Voir les détails</span>
-                    <span class="material-icons text-sm">arrow_forward</span>
+                   class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
+                    Historique
                 </a>
             </div>
         </div>
