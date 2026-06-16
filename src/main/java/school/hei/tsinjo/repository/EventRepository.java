@@ -28,4 +28,10 @@ public class EventRepository {
         .map(jEventMapper::toDomain)
         .toList();
   }
+
+  public List<Event> findAllByClubIdOrderByCreationInstantDesc(String clubId) {
+    return jEventRepository.findAllByClubIdOrderByCreationInstantDesc(clubId).stream()
+        .map(jEventMapper::toDomain)
+        .toList();
+  }
 }
