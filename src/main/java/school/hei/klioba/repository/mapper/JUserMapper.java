@@ -6,11 +6,17 @@ import school.hei.klioba.repository.jpa.model.JUser;
 
 @Component
 public class JUserMapper {
+
   public User toDomain(JUser jUser) {
     return new User(jUser.getId(), jUser.getFirstName(), jUser.getLastName(), jUser.getEmail());
   }
 
   public JUser toEntity(User user) {
-    return new JUser(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
+    JUser jUser = new JUser();
+    jUser.setId(user.getId());
+    jUser.setEmail(user.getEmail());
+    jUser.setFirstName(user.getFirstName());
+    jUser.setLastName(user.getLastName());
+    return jUser;
   }
 }

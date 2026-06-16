@@ -21,6 +21,10 @@ public class JEvent {
   @Id private String id;
 
   @ManyToOne
+  @JoinColumn(name = "club_id")
+  private JClub club;
+
+  @ManyToOne
   @JoinColumn(name = "user_id")
   private JUser user;
 
