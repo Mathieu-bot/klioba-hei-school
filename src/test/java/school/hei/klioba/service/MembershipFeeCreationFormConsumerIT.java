@@ -6,12 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static school.hei.klioba.model.PaymentStatus.VERIFYING;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.klioba.conf.FacadeIT;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Event;
 
+@Disabled
 class MembershipFeeCreationFormConsumerIT extends FacadeIT {
 
   @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;

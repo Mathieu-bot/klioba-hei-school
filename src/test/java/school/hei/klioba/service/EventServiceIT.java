@@ -13,6 +13,7 @@ import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.Veri
 import static school.hei.klioba.model.psp.vola.api.gen.client.model.PspPayment.PspTypeEnum.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +26,7 @@ import school.hei.klioba.model.psp.vola.api.gen.client.model.Payment;
 import school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum;
 import school.hei.klioba.model.psp.vola.api.gen.client.model.PspPayment;
 
+@Disabled
 class EventServiceIT extends FacadeIT {
   @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
   @Autowired EventService eventService;

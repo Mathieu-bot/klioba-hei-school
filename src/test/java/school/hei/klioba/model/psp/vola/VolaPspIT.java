@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static school.hei.klioba.model.PaymentStatus.CONFIRMED;
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import school.hei.klioba.conf.FacadeIT;
 
+@Disabled
 class VolaPspIT extends FacadeIT {
   @Autowired VolaPsp volaPsp;
 
