@@ -22,7 +22,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     Instant creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant, "");
+    var event = Event.from("e1", payment, user, null, creationInstant, "");
 
     assertInstanceOf(MembershipFee.class, event);
     assertEquals("e1", event.getId());
@@ -45,7 +45,7 @@ class EventTest {
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant, "");
+    var event = Event.from("e1", payment, user, null, creationInstant, "");
 
     assertInstanceOf(Withdrawal.class, event);
     assertEquals("e1", event.getId());
@@ -68,7 +68,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant, "");
+    var event = Event.from("e1", payment, user, null, creationInstant, "");
 
     assertInstanceOf(MembershipFee.class, event);
   }
@@ -87,7 +87,7 @@ class EventTest {
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
 
-    var event = Event.from("e1", payment, user, creationInstant, "");
+    var event = Event.from("e1", payment, user, null, creationInstant, "");
 
     assertInstanceOf(MembershipFee.class, event);
   }
@@ -105,7 +105,7 @@ class EventTest {
             Instant.now());
     var user = new User("u1", "John", "Doe", "john@example.com");
     var creationInstant = Instant.now();
-    var donation = new MembershipFee("d1", oldPayment, user, creationInstant);
+    var donation = new MembershipFee("d1", oldPayment, user, null, creationInstant);
 
     var newPayment =
         new Payment(
@@ -139,7 +139,7 @@ class EventTest {
             Instant.now());
     var user = new User("u1", "Jane", "Doe", "jane@example.com");
     var creationInstant = Instant.now();
-    var help = new Withdrawal("h1", oldPayment, user, creationInstant, "");
+    var help = new Withdrawal("h1", oldPayment, user, null, creationInstant, "");
 
     var newPayment =
         new Payment(

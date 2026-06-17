@@ -20,7 +20,7 @@ import school.hei.klioba.service.MembershipFormService;
 
 @Controller
 @AllArgsConstructor
-public class TsinjoController {
+public class KliobaController {
 
   private final EventService eventService;
   private final MembershipFeeCreationFormConsumer membershipCreationFormConsumer;

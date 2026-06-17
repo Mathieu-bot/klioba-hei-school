@@ -51,7 +51,8 @@ class ThFundTest {
             Instant.parse("2025-08-11T13:51:26.165532Z"),
             Instant.parse("2025-08-11T13:51:36.165532Z"));
     var event =
-        new MembershipFee("eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"));
+        new MembershipFee(
+            "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z"));
     return event;
   }
 }

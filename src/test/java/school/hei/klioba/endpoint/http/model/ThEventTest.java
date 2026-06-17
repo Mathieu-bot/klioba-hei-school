@@ -31,7 +31,7 @@ class ThEventTest {
     var thEvent =
         new ThEvent(
             new MembershipFee(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16, 17 Ar. Par Lou Andria<lou@hei.school>. Statut: en succès, récupéré le"
@@ -57,7 +57,7 @@ class ThEventTest {
     var thEvent =
         new ThEvent(
             new Withdrawal(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z"), ""));
 
     assertEquals(
         "2025-08-11 16:51:16, -17 Ar. Pour Lou Andria<lou@hei.school>. ", thEvent.toString());
@@ -80,7 +80,7 @@ class ThEventTest {
     var thEvent =
         new ThEvent(
             new MembershipFee(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: en vérification, récupéré le"
@@ -106,7 +106,7 @@ class ThEventTest {
     var thEvent =
         new ThEvent(
             new MembershipFee(
-                "eventId", payment, user, Instant.parse("2025-08-11T13:51:16.165532Z")));
+                "eventId", payment, user, null, Instant.parse("2025-08-11T13:51:16.165532Z")));
 
     assertEquals(
         "2025-08-11 16:51:16. Par Lou Andria<lou@hei.school>. Statut: en échec, récupéré le"
