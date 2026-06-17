@@ -55,4 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     window.addEventListener("resize", handleResize)
+
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", () => {
+            const submitBtn = form.querySelector("button[type='submit']")
+            if (submitBtn) {
+                submitBtn.disabled = true
+                submitBtn.innerHTML = '<i class="material-icons text-sm mr-2 align-middle">hourglass_top</i> <span>Traitement en cours...</span>'
+            }
+        })
+    })
 })
