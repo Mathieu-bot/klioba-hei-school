@@ -21,7 +21,8 @@ class VolaPspIT extends FacadeIT {
   @Test
   void read_succeeded_payment() {
     var volaPaymentMock =
-        VolaTestUtils.aVolaPayment(VerificationStatusEnum.SUCCEEDED, 324_000, "MP250729.1216.D77954");
+        VolaTestUtils.aVolaPayment(
+            VerificationStatusEnum.SUCCEEDED, 324_000, "MP250729.1216.D77954");
     when(volaClientMock.get(any(), any(), any())).thenReturn(volaPaymentMock);
 
     var volaPayment =

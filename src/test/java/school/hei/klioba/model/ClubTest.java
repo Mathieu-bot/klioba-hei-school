@@ -1,8 +1,8 @@
 package school.hei.klioba.model;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class ClubTest {
 
@@ -29,8 +29,8 @@ class ClubTest {
     var str = club.toString();
 
     assertNotNull(str);
-      assertTrue(str.contains("cuisine"));
-      assertTrue(str.contains("Club Cuisine"));
+    assertTrue(str.contains("cuisine"));
+    assertTrue(str.contains("Club Cuisine"));
   }
 
   @Test
@@ -38,7 +38,7 @@ class ClubTest {
     var club = new Club(null, "Club Null");
 
     assertNotNull(club);
-      assertNull(club.getId());
+    assertNull(club.getId());
     assertEquals("Club Null", club.getName());
   }
 
@@ -48,7 +48,7 @@ class ClubTest {
 
     assertNotNull(club);
     assertEquals("null-name", club.getId());
-      assertNull(club.getName());
+    assertNull(club.getName());
   }
 
   @Test

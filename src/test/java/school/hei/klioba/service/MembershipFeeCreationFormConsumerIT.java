@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static school.hei.klioba.model.PaymentStatus.VERIFYING;
 import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import school.hei.klioba.conf.VolaTestUtils;
 import school.hei.klioba.endpoint.http.model.MembershipFeeCreationForm;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.psp.vola.api.VolaClient;
-import java.util.ArrayList;
 import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.model.JClub;
 

@@ -51,8 +51,7 @@ class ClubServiceTest {
     var withdrawal = new Withdrawal("e2", payment, user1, club, now(), "achat fournitures");
 
     when(clubRepository.findAll()).thenReturn(List.of(club));
-    when(eventService.findAllByClubIdWithPaymentResolution("c1"))
-        .thenReturn(List.of(withdrawal));
+    when(eventService.findAllByClubIdWithPaymentResolution("c1")).thenReturn(List.of(withdrawal));
 
     var stats = clubService.getAllClubStats();
 
@@ -121,8 +120,7 @@ class ClubServiceTest {
     var fee2 = new MembershipFee("e2", payment2, user1, club, now()); // same user
 
     when(clubRepository.findAll()).thenReturn(List.of(club));
-    when(eventService.findAllByClubIdWithPaymentResolution("c1"))
-        .thenReturn(List.of(fee1, fee2));
+    when(eventService.findAllByClubIdWithPaymentResolution("c1")).thenReturn(List.of(fee1, fee2));
 
     var stats = clubService.getAllClubStats();
 
@@ -140,8 +138,7 @@ class ClubServiceTest {
 
     when(clubRepository.findAll()).thenReturn(List.of(club, club2));
     when(eventService.findAllByClubIdWithPaymentResolution("c1")).thenReturn(List.of(fee));
-    when(eventService.findAllByClubIdWithPaymentResolution("c2"))
-        .thenReturn(List.of(withdrawal));
+    when(eventService.findAllByClubIdWithPaymentResolution("c2")).thenReturn(List.of(withdrawal));
 
     var stats = clubService.getAllClubStats();
 
