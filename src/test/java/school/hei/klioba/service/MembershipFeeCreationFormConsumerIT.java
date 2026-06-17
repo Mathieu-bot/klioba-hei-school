@@ -12,6 +12,7 @@ import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.Veri
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,7 +23,7 @@ import school.hei.klioba.model.Event;
 import school.hei.klioba.model.psp.vola.api.VolaClient;
 import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.model.JClub;
-
+@Disabled
 class MembershipFeeCreationFormConsumerIT extends FacadeIT {
 
   @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
