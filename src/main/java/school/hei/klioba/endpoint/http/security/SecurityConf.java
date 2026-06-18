@@ -41,7 +41,7 @@ public class SecurityConf {
         .authorizeHttpRequests(
             authorization ->
                 authorization
-                    .requestMatchers(HttpMethod.GET, "/ping")
+                    .requestMatchers(HttpMethod.GET, "/ping", "/")
                     .permitAll()
                     .requestMatchers("**")
                     .authenticated())
