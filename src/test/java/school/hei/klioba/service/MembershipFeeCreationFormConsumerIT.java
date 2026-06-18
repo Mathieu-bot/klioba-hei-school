@@ -23,6 +23,7 @@ import school.hei.klioba.model.Event;
 import school.hei.klioba.model.psp.vola.api.VolaClient;
 import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.model.JClub;
+
 @Disabled
 class MembershipFeeCreationFormConsumerIT extends FacadeIT {
 

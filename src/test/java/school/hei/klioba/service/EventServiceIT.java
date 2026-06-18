@@ -25,6 +25,7 @@ import school.hei.klioba.model.PaymentStatus;
 import school.hei.klioba.model.psp.vola.api.VolaClient;
 import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.model.JClub;
+
 @Disabled
 class EventServiceIT extends FacadeIT {
   @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
