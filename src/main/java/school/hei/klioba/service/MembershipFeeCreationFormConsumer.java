@@ -17,6 +17,7 @@ import school.hei.klioba.repository.ClubRepository;
 import school.hei.klioba.repository.EventRepository;
 import school.hei.klioba.repository.PaymentRepository;
 import school.hei.klioba.repository.UserRepository;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -46,7 +47,7 @@ public class MembershipFeeCreationFormConsumer {
     var club =
         clubRepository
             .findById(clubId)
-            .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
+            .orElseThrow(() -> new NoSuchElementException("Club not found: " + clubId));
     eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
     assignUserToClub(user, clubId);
   }
