@@ -5,6 +5,7 @@ import static school.hei.klioba.model.PaymentStatus.CONFIRMED;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import school.hei.klioba.model.Club;
 import school.hei.klioba.model.Event;
 import school.hei.klioba.model.MembershipFee;
 import school.hei.klioba.repository.ClubRepository;
@@ -23,7 +24,7 @@ public class ClubService {
     return clubRepository.findAll().stream().map(this::computeStats).toList();
   }
 
-  private ClubStats computeStats(school.hei.klioba.model.Club club) {
+  private ClubStats computeStats(Club club) {
     var events = eventService.findAllByClubIdWithPaymentResolution(club.getId());
     int totalCotisations =
         events.stream()
