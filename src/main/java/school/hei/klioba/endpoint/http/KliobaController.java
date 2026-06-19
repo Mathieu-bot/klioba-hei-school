@@ -1,5 +1,6 @@
 package school.hei.klioba.endpoint.http;
 
+import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -17,7 +18,6 @@ import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
-import java.util.NoSuchElementException;
 
 @Controller
 @AllArgsConstructor
