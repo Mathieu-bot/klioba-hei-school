@@ -23,5 +23,7 @@ public class EnvConf {
         () -> "authorization_code");
     registry.add("casdoor.logout.url", () -> "dummy");
     registry.add("tsinjo.logout.url", () -> "dummy");
+    registry.add("vola.api.url", () -> "http://dummy.vola.api");
+    registry.add("vola.api.key", () -> "dummy-key");
   }
 }
