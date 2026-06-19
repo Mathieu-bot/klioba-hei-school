@@ -32,7 +32,7 @@ public class ClubService {
             .filter(p -> CONFIRMED.equals(p.status()))
             .mapToInt(p -> Math.max(0, p.amount() == null ? 0 : p.amount()))
             .sum();
-    int depenses =
+    int expenses =
         events.stream()
             .filter(e -> !(e instanceof MembershipFee))
             .map(Event::getPayment)
@@ -41,6 +41,6 @@ public class ClubService {
             .sum();
     long members = events.stream().map(e -> e.getUser().getEmail()).distinct().count();
     return new ClubStats(
-        club.getId(), club.getName(), totalCotisations, (int) members, totalCotisations - depenses);
+        club.getId(), club.getName(), totalCotisations, (int) members, totalCotisations - expenses);
   }
 }
