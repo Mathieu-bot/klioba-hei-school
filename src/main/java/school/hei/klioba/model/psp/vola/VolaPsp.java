@@ -1,6 +1,7 @@
 package school.hei.klioba.model.psp.vola;
 
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
+import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,9 +76,7 @@ public class VolaPsp implements Psp {
     };
   }
 
-  private PaymentStatus toPaymentStatus(
-      school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum
-          volaPaymentStatus) {
+  private PaymentStatus toPaymentStatus(VerificationStatusEnum volaPaymentStatus) {
     if (volaPaymentStatus == null) {
       return PaymentStatus.UNKNOWN;
     }
