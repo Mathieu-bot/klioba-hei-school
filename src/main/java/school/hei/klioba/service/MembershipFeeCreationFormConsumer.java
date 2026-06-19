@@ -5,6 +5,7 @@ import static java.util.UUID.randomUUID;
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
+import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import school.hei.klioba.repository.ClubRepository;
 import school.hei.klioba.repository.EventRepository;
 import school.hei.klioba.repository.PaymentRepository;
 import school.hei.klioba.repository.UserRepository;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
