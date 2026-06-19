@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static school.hei.klioba.model.PaymentStatus.CONFIRMED;
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
-import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum;
+import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum.SUCCEEDED;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,7 @@ class VolaPspIT extends FacadeIT {
 
   @Test
   void read_succeeded_payment() {
-    var volaPaymentMock =
-        VolaTestUtils.aVolaPayment(
-            VerificationStatusEnum.SUCCEEDED, 324_000, "MP250729.1216.D77954");
+    var volaPaymentMock = VolaTestUtils.aVolaPayment(SUCCEEDED, 324_000, "MP250729.1216.D77954");
     when(volaClientMock.get(any(), any(), any())).thenReturn(volaPaymentMock);
 
     var volaPayment =
