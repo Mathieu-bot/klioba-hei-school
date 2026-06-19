@@ -5,6 +5,7 @@ import static java.util.UUID.randomUUID;
 import static school.hei.klioba.model.psp.PspType.ORANGE_MONEY;
 
 import jakarta.transaction.Transactional;
+import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class MembershipFeeCreationFormConsumer {
     var club =
         clubRepository
             .findById(clubId)
-            .orElseThrow(() -> new IllegalArgumentException("Club not found: " + clubId));
+            .orElseThrow(() -> new NoSuchElementException("Club not found: " + clubId));
     eventRepository.save(Event.from(randomUUID().toString(), payment, user, club, now(), ""));
     assignUserToClub(user, clubId);
   }
