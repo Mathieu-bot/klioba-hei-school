@@ -29,7 +29,8 @@ class ThFundTest {
     var user = new User("userId", "Lou", "Andria", "lou@hei.school");
 
     assertEquals(
-        "Cotisations confirmées: 15 Ar. Retraits confirmés: -11 Ar. Fonds restants confirmés: 4 Ar.",
+        "Cotisations confirmées: 15 Ar. Retraits confirmés: -11 Ar. Fonds restants confirmés: 4"
+            + " Ar.",
         new ThFund(
                 List.of(
                     anEvent(user, null, VERIFYING),
