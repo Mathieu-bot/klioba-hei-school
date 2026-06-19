@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static school.hei.klioba.model.PaymentStatus.VERIFYING;
 import static school.hei.klioba.model.psp.vola.api.gen.client.model.Payment.VerificationStatusEnum;
 
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import school.hei.klioba.model.psp.vola.api.VolaClient;
 import school.hei.klioba.repository.jpa.JClubRepository;
 import school.hei.klioba.repository.jpa.model.JClub;
 
+@Transactional
 class MembershipFeeCreationFormConsumerIT extends FacadeIT {
 
   @Autowired MembershipFeeCreationFormConsumer membershipCreationFormConsumer;
