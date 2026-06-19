@@ -17,6 +17,7 @@ import school.hei.klioba.service.ClubService;
 import school.hei.klioba.service.EventService;
 import school.hei.klioba.service.MembershipFeeCreationFormConsumer;
 import school.hei.klioba.service.MembershipFormService;
+import java.util.NoSuchElementException;
 
 @Controller
 @AllArgsConstructor
@@ -68,7 +69,7 @@ public class KliobaController {
         "clubName",
         clubRepository
             .findById(clubId)
-            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .orElseThrow(() -> new NoSuchElementException("This doesn't exist"))
             .getName());
     return "history";
   }
@@ -97,7 +98,7 @@ public class KliobaController {
         "clubName",
         clubRepository
             .findById(clubId)
-            .orElseThrow(() -> new IllegalArgumentException("This doesn't exist"))
+            .orElseThrow(() -> new NoSuchElementException("This doesn't exist"))
             .getName());
     return "membership-fee";
   }
