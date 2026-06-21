@@ -45,6 +45,11 @@ public class SecurityConf {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
+        .exceptionHandling(exceptions ->
+            exceptions.authenticationEntryPoint((request, response, authException) ->
+                response.sendRedirect("/oauth2/authorization/casdoor")
+            )
+        )
         .addFilterBefore(statePaddingFixFilter, BasicAuthenticationFilter.class)
         .oauth2Login(
             oauth2 ->
