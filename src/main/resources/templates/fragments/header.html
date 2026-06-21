@@ -7,7 +7,7 @@
             </div>
 
             <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
-                <th:block th:replace="fragments/nav :: nav('/', 'Clubs', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/dashboard', 'Clubs', '', '', 'hover:text-[#9933cc] transition-colors')"></th:block>
 
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center gap-2 text-white">
@@ -25,7 +25,7 @@
 
         <div sec:authorize="isAuthenticated()" class="hidden md:hidden px-4 sm:px-6 pt-2 pb-4" id="mobile-menu">
             <div class="space-y-2">
-                <th:block th:replace="fragments/nav :: nav('/', 'Clubs', '', '', 'block py-3 hover:text-[#9933cc] transition-colors text-base')"></th:block>
+                <th:block th:replace="fragments/nav :: nav('/dashboard', 'Clubs', '', '', 'block py-3 hover:text-[#9933cc] transition-colors text-base')"></th:block>
 
                 <div class="pt-4 border-t border-gray-600 space-y-3">
                     <div class="flex items-center gap-2 text-white py-2">
