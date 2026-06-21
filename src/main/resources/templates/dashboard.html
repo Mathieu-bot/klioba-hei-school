@@ -16,7 +16,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
+<div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 xl:pl-20 xl:pr-20 py-8 sm:py-12">
 
     <div class="mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-black tracking-tight">Tableau de bord</h1>
@@ -70,14 +70,6 @@
         <div class="relative w-full overflow-hidden">
             <div class="hidden md:block absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[#F8F9FA] to-transparent pointer-events-none"></div>
             <div class="hidden md:block absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[#F8F9FA] to-transparent pointer-events-none"></div>
-
-            <button class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
-                <span class="material-icons text-gray-600">chevron_left</span>
-            </button>
-
-            <button class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
-                <span class="material-icons text-gray-600">chevron_right</span>
-            </button>
 
             <div class="flex gap-6 overflow-x-auto py-2 px-1 scroll-smooth hide-scrollbar" id="club-scroll-container">
                 <div th:each="club : ${clubs}"
@@ -139,6 +131,14 @@
                 </div>
             </div>
         </div>
+
+        <button class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -ml-5 z-20 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
+            <span class="material-icons text-gray-600">chevron_left</span>
+        </button>
+
+        <button class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 -mr-5 z-20 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
+            <span class="material-icons text-gray-600">chevron_right</span>
+        </button>
     </div>
 
     <div th:if="${not #lists.isEmpty(clubs)}" class="flex justify-center items-center gap-3 mt-6" id="club-pagination">
@@ -154,7 +154,7 @@
 </div>
 
 <footer class="bg-[#16163f] text-white py-8 sm:py-12 mt-auto w-full">
-    <div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
+    <div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 xl:pl-20 xl:pr-20 text-center">
         <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Contactez-nous</h3>
         <p class="mb-3 sm:mb-4 text-sm sm:text-base">Pour toute question sur les clubs HEI.</p>
         <p class="text-base sm:text-lg text-[#9933cc] font-semibold mb-2">contact@hei.school</p>
