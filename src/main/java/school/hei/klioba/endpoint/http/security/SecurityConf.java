@@ -43,7 +43,7 @@ public class SecurityConf {
                 authorization
                     .requestMatchers(HttpMethod.GET, "/ping", "/")
                     .permitAll()
-                    .anyRequest()
+                    .requestMatchers("**")
                     .authenticated())
         .addFilterBefore(statePaddingFixFilter, BasicAuthenticationFilter.class)
         .oauth2Login(
