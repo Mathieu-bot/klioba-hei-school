@@ -16,7 +16,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
+<div class="w-full px-6 sm:px-10 lg:px-16 xl:pl-20 xl:pr-20 py-8 sm:py-12">
 
     <div class="mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-black tracking-tight">Tableau de bord</h1>
@@ -238,6 +238,16 @@
                 }
             };
         }
+
+        leftBtn.addEventListener('click', () => {
+            const { cardOuter } = getCardWidth();
+            container.scrollBy({ left: -(cardOuter || 300), behavior: 'smooth' });
+        });
+
+        rightBtn.addEventListener('click', () => {
+            const { cardOuter } = getCardWidth();
+            container.scrollBy({ left: cardOuter || 300, behavior: 'smooth' });
+        });
 
         buildPagination();
         updateState();
