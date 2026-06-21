@@ -23,36 +23,37 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-10">
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
-        <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Cotisations</h3>
-        <p class="text-2xl sm:text-3xl font-bold text-[#2E9A6F] mt-1"
+        <h3 class="text-gray-400 font-bold text-sm sm:text-base mb-1">Cotisations</h3>
+        <p class="text-2xl sm:text-3xl font-bold text-[#9933cc] mt-1"
            th:text="${fund.allConfirmedDonations != null ? #numbers.formatInteger(fund.allConfirmedDonations, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
-        <p class="text-[10px] text-gray-400 mt-1">Total des cotisations</p>
       </div>
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
-        <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Retraits</h3>
-        <p class="text-2xl sm:text-3xl font-bold text-[#E53E3E] mt-1"
+        <h3 class="text-gray-400 font-bold text-sm sm:text-base mb-1">Retraits</h3>
+        <p class="text-2xl sm:text-3xl font-bold text-[#9933cc] mt-1"
            th:text="${fund.allConfirmedHelps != null ? #numbers.formatInteger(fund.allConfirmedHelps, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
-        <p class="text-[10px] text-gray-400 mt-1">Total des retraits</p>
       </div>
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
-        <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Fonds Restants</h3>
-        <p class="text-2xl sm:text-3xl font-bold text-[#16163f] mt-1"
+        <h3 class="text-gray-400 font-bold text-sm sm:text-base mb-1">Fonds Restants</h3>
+        <p class="text-2xl sm:text-3xl font-bold text-[#9933cc] mt-1"
            th:text="${fund.confirmedRemainingFund != null ? #numbers.formatInteger(fund.confirmedRemainingFund, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
-        <p class="text-[10px] text-gray-400 mt-1">Trésorerie disponible</p>
       </div>
     </div>
 
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <h2 class="text-lg sm:text-xl font-bold text-[#16163f]">Historique des transactions</h2>
-        <form th:action="@{/history/{clubId}(clubId=${clubId})}" method="get" class="flex items-center gap-2 flex-wrap">
-            <label class="text-xs text-gray-500 font-medium">Du :</label>
-            <input type="date" name="dateFrom"
-                   class="border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
-            <label class="text-xs text-gray-500 font-medium">Au :</label>
-            <input type="date" name="dateTo"
-                   class="border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
+        <form th:action="@{/history/{clubId}(clubId=${clubId})}" method="get" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div class="flex items-center gap-2">
+                <label class="text-xs text-gray-500 font-medium whitespace-nowrap">Du :</label>
+                <input type="date" name="dateFrom"
+                       class="flex-1 sm:flex-none border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
+            </div>
+            <div class="flex items-center gap-2">
+                <label class="text-xs text-gray-500 font-medium whitespace-nowrap">Au :</label>
+                <input type="date" name="dateTo"
+                       class="flex-1 sm:flex-none border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
+            </div>
             <button type="submit"
-                    class="bg-[#16163f] hover:bg-opacity-90 text-white text-xs font-medium py-2 px-4 rounded-lg transition-all flex items-center gap-1">
+                    class="bg-[#16163f] hover:bg-opacity-90 text-white text-xs font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-1 sm:self-auto">
                 <span class="material-icons text-sm">filter_list</span>
                 Filtrer
             </button>
