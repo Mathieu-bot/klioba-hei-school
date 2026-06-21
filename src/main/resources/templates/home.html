@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Klioba — Clubs HEI</title>
     <meta charset="utf-8"/>
@@ -16,8 +16,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<!-- Unauthenticated -->
-<div sec:authorize="isAnonymous()" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#16163f] via-[#1a1a4e] to-[#2a1a3e]">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#16163f] via-[#1a1a4e] to-[#2a1a3e]">
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute -top-40 -left-40 w-80 h-80 bg-[#9933cc] opacity-10 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-purple-500 opacity-10 rounded-full blur-3xl"></div>
@@ -30,93 +29,15 @@
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="/oauth2/authorization/casdoor"
                class="bg-[#9933cc] hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all transform hover:scale-105 inline-flex items-center gap-2 shadow-lg shadow-purple-500/25">
-                <i class="material-icons">login</i>
-                <span>Se connecter</span>
+                <span>Commencer maintenant</span>
+                <i class="material-icons">arrow_forward</i>
             </a>
         </div>
     </div>
 </div>
 
-<!-- Authenticated -->
-<div sec:authorize="isAuthenticated()" class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-
-    <!-- Statistics Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 mb-6">
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Cotisations reçues</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-green-600 mt-1"
-               th:text="${#numbers.formatInteger(totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Dépenses effectuées</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-blue-600 mt-1"
-               th:text="${#numbers.formatInteger(totalDepenses, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Trésorerie</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
-               th:text="${#numbers.formatInteger(totalRemaining, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Membres inscrits</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#16163f] mt-1"
-               th:text="${#numbers.formatInteger(totalMembers, 0, 'COMMA')}">0</p>
-        </div>
-    </div>
-
-    <!-- Club Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto">
-        <div th:each="club : ${clubs}"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all p-6 sm:p-7 flex flex-col">
-
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#16163f] to-[#2a2a6e] flex items-center justify-center">
-                    <span class="material-icons text-white text-xl">groups</span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-[#16163f]" th:text="${club.name}">Club Name</h3>
-            </div>
-
-            <div class="grid grid-cols-3 gap-4 py-4 border-y border-gray-100 text-center">
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Cotisations</p>
-                    <p class="text-base font-bold text-green-600 mt-1"
-                       th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Membres</p>
-                    <p class="text-base font-bold text-[#16163f] mt-1"
-                       th:text="${#numbers.formatInteger(club.members, 0, 'COMMA')}">0</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Trésorerie</p>
-                    <p class="text-base font-bold text-blue-600 mt-1"
-                       th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-                </div>
-            </div>
-
-            <div class="mt-auto pt-5 flex gap-3">
-                <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
-                   class="flex-1 bg-[#9933cc] hover:bg-purple-700 text-white text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
-                    Payer cotisation
-                </a>
-                <a th:href="@{/history/{clubId}(clubId=${club.id})}"
-                   class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
-                    Historique
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Empty state -->
-    <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-12">
-        <span class="material-icons text-5xl text-gray-300 mb-3">groups</span>
-        <p class="text-gray-500">Aucun club trouvé</p>
-    </div>
-
-</div>
-
 <!-- Footer -->
-<footer class="bg-[#16163f] text-white py-8 sm:py-12" sec:authorize="isAuthenticated()">
+<footer class="bg-[#16163f] text-white py-8 sm:py-12">
     <div class="container mx-auto px-4 sm:px-6 text-center">
         <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Contactez-nous</h3>
         <p class="mb-3 sm:mb-4 text-sm sm:text-base">Pour toute question sur les clubs HEI.</p>
