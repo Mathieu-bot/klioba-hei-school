@@ -16,7 +16,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="w-full px-6 sm:px-10 lg:px-16 pt-6 sm:pt-10 pb-10 sm:pb-14 min-h-[calc(100vh-72px)] flex flex-col justify-center">
+<div class="w-full px-6 sm:px-10 lg:px-16 pt-6 sm:pt-10 pb-10 sm:pb-14">
 
     <div class="xl:pl-20 xl:pr-20">
 
@@ -63,74 +63,72 @@
         </div>
     </div>
 
-    <div class="relative flex items-center w-full">
-        <button id="chevron-left" class="z-20 flex items-center justify-center shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 transition-colors -ml-10 sm:-ml-16">
-            <span class="material-icons text-gray-600 text-sm sm:text-base">chevron_left</span>
-        </button>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" id="club-grid">
+        <div th:each="club : ${clubs}"
+             class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 relative club-card">
 
-        <div class="flex-1 min-w-0 overflow-hidden">
-            <div class="flex gap-6 overflow-x-auto py-2 scroll-smooth hide-scrollbar" id="club-scroll-container">
-                <div th:each="club : ${clubs}"
-                     class="flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 relative">
-
-                    <div class="flex items-center gap-3 sm:gap-4 mb-4">
-                        <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-sm">
-                            <span class="material-icons text-white text-lg sm:text-2xl">groups</span>
-                        </div>
-                        <div>
-                            <h3 class="text-base sm:text-lg font-bold text-[#16163f] leading-tight" th:text="${club.name}">Club Name</h3>
-                            <div class="flex items-center gap-1 mt-0.5 text-gray-400">
-                                <span class="material-icons text-[12px] sm:text-[14px]">person</span>
-                                <span class="text-xs font-medium" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA') + ' membres'}">12 membres</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="w-full h-px bg-gray-100 my-3"></div>
-
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-1">
-
-                        <div class="flex flex-col">
-                            <span class="text-xs text-gray-400 font-medium">Trésorerie</span>
-                            <span class="text-xl sm:text-2xl font-bold text-[#7F56D9] mt-1"
-                                  th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
-                        </div>
-
-                        <div class="flex items-center gap-4 sm:border-l sm:border-gray-200 sm:pl-4 pt-2 sm:pt-0">
-                            <div class="flex flex-col gap-0.5">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-icons text-[#2E9A6F] text-[14px] sm:text-sm">trending_up</span>
-                                    <span class="text-xs text-gray-400">Cotisations</span>
-                                </div>
-                                <span class="text-xs sm:text-sm font-bold text-[#2E9A6F] text-right" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
-                            </div>
-                            <div class="flex flex-col gap-0.5">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-icons text-[#E53E3E] text-[14px] sm:text-sm">trending_down</span>
-                                    <span class="text-xs text-gray-400">Dépenses</span>
-                                </div>
-                                <span class="text-xs sm:text-sm font-bold text-[#E53E3E] text-right" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-3 mt-5 pt-4 border-t border-gray-50">
-                        <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
-                           class="flex-1 bg-[#7F56D9] hover:bg-[#6941C6] text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-3 rounded-lg transition-all shadow-sm shadow-[#7F56D9]/20 text-center">
-                            Payer la cotisation
-                        </a>
-
-                        <a th:href="@{/history/{clubId}(clubId=${club.id})}"
-                           title="Historique"
-                           class="w-10 h-9 sm:w-12 sm:h-10 flex items-center justify-center border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg transition-colors">
-                            <span class="material-icons text-sm">history</span>
-                        </a>
+            <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-sm">
+                    <span class="material-icons text-white text-lg sm:text-2xl">groups</span>
+                </div>
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-[#16163f] leading-tight" th:text="${club.name}">Club Name</h3>
+                    <div class="flex items-center gap-1 mt-0.5 text-gray-400">
+                        <span class="material-icons text-[12px] sm:text-[14px]">person</span>
+                        <span class="text-xs font-medium" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA') + ' membres'}">12 membres</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <button id="chevron-right" class="z-20 flex items-center justify-center shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 transition-colors -mr-10 sm:-mr-16">
+            <div class="w-full h-px bg-gray-100 my-3"></div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-1">
+
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400 font-medium">Trésorerie</span>
+                    <span class="text-xl sm:text-2xl font-bold text-[#7F56D9] mt-1"
+                          th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                </div>
+
+                <div class="flex items-center gap-4 sm:border-l sm:border-gray-200 sm:pl-4 pt-2 sm:pt-0">
+                    <div class="flex flex-col gap-0.5">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-icons text-[#2E9A6F] text-[14px] sm:text-sm">trending_up</span>
+                            <span class="text-xs text-gray-400">Cotisations</span>
+                        </div>
+                        <span class="text-xs sm:text-sm font-bold text-[#2E9A6F] text-right" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-icons text-[#E53E3E] text-[14px] sm:text-sm">trending_down</span>
+                            <span class="text-xs text-gray-400">Dépenses</span>
+                        </div>
+                        <span class="text-xs sm:text-sm font-bold text-[#E53E3E] text-right" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-5 pt-4 border-t border-gray-50">
+                <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
+                   class="flex-1 bg-[#7F56D9] hover:bg-[#6941C6] text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-3 rounded-lg transition-all shadow-sm shadow-[#7F56D9]/20 text-center">
+                    Payer la cotisation
+                </a>
+
+                <a th:href="@{/history/{clubId}(clubId=${club.id})}"
+                   title="Historique"
+                   class="w-10 h-9 sm:w-12 sm:h-10 flex items-center justify-center border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg transition-colors">
+                    <span class="material-icons text-sm">history</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(clubs)}" class="flex justify-center items-center gap-4 mt-8" id="club-pagination">
+        <button id="page-prev" class="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 transition-colors opacity-30 cursor-not-allowed pointer-events-none">
+            <span class="material-icons text-gray-600 text-sm sm:text-base">chevron_left</span>
+        </button>
+        <span id="page-info" class="text-sm text-gray-500 font-medium w-20 text-center"></span>
+        <button id="page-next" class="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 transition-colors">
             <span class="material-icons text-gray-600 text-sm sm:text-base">chevron_right</span>
         </button>
     </div>
@@ -149,59 +147,44 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const container = document.getElementById('club-scroll-container');
-        const leftBtn = document.getElementById('chevron-left');
-        const rightBtn = document.getElementById('chevron-right');
-        if (!container || !leftBtn || !rightBtn) return;
+        const cards = document.querySelectorAll('.club-card');
+        const prevBtn = document.getElementById('page-prev');
+        const nextBtn = document.getElementById('page-next');
+        const pageInfo = document.getElementById('page-info');
 
-        function scrollAmount() {
-            const card = container.querySelector('.flex-none');
-            return (card ? card.offsetWidth + 24 : 300);
+        if (!cards.length || !prevBtn || !nextBtn || !pageInfo) return;
+
+        const perPage = 8;
+        let currentPage = 0;
+        const totalPages = Math.ceil(cards.length / perPage);
+
+        function showPage(page) {
+            currentPage = page;
+            cards.forEach((card, i) => {
+                const show = i >= page * perPage && i < (page + 1) * perPage;
+                card.classList.toggle('hidden', !show);
+            });
+            pageInfo.textContent = (page + 1) + ' / ' + totalPages;
+            prevBtn.classList.toggle('opacity-30', page === 0);
+            prevBtn.classList.toggle('cursor-not-allowed', page === 0);
+            prevBtn.classList.toggle('pointer-events-none', page === 0);
+            nextBtn.classList.toggle('opacity-30', page >= totalPages - 1);
+            nextBtn.classList.toggle('cursor-not-allowed', page >= totalPages - 1);
+            nextBtn.classList.toggle('pointer-events-none', page >= totalPages - 1);
         }
 
-        function updateChevrons() {
-            const atStart = container.scrollLeft <= 4;
-            const atEnd = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 4;
-
-            leftBtn.classList.toggle('opacity-30', atStart);
-            leftBtn.classList.toggle('cursor-not-allowed', atStart);
-            leftBtn.classList.toggle('pointer-events-none', atStart);
-
-            rightBtn.classList.toggle('opacity-30', atEnd);
-            rightBtn.classList.toggle('cursor-not-allowed', atEnd);
-            rightBtn.classList.toggle('pointer-events-none', atEnd);
-        }
-
-        leftBtn.addEventListener('click', () => {
-            container.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) showPage(currentPage - 1);
         });
 
-        rightBtn.addEventListener('click', () => {
-            container.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) showPage(currentPage + 1);
         });
 
-        let ticking = false;
-        container.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => { updateChevrons(); ticking = false; });
-                ticking = true;
-            }
-        });
-
-        updateChevrons();
-        window.addEventListener('resize', updateChevrons);
+        showPage(0);
     });
 </script>
 
-<style>
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-</style>
 
 </body>
 </html>
