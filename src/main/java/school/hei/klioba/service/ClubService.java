@@ -42,6 +42,10 @@ public class ClubService {
             .sum();
     long members = events.stream().map(e -> e.getUser().getEmail()).distinct().count();
     return new ClubStats(
-        club.getId(), club.getName(), totalCotisations, (int) members, totalCotisations - expenses);
+        club.getId(),
+        club.getName(),
+        totalCotisations,
+        Math.toIntExact(members),
+        totalCotisations - expenses);
   }
 }
