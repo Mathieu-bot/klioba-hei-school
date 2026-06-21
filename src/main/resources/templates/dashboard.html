@@ -139,9 +139,6 @@
         </button>
     </div>
 
-    <div th:if="${not #lists.isEmpty(clubs)}" class="flex justify-center items-center gap-3 mt-6" id="club-pagination">
-    </div>
-
     <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-16">
         <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto shadow-sm mb-4">
             <span class="material-icons text-4xl text-gray-300">groups</span>
@@ -157,56 +154,18 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const container = document.getElementById('club-scroll-container');
-        const pagination = document.getElementById('club-pagination');
         const leftBtn = document.getElementById('chevron-left');
         const rightBtn = document.getElementById('chevron-right');
-        if (!container || !pagination || !leftBtn || !rightBtn) return;
+        if (!container || !leftBtn || !rightBtn) return;
 
-        let dots = [];
-        let currentPage = 0;
-        let totalPages = 0;
-
-        function getCardWidth() {
+        function scrollAmount() {
             const card = container.querySelector('.flex-none');
-            if (!card) return 0;
-            const gap = 24;
-            const cardOuter = card.offsetWidth + gap;
-            const visibleWidth = container.offsetWidth;
-            const cardsVisible = visibleWidth / cardOuter;
-            return { cardOuter, visibleWidth, cardsPerView: Math.max(1, Math.floor(cardsVisible)) };
+            return (card ? card.offsetWidth + 24 : 300);
         }
 
-        function buildPagination() {
-            const cards = container.querySelectorAll('.flex-none');
-            if (!cards.length) return;
-
-            const { cardsPerView } = getCardWidth();
-            totalPages = Math.max(1, Math.ceil(cards.length / cardsPerView));
-            currentPage = 0;
-
-            pagination.innerHTML = '';
-            dots = [];
-
-            for (let i = 0; i < totalPages; i++) {
-                const dot = document.createElement('button');
-                dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === 0 ? 'bg-[#7F56D9]' : 'bg-gray-300 hover:bg-gray-400');
-                dot.dataset.index = i;
-                dot.addEventListener('click', () => {
-                    const { cardOuter } = getCardWidth();
-                    container.scrollTo({ left: i * cardsPerView * cardOuter, behavior: 'smooth' });
-                });
-                pagination.appendChild(dot);
-                dots.push(dot);
-            }
-        }
-
-        function updateState() {
-            const scrollLeft = container.scrollLeft;
-            const scrollWidth = container.scrollWidth;
-            const clientWidth = container.offsetWidth;
-
-            const atStart = scrollLeft <= 4;
-            const atEnd = scrollLeft + clientWidth >= scrollWidth - 4;
+        function updateChevrons() {
+            const atStart = container.scrollLeft <= 4;
+            const atEnd = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 4;
 
             leftBtn.classList.toggle('opacity-30', atStart);
             leftBtn.classList.toggle('cursor-not-allowed', atStart);
@@ -215,44 +174,26 @@
             rightBtn.classList.toggle('opacity-30', atEnd);
             rightBtn.classList.toggle('cursor-not-allowed', atEnd);
             rightBtn.classList.toggle('pointer-events-none', atEnd);
-
-            if (dots.length) {
-                const { cardsPerView } = getCardWidth();
-                const cardWidth = (container.querySelector('.flex-none')?.offsetWidth + 24) || 1;
-                const approxPage = Math.round(scrollLeft / (cardsPerView * cardWidth));
-                const newPage = Math.min(Math.max(0, approxPage), totalPages - 1);
-                if (newPage !== currentPage && dots[currentPage] && dots[newPage]) {
-                    dots[currentPage].className = 'w-2 h-2 rounded-full transition-all duration-300 bg-gray-300 hover:bg-gray-400';
-                    currentPage = newPage;
-                    dots[currentPage].className = 'w-2 h-2 rounded-full transition-all duration-300 bg-[#7F56D9]';
-                }
-            }
-        }
-
-        function debouncedUpdate() {
-            let ticking = false;
-            return function() {
-                if (!ticking) {
-                    requestAnimationFrame(() => { updateState(); ticking = false; });
-                    ticking = true;
-                }
-            };
         }
 
         leftBtn.addEventListener('click', () => {
-            const { cardOuter } = getCardWidth();
-            container.scrollBy({ left: -(cardOuter || 300), behavior: 'smooth' });
+            container.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
         });
 
         rightBtn.addEventListener('click', () => {
-            const { cardOuter } = getCardWidth();
-            container.scrollBy({ left: cardOuter || 300, behavior: 'smooth' });
+            container.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
         });
 
-        buildPagination();
-        updateState();
-        container.addEventListener('scroll', debouncedUpdate());
-        window.addEventListener('resize', () => { buildPagination(); updateState(); });
+        let ticking = false;
+        container.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => { updateChevrons(); ticking = false; });
+                ticking = true;
+            }
+        });
+
+        updateChevrons();
+        window.addEventListener('resize', updateChevrons);
     });
 </script>
 
