@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Klioba · Tableau de bord</title>
     <meta charset="utf-8"/>
@@ -9,15 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Poppins', sans-serif; }
-
-        /* Smooth card hover effect */
-        .club-card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .club-card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08);
-        }
     </style>
 </head>
 
@@ -25,18 +16,15 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+<div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
 
-    <!-- Title & Subtitle -->
     <div class="mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-black tracking-tight">Tableau de bord</h1>
         <p class="text-gray-500 mt-2 text-sm sm:text-base">Vue d'ensemble des finances de tous les clubs.</p>
     </div>
 
-    <!-- Statistics Cards (4 Columns) -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
 
-        <!-- 1. Treasury (Purple) -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
             <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Trésorerie totale</h3>
             <p class="text-2xl sm:text-3xl font-bold text-[#7F56D9] mt-1"
@@ -44,7 +32,6 @@
             <p class="text-[10px] text-gray-400 mt-1">Solde global de tous les clubs</p>
         </div>
 
-        <!-- 2. Collections (Green) -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
             <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Cotisations reçues</h3>
             <p class="text-2xl sm:text-3xl font-bold text-[#2E9A6F] mt-1"
@@ -52,7 +39,6 @@
             <p class="text-[10px] text-gray-400 mt-1">Total des cotisations</p>
         </div>
 
-        <!-- 3. Expenses (Red) -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
             <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Dépenses effectuées</h3>
             <p class="text-2xl sm:text-3xl font-bold text-[#E53E3E] mt-1"
@@ -60,7 +46,6 @@
             <p class="text-[10px] text-gray-400 mt-1">Total des dépenses</p>
         </div>
 
-        <!-- 4. Members (Navy) -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
             <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Membres inscrits</h3>
             <p class="text-2xl sm:text-3xl font-bold text-[#16163f] mt-1"
@@ -69,7 +54,6 @@
         </div>
     </div>
 
-    <!-- Club Section Header & Search -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
             <h2 class="text-xl font-bold text-black">Mes clubs</h2>
@@ -81,76 +65,82 @@
         </div>
     </div>
 
-    <!-- Club Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div th:each="club : ${clubs}"
-             class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col club-card-hover relative">
+    <div class="relative group w-full">
 
-            <!-- Top: Icon & Name -->
-            <div class="flex items-center gap-4 mb-4">
-                <!-- Dark Navy Square Icon (Same for all) -->
-                <div class="w-14 h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-md">
-                    <span class="material-icons text-white text-2xl">groups</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-[#16163f] leading-tight" th:text="${club.name}">Club Name</h3>
-                    <!-- Member count with icon -->
-                    <div class="flex items-center gap-1 mt-0.5 text-gray-400">
-                        <span class="material-icons text-[14px]">person</span>
-                        <span class="text-xs font-medium" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA') + ' membres'}">12 membres</span>
-                    </div>
-                </div>
-            </div>
+        <button class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -ml-5 z-10 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
+            <span class="material-icons text-gray-600">chevron_left</span>
+        </button>
 
-            <div class="w-full h-px bg-gray-100 my-3"></div>
+        <button class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 -mr-5 z-10 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 items-center justify-center hover:bg-gray-50 transition-colors">
+            <span class="material-icons text-gray-600">chevron_right</span>
+        </button>
 
-            <!-- Bottom: Stats & Actions -->
-            <div class="flex justify-between items-start mt-1">
+        <div class="relative w-full overflow-hidden">
+            <div class="hidden md:block absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-[#F8F9FA] to-transparent pointer-events-none"></div>
+            <div class="hidden md:block absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-[#F8F9FA] to-transparent pointer-events-none"></div>
 
-                <!-- Left: Treasury -->
-                <div class="flex flex-col">
-                    <span class="text-xs text-gray-400 font-medium">Trésorerie</span>
-                    <span class="text-2xl font-bold text-[#7F56D9] mt-1"
-                          th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
-                </div>
+            <div class="flex gap-6 overflow-x-auto py-2 px-1 scroll-smooth hide-scrollbar" id="club-scroll-container">
+                <div th:each="club : ${clubs}"
+                     class="flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-xl border border-gray-100 shadow-sm p-6 relative">
 
-                <!-- Right: Incomes & Expenses (Stacked with Arrows) -->
-                <div class="flex flex-col items-end gap-1">
-                    <div class="flex items-center gap-1.5">
-                        <span class="material-icons text-[#2E9A6F] text-sm">trending_up</span>
-                        <div class="flex flex-col items-end">
-                            <span class="text-xs text-gray-400">Cotisations</span>
-                            <span class="text-sm font-bold text-[#2E9A6F]" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-sm">
+                            <span class="material-icons text-white text-2xl">groups</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-[#16163f] leading-tight" th:text="${club.name}">Club Name</h3>
+                            <div class="flex items-center gap-1 mt-0.5 text-gray-400">
+                                <span class="material-icons text-[14px]">person</span>
+                                <span class="text-xs font-medium" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA') + ' membres'}">12 membres</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-1.5 mt-0.5">
-                        <span class="material-icons text-[#E53E3E] text-sm">trending_down</span>
-                        <div class="flex flex-col items-end">
-                            <span class="text-xs text-gray-400">Dépenses</span>
-                            <span class="text-sm font-bold text-[#E53E3E]" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+
+                    <div class="w-full h-px bg-gray-100 my-3"></div>
+
+                    <div class="flex justify-between items-start mt-1">
+
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400 font-medium">Trésorerie</span>
+                            <span class="text-2xl font-bold text-[#7F56D9] mt-1"
+                                  th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                        </div>
+
+                        <div class="flex items-center gap-4 border-l border-gray-200 pl-4">
+                            <div class="flex flex-col gap-0.5">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-icons text-[#2E9A6F] text-sm">trending_up</span>
+                                    <span class="text-xs text-gray-400">Cotisations</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#2E9A6F] text-right" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-icons text-[#E53E3E] text-sm">trending_down</span>
+                                    <span class="text-xs text-gray-400">Dépenses</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#E53E3E] text-right" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="flex gap-3 mt-5 pt-4 border-t border-gray-50">
+                        <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
+                           class="flex-1 bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-medium py-2.5 px-3 rounded-lg transition-all shadow-sm shadow-[#7F56D9]/20 text-center">
+                            Payer la cotisation
+                        </a>
+
+                        <a th:href="@{/history/{clubId}(clubId=${club.id})}"
+                           title="Historique"
+                           class="w-12 h-10 flex items-center justify-center border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg transition-colors">
+                            <span class="material-icons text-sm">history</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Buttons (Row) -->
-            <div class="flex gap-3 mt-5 pt-4 border-t border-gray-50">
-                <!-- Payer la cotisation (Full Purple, no wallet icon) -->
-                <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
-                   class="flex-1 bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-medium py-2.5 px-3 rounded-lg transition-all shadow-sm shadow-[#7F56D9]/20 text-center">
-                    Payer la cotisation
-                </a>
-
-                <!-- History Button (Outline with Clock Icon) -->
-                <a th:href="@{/history/{clubId}(clubId=${club.id})}"
-                   class="w-12 h-10 flex items-center justify-center border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg transition-colors">
-                    <span class="material-icons text-sm">history</span>
-                </a>
             </div>
         </div>
     </div>
 
-    <!-- Empty state -->
     <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-16">
         <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto shadow-sm mb-4">
             <span class="material-icons text-4xl text-gray-300">groups</span>
@@ -159,6 +149,45 @@
     </div>
 
 </div>
+
+<footer class="bg-[#16163f] text-white py-8 sm:py-12 mt-auto w-full">
+    <div class="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
+        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Contactez-nous</h3>
+        <p class="mb-3 sm:mb-4 text-sm sm:text-base">Pour toute question sur les clubs HEI.</p>
+        <p class="text-base sm:text-lg text-[#9933cc] font-semibold mb-2">contact@hei.school</p>
+        <p class="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">© 2026 Klioba · Clubs HEI. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const scrollContainer = document.getElementById('club-scroll-container');
+        const leftBtn = document.querySelector('button.absolute.left-0');
+        const rightBtn = document.querySelector('button.absolute.right-0');
+
+        if (scrollContainer && leftBtn && rightBtn) {
+            const scrollAmount = 350;
+
+            leftBtn.addEventListener('click', () => {
+                scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            rightBtn.addEventListener('click', () => {
+                scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+        }
+    });
+</script>
+
+<style>
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
 
 </body>
 </html>
