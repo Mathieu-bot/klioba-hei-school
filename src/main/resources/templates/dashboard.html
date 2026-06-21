@@ -82,28 +82,31 @@
 
             <div class="w-full h-px bg-gray-100 my-3"></div>
 
-            <div class="grid grid-cols-3 gap-1 mt-1">
+            <div class="flex items-center justify-between gap-2 mt-1">
 
-                <div class="flex flex-col">
+                <div class="flex flex-col min-w-0">
                     <span class="text-[10px] sm:text-xs text-gray-400 font-medium">Trésorerie</span>
-                    <span class="text-sm sm:text-lg font-bold text-black mt-0.5"
+                    <span class="text-sm sm:text-lg font-bold text-black mt-0.5 truncate"
                           th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
                 </div>
 
-                <div class="flex flex-col items-center">
-                    <div class="flex items-center gap-1">
-                        <span class="material-icons text-[#2E9A6F] text-[10px] sm:text-sm">trending_up</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400">Cotisations</span>
+                <div class="flex items-center gap-3 sm:gap-4 border-l border-gray-200 pl-3 sm:pl-4 shrink-0">
+                    <div class="flex flex-col items-center sm:items-start gap-0.5">
+                        <div class="flex items-center gap-1">
+                            <span class="material-icons text-[#2E9A6F] text-[10px] sm:text-sm">trending_up</span>
+                            <span class="text-[10px] sm:text-xs text-gray-400">Cotisations</span>
+                        </div>
+                        <span class="text-[10px] sm:text-sm font-bold text-[#2E9A6F]"
+                              th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
                     </div>
-                    <span class="text-[10px] sm:text-sm font-bold text-[#2E9A6F] mt-0.5" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
-                </div>
-
-                <div class="flex flex-col items-end">
-                    <div class="flex items-center gap-1">
-                        <span class="material-icons text-[#E53E3E] text-[10px] sm:text-sm">trending_down</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400">Dépenses</span>
+                    <div class="flex flex-col items-center sm:items-end gap-0.5">
+                        <div class="flex items-center gap-1">
+                            <span class="material-icons text-[#E53E3E] text-[10px] sm:text-sm">trending_down</span>
+                            <span class="text-[10px] sm:text-xs text-gray-400">Dépenses</span>
+                        </div>
+                        <span class="text-[10px] sm:text-sm font-bold text-[#E53E3E]"
+                              th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
                     </div>
-                    <span class="text-[10px] sm:text-sm font-bold text-[#E53E3E] mt-0.5" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
                 </div>
             </div>
 
