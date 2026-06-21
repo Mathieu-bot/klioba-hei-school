@@ -15,36 +15,61 @@
 
 <div class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
 
-    <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 max-w-4xl mx-auto">
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-sm sm:text-base lg:text-lg text-center">Cotisations</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
-               th:text="${fund.allConfirmedDonations != null ? #numbers.formatInteger(fund.allConfirmedDonations, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+    <!-- Club Badge + Stats Cards -->
+    <div class="max-w-4xl mx-auto mb-6">
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-sm">
+                <span class="material-icons text-white text-xl sm:text-2xl">groups</span>
+            </div>
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Club</p>
+                <p class="text-xl sm:text-2xl font-bold text-[#16163f]" th:text="${clubName}">Club Name</p>
+            </div>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-sm sm:text-base lg:text-lg text-center">Retraits</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
-               th:text="${fund.allConfirmedHelps != null ? #numbers.formatInteger(fund.allConfirmedHelps, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-sm sm:text-base lg:text-lg text-center">Fonds Restants</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
-               th:text="${fund.confirmedRemainingFund != null ? #numbers.formatInteger(fund.confirmedRemainingFund, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 flex flex-col items-center">
+                <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mb-3">
+                    <span class="material-icons text-green-600 text-lg">payments</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-[#16163f]"
+                   th:text="${fund.allConfirmedDonations != null ? #numbers.formatInteger(fund.allConfirmedDonations, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+                <p class="text-xs text-gray-400 mt-1">Cotisations</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 flex flex-col items-center">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
+                    <span class="material-icons text-blue-600 text-lg">money_off</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-[#16163f]"
+                   th:text="${fund.allConfirmedHelps != null ? #numbers.formatInteger(fund.allConfirmedHelps, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+                <p class="text-xs text-gray-400 mt-1">Retraits</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6 flex flex-col items-center">
+                <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center mb-3">
+                    <span class="material-icons text-purple-600 text-lg">account_balance</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-bold text-[#16163f]"
+                   th:text="${fund.confirmedRemainingFund != null ? #numbers.formatInteger(fund.confirmedRemainingFund, 0, 'COMMA') + ' Ar' : '--'}">0 Ar</p>
+                <p class="text-xs text-gray-400 mt-1">Fonds Restants</p>
+            </div>
         </div>
     </div>
 
-    <div class="flex flex-col items-center mb-4">
-        <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">Club</p>
-        <p class="text-2xl sm:text-3xl font-bold text-[#16163f]" th:text="${clubName}">Club Name</p>
-    </div>
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
-        <h2 class="text-lg sm:text-xl font-bold text-[#16163f]">Cotisations / Retraits</h2>
-        <a th:href="@{/club/{clubId}/membershipFee(clubId=${clubId})}"
-           class="inline-flex items-center gap-1.5 bg-[#9933cc] hover:bg-purple-700 text-white text-sm font-bold py-2.5 px-5 rounded-lg transition-all shadow-sm hover:shadow-md self-stretch sm:self-auto justify-center">
-            <span class="material-icons text-lg">add_circle</span>
-            Payer une cotisation
-        </a>
+        <h2 class="text-lg sm:text-xl font-bold text-[#16163f]">Historique des transactions</h2>
+        <form th:action="@{/history/{clubId}(clubId=${clubId})}" method="get" class="flex items-center gap-2 flex-wrap">
+            <label class="text-xs text-gray-500 font-medium">Du :</label>
+            <input type="date" name="dateFrom"
+                   class="border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
+            <label class="text-xs text-gray-500 font-medium">Au :</label>
+            <input type="date" name="dateTo"
+                   class="border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#9933cc]/20 focus:border-[#9933cc]">
+            <button type="submit"
+                    class="bg-[#16163f] hover:bg-opacity-90 text-white text-xs font-medium py-2 px-4 rounded-lg transition-all flex items-center gap-1">
+                <span class="material-icons text-sm">filter_list</span>
+                Filtrer
+            </button>
+        </form>
     </div>
 
     <!-- Table Container with Horizontal Scroll -->
