@@ -1,107 +1,164 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Klioba — Clubs HEI</title>
+    <title>Klioba · Tableau de bord</title>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Poppins', sans-serif; }
+
+        /* Smooth card hover effect */
+        .club-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .club-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08);
+        }
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-[#F8F9FA] min-h-screen text-gray-800">
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-    <!-- Statistics Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 mb-6">
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Cotisations reçues</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-green-600 mt-1"
-               th:text="${#numbers.formatInteger(totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Dépenses effectuées</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-blue-600 mt-1"
-               th:text="${#numbers.formatInteger(totalDepenses, 0, 'COMMA') + ' Ar'}">0 Ar</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Trésorerie</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#9933cc] mt-1"
+    <!-- Title & Subtitle -->
+    <div class="mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-black tracking-tight">Tableau de bord</h1>
+        <p class="text-gray-500 mt-2 text-sm sm:text-base">Vue d'ensemble des finances de tous les clubs.</p>
+    </div>
+
+    <!-- Statistics Cards (4 Columns) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
+
+        <!-- 1. Treasury (Purple) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
+            <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Trésorerie totale</h3>
+            <p class="text-2xl sm:text-3xl font-bold text-[#7F56D9] mt-1"
                th:text="${#numbers.formatInteger(totalRemaining, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+            <p class="text-[10px] text-gray-400 mt-1">Solde global de tous les clubs</p>
         </div>
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow transition flex flex-col justify-center items-center">
-            <h3 class="text-[#16163f] font-semibold text-xs sm:text-sm text-center">Membres inscrits</h3>
-            <p class="text-lg sm:text-xl font-extrabold text-[#16163f] mt-1"
+
+        <!-- 2. Collections (Green) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
+            <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Cotisations reçues</h3>
+            <p class="text-2xl sm:text-3xl font-bold text-[#2E9A6F] mt-1"
+               th:text="${#numbers.formatInteger(totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+            <p class="text-[10px] text-gray-400 mt-1">Total des cotisations</p>
+        </div>
+
+        <!-- 3. Expenses (Red) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
+            <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Dépenses effectuées</h3>
+            <p class="text-2xl sm:text-3xl font-bold text-[#E53E3E] mt-1"
+               th:text="${#numbers.formatInteger(totalDepenses, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+            <p class="text-[10px] text-gray-400 mt-1">Total des dépenses</p>
+        </div>
+
+        <!-- 4. Members (Navy) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-center">
+            <h3 class="text-gray-500 font-medium text-xs sm:text-sm mb-1">Membres inscrits</h3>
+            <p class="text-2xl sm:text-3xl font-bold text-[#16163f] mt-1"
                th:text="${#numbers.formatInteger(totalMembers, 0, 'COMMA')}">0</p>
+            <p class="text-[10px] text-gray-400 mt-1">Total des membres actifs</p>
+        </div>
+    </div>
+
+    <!-- Club Section Header & Search -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-black">Mes clubs</h2>
+            <p class="text-gray-500 text-sm mt-1">Gérez et suivez l'activité financière de vos clubs.</p>
+        </div>
+        <div class="w-full sm:w-72 bg-white rounded-lg border border-gray-200 shadow-sm flex items-center px-4 py-2.5 focus-within:ring-2 focus-within:ring-[#9933cc]/20 focus-within:border-[#9933cc] transition-all">
+            <span class="material-icons text-gray-400 text-sm mr-2">search</span>
+            <input type="text" placeholder="Rechercher un club..." class="w-full bg-transparent border-none outline-none text-sm text-gray-700 placeholder-gray-400">
         </div>
     </div>
 
     <!-- Club Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div th:each="club : ${clubs}"
-             class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all p-6 sm:p-7 flex flex-col">
+             class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col club-card-hover relative">
 
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#16163f] to-[#2a2a6e] flex items-center justify-center">
-                    <span class="material-icons text-white text-xl">groups</span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-[#16163f]" th:text="${club.name}">Club Name</h3>
-            </div>
-
-            <div class="grid grid-cols-3 gap-4 py-4 border-y border-gray-100 text-center">
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Cotisations</p>
-                    <p class="text-base font-bold text-green-600 mt-1"
-                       th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+            <!-- Top: Icon & Name -->
+            <div class="flex items-center gap-4 mb-4">
+                <!-- Dark Navy Square Icon (Same for all) -->
+                <div class="w-14 h-14 rounded-xl bg-[#16163f] flex items-center justify-center shrink-0 shadow-md">
+                    <span class="material-icons text-white text-2xl">groups</span>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Membres</p>
-                    <p class="text-base font-bold text-[#16163f] mt-1"
-                       th:text="${#numbers.formatInteger(club.members, 0, 'COMMA')}">0</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Trésorerie</p>
-                    <p class="text-base font-bold text-blue-600 mt-1"
-                       th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</p>
+                    <h3 class="text-lg font-bold text-[#16163f] leading-tight" th:text="${club.name}">Club Name</h3>
+                    <!-- Member count with icon -->
+                    <div class="flex items-center gap-1 mt-0.5 text-gray-400">
+                        <span class="material-icons text-[14px]">person</span>
+                        <span class="text-xs font-medium" th:text="${#numbers.formatInteger(club.members, 0, 'COMMA') + ' membres'}">12 membres</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-auto pt-5 flex gap-3">
+            <div class="w-full h-px bg-gray-100 my-3"></div>
+
+            <!-- Bottom: Stats & Actions -->
+            <div class="flex justify-between items-start mt-1">
+
+                <!-- Left: Treasury -->
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400 font-medium">Trésorerie</span>
+                    <span class="text-2xl font-bold text-[#7F56D9] mt-1"
+                          th:text="${#numbers.formatInteger(club.remainingFund, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                </div>
+
+                <!-- Right: Incomes & Expenses (Stacked with Arrows) -->
+                <div class="flex flex-col items-end gap-1">
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-icons text-[#2E9A6F] text-sm">trending_up</span>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs text-gray-400">Cotisations</span>
+                            <span class="text-sm font-bold text-[#2E9A6F]" th:text="${#numbers.formatInteger(club.totalCotisations, 0, 'COMMA') + ' Ar'}">230,000 Ar</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 mt-0.5">
+                        <span class="material-icons text-[#E53E3E] text-sm">trending_down</span>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs text-gray-400">Dépenses</span>
+                            <span class="text-sm font-bold text-[#E53E3E]" th:text="${#numbers.formatInteger(club.totalCotisations - club.remainingFund, 0, 'COMMA') + ' Ar'}">0 Ar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons (Row) -->
+            <div class="flex gap-3 mt-5 pt-4 border-t border-gray-50">
+                <!-- Payer la cotisation (Full Purple, no wallet icon) -->
                 <a th:href="@{/club/{clubId}/membershipFee(clubId=${club.id})}"
-                   class="flex-1 bg-[#9933cc] hover:bg-purple-700 text-white text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
-                    Payer cotisation
+                   class="flex-1 bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-medium py-2.5 px-3 rounded-lg transition-all shadow-sm shadow-[#7F56D9]/20 text-center">
+                    Payer la cotisation
                 </a>
+
+                <!-- History Button (Outline with Clock Icon) -->
                 <a th:href="@{/history/{clubId}(clubId=${club.id})}"
-                   class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-3 px-3 rounded-lg transition-colors text-center">
-                    Historique
+                   class="w-12 h-10 flex items-center justify-center border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg transition-colors">
+                    <span class="material-icons text-sm">history</span>
                 </a>
             </div>
         </div>
     </div>
 
     <!-- Empty state -->
-    <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-12">
-        <span class="material-icons text-5xl text-gray-300 mb-3">groups</span>
-        <p class="text-gray-500">Aucun club trouvé</p>
+    <div th:if="${#lists.isEmpty(clubs)}" class="text-center py-16">
+        <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto shadow-sm mb-4">
+            <span class="material-icons text-4xl text-gray-300">groups</span>
+        </div>
+        <p class="text-gray-500 font-medium">Aucun club trouvé</p>
     </div>
 
 </div>
-
-<!-- Footer -->
-<footer class="bg-[#16163f] text-white py-8 sm:py-12">
-    <div class="container mx-auto px-4 sm:px-6 text-center">
-        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Contactez-nous</h3>
-        <p class="mb-3 sm:mb-4 text-sm sm:text-base">Pour toute question sur les clubs HEI.</p>
-        <p class="text-base sm:text-lg text-[#9933cc] font-semibold mb-2">contact@hei.school</p>
-        <p class="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">© 2026 Klioba — Clubs HEI. Tous droits réservés.</p>
-    </div>
-</footer>
 
 </body>
 </html>
